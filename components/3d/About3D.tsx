@@ -1,30 +1,170 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Float, Text } from '@react-three/drei';
+import { Text, OrbitControls, Float } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface About3DProps {
   gradientFrom?: string;
   gradientTo?: string;
+  techStack?: string[];
 }
 
-function FloatingShape({ gradientFrom, gradientTo }: { gradientFrom: string; gradientTo: string }) {
-  const groupRef = useRef<THREE.Group>(null);
+interface TechTagProps {
+  position: [number, number, number];
+  tech: string;
+  index: number;
+  total: number;
+  color: string;
+}
+
+function TechTag({ position, tech, index, total, color }: TechTagProps) {
+  const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.x = state.clock.getElapsedTime() * 0.2;
-      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.3;
-      groupRef.current.position.y = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.2;
+    if (meshRef.current) {
+      meshRef.current.lookAt(state.camera.position);
+      const time = state.clock.getElapsedTime();
+      meshRef.current.position.y = position[1] + Math.sin(time + index) * 0.1;
     }
   });
 
+  return (
+    <Text
+      ref={meshRef}
+      position={position}
+      fontSize={0.2}
+      color={hovered ? color : '#ffffff'}
+      anchorX="center"
+      anchorY="middle"
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      {tech}
+    </Text>
+  );
+}
+
+interface CategorySphereProps {
+  position: [number, number, number];
+  items: string[];
+  categoryName: string;
+  color: THREE.Color;
+  index: number;
+}
+
+function CategorySphere({ position, items, categoryName, color, index }: CategorySphereProps) {
+  const groupRef = useRef<THREE.Group>(null);
+  const sphereRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    if (groupRef.current) {
+      const time = state.clock.getElapsedTime();
+      groupRef.current.rotation.y = time * (0.1 + index * 0.05);
+      groupRef.current.position.y = position[1] + Math.sin(time * 0.5 + index) * 0.2;
+    }
+    if (sphereRef.current) {
+      sphereRef.current.rotation.x = state.clock.getElapsedTime() * 0.1;
+      sphereRef.current.rotation.y = state.clock.getElapsedTime() * 0.15;
+    }
+  });
+
+  const itemPositions = useMemo(() => {
+    const positions: [number, number, number][] = [];
+    const radius = 1.5;
+    items.forEach((item, i) => {
+      const phi = Math.acos(-1 + (2 * i) / items.length);
+      const theta = Math.sqrt(items.length * Math.PI) * phi;
+      const x = radius * Math.cos(theta) * Math.sin(phi);
+      const y = radius * Math.sin(theta) * Math.sin(phi);
+      const z = radius * Math.cos(phi);
+      positions.push([x, y, z]);
+    });
+    return positions;
+  }, [items]);
+
+  return (
+    <Float speed={1 + index * 0.2} rotationIntensity={0.3} floatIntensity={0.4}>
+      <group ref={groupRef} position={position}>
+        {/* Category label */}
+        <Text
+          position={[0, -2.2, 0]}
+          fontSize={0.3}
+          color={color}
+          anchorX="center"
+          anchorY="middle"
+          outlineWidth={0.02}
+          outlineColor="#000000"
+        >
+          {categoryName}
+        </Text>
+
+        {/* Wireframe sphere */}
+        <mesh ref={sphereRef}>
+          <sphereGeometry args={[1.5, 24, 24]} />
+          <meshStandardMaterial
+            color={color}
+            wireframe
+            transparent
+            opacity={0.4}
+            emissive={color}
+            emissiveIntensity={0.3}
+          />
+        </mesh>
+
+        {/* Tech items */}
+        {items.map((item, i) => (
+          <TechTag
+            key={item}
+            position={itemPositions[i]}
+            tech={item}
+            index={i}
+            total={items.length}
+            color={`rgb(${Math.floor(color.r * 255)}, ${Math.floor(color.g * 255)}, ${Math.floor(color.b * 255)})`}
+          />
+        ))}
+      </group>
+    </Float>
+  );
+}
+
+// Connecting lines between spheres
+function ConnectingLines({ positions, color }: { positions: [number, number, number][]; color: THREE.Color }) {
+  const linesRef = useRef<THREE.LineSegments>(null);
+
+  const points = useMemo(() => {
+    const points: number[] = [];
+    for (let i = 0; i < positions.length; i++) {
+      const next = (i + 1) % positions.length;
+      points.push(...positions[i], ...positions[next]);
+    }
+    return new Float32Array(points);
+  }, [positions]);
+
+  useFrame((state) => {
+    if (linesRef.current) {
+      linesRef.current.rotation.y = state.clock.getElapsedTime() * 0.05;
+    }
+  });
+
+  return (
+    <lineSegments ref={linesRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[points, 3]}
+        />
+      </bufferGeometry>
+      <lineBasicMaterial color={color} transparent opacity={0.2} />
+    </lineSegments>
+  );
+}
+
+function CategorySpheres({ techStack, gradientFrom, gradientTo }: { techStack: string[]; gradientFrom: string; gradientTo: string }) {
   // Convert hex to RGB
   const hexToRgb = (hex: string) => {
-    // Remove # if present
     const cleanHex = hex.replace('#', '');
     const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleanHex);
     return result
@@ -33,222 +173,115 @@ function FloatingShape({ gradientFrom, gradientTo }: { gradientFrom: string; gra
           g: parseInt(result[2], 16) / 255,
           b: parseInt(result[3], 16) / 255,
         }
-      : { r: 0.39, g: 0.42, b: 0.95 }; // Default indigo
+      : { r: 0.39, g: 0.42, b: 0.95 };
   };
 
   const color1 = hexToRgb(gradientFrom);
   const color2 = hexToRgb(gradientTo);
 
-  return (
-    <group ref={groupRef} onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)}>
-      <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-        {/* Main octahedron */}
-        <mesh scale={hovered ? 1.1 : 1}>
-          <octahedronGeometry args={[1.5, 0]} />
-          <meshStandardMaterial
-            color={new THREE.Color(color1.r, color1.g, color1.b)}
-            metalness={0.7}
-            roughness={0.2}
-            emissive={new THREE.Color(color1.r * 0.3, color1.g * 0.3, color1.b * 0.3)}
-          />
-        </mesh>
-
-        {/* Inner sphere */}
-        <mesh position={[0, 0, 0]}>
-          <sphereGeometry args={[0.8, 32, 32]} />
-          <meshStandardMaterial
-            color={new THREE.Color(color2.r, color2.g, color2.b)}
-            metalness={0.5}
-            roughness={0.3}
-            transparent
-            opacity={0.6}
-            emissive={new THREE.Color(color2.r * 0.2, color2.g * 0.2, color2.b * 0.2)}
-          />
-        </mesh>
-
-        {/* Orbiting rings */}
-        {[0, 1, 2].map((i) => (
-          <mesh
-            key={i}
-            rotation={[Math.PI / 2, (i * Math.PI * 2) / 3, 0]}
-            position={[0, 0, 0]}
-          >
-            <torusGeometry args={[2, 0.05, 16, 100]} />
-            <meshStandardMaterial
-              color={new THREE.Color(
-                color1.r + (color2.r - color1.r) * (i / 3),
-                color1.g + (color2.g - color1.g) * (i / 3),
-                color1.b + (color2.b - color1.b) * (i / 3)
-              )}
-              metalness={0.8}
-              roughness={0.1}
-              emissive={new THREE.Color(
-                (color1.r + (color2.r - color1.r) * (i / 3)) * 0.4,
-                (color1.g + (color2.g - color1.g) * (i / 3)) * 0.4,
-                (color1.b + (color2.b - color1.b) * (i / 3)) * 0.4
-              )}
-            />
-          </mesh>
-        ))}
-
-        {/* Floating particles */}
-        {Array.from({ length: 20 }).map((_, i) => {
-          const angle = (i / 20) * Math.PI * 2;
-          const radius = 2.5;
-          return (
-            <mesh
-              key={i}
-              position={[
-                Math.cos(angle) * radius,
-                Math.sin(angle * 2) * 0.5,
-                Math.sin(angle) * radius,
-              ]}
-            >
-              <sphereGeometry args={[0.05, 8, 8]} />
-              <meshStandardMaterial
-                color={new THREE.Color(
-                  color1.r + (color2.r - color1.r) * Math.random(),
-                  color1.g + (color2.g - color1.g) * Math.random(),
-                  color1.b + (color2.b - color1.b) * Math.random()
-                )}
-                emissive={new THREE.Color(color1.r * 0.5, color1.g * 0.5, color1.b * 0.5)}
-              />
-            </mesh>
-          );
-        })}
-
-        {/* Code block wireframes */}
-        {[
-          { pos: [-2.2, 1.5, -1], rot: [0.2, 0.3, 0.1] },
-          { pos: [2.2, -1.5, -1], rot: [-0.2, -0.3, 0.1] },
-          { pos: [0, 2, 1.5], rot: [0.1, 0.2, -0.2] },
-        ].map((block, i) => (
-          <CodeBlock
-            key={i}
-            position={block.pos as [number, number, number]}
-            rotation={block.rot as [number, number, number]}
-            color1={color1}
-            color2={color2}
-            index={i}
-          />
-        ))}
-
-        {/* Tech symbols floating */}
-        {['{', '}', '<', '>', '[', ']', '()', '</>'].map((symbol, i) => {
-          const angle = (i / 8) * Math.PI * 2;
-          const radius = 3;
-          return (
-            <TechSymbol
-              key={symbol}
-              symbol={symbol}
-              position={[
-                Math.cos(angle) * radius,
-                Math.sin(angle * 1.5) * 0.8,
-                Math.sin(angle) * radius,
-              ]}
-              color1={color1}
-              color2={color2}
-              index={i}
-            />
-          );
-        })}
-      </Float>
-    </group>
-  );
-}
-
-// Code block wireframe component
-function CodeBlock({
-  position,
-  rotation,
-  color1,
-  color2,
-  index,
-}: {
-  position: [number, number, number];
-  rotation: [number, number, number];
-  color1: { r: number; g: number; b: number };
-  color2: { r: number; g: number; b: number };
-  index: number;
-}) {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = rotation[0] + state.clock.getElapsedTime() * 0.1;
-      meshRef.current.rotation.y = rotation[1] + state.clock.getElapsedTime() * 0.15;
-      meshRef.current.rotation.z = rotation[2];
-      meshRef.current.position.y = position[1] + Math.sin(state.clock.getElapsedTime() + index) * 0.1;
+  // Categorize tech stack (simple categorization)
+  const categorizeTech = (tech: string) => {
+    const lower = tech.toLowerCase();
+    if (lower.includes('react') || lower.includes('vue') || lower.includes('angular') || lower.includes('html') || lower.includes('css') || lower.includes('tailwind') || lower.includes('three')) {
+      return 'frontend';
     }
-  });
-
-  const color = new THREE.Color(
-    color1.r + (color2.r - color1.r) * (index / 3),
-    color1.g + (color2.g - color1.g) * (index / 3),
-    color1.b + (color2.b - color1.b) * (index / 3)
-  );
-
-  return (
-    <mesh ref={meshRef} position={position}>
-      <boxGeometry args={[0.6, 0.8, 0.3]} />
-      <meshStandardMaterial
-        color={color}
-        wireframe
-        transparent
-        opacity={0.6}
-        emissive={color}
-        emissiveIntensity={0.3}
-      />
-    </mesh>
-  );
-}
-
-// Tech symbol component
-function TechSymbol({
-  symbol,
-  position,
-  color1,
-  color2,
-  index,
-}: {
-  symbol: string;
-  position: [number, number, number];
-  color1: { r: number; g: number; b: number };
-  color2: { r: number; g: number; b: number };
-  index: number;
-}) {
-  const textRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (textRef.current) {
-      textRef.current.lookAt(state.camera.position);
-      textRef.current.position.y = position[1] + Math.sin(state.clock.getElapsedTime() * 0.8 + index) * 0.15;
+    if (lower.includes('node') || lower.includes('express') || lower.includes('python') || lower.includes('django') || lower.includes('mongodb') || lower.includes('postgres') || lower.includes('api')) {
+      return 'backend';
     }
-  });
+    if (lower.includes('git') || lower.includes('docker') || lower.includes('aws') || lower.includes('webpack') || lower.includes('jest')) {
+      return 'tools';
+    }
+    return 'other';
+  };
 
-  const color = new THREE.Color(
-    color1.r + (color2.r - color1.r) * (index / 8),
-    color1.g + (color2.g - color1.g) * (index / 8),
-    color1.b + (color2.b - color1.b) * (index / 8)
+  const categories = useMemo(() => {
+    const cats: { [key: string]: string[] } = {
+      frontend: [],
+      backend: [],
+      tools: [],
+      other: [],
+    };
+
+    techStack.forEach((tech) => {
+      const category = categorizeTech(tech);
+      cats[category].push(tech);
+    });
+
+    // Remove empty categories
+    return Object.entries(cats).filter(([_, items]) => items.length > 0);
+  }, [techStack]);
+
+  // Calculate positions in a circle
+  const categoryPositions = useMemo(() => {
+    const positions: [number, number, number][] = [];
+    const radius = 2.5;
+    categories.forEach((_, i) => {
+      const angle = (i / categories.length) * Math.PI * 2;
+      const x = Math.cos(angle) * radius;
+      const z = Math.sin(angle) * radius;
+      positions.push([x, 0, z]);
+    });
+    return positions;
+  }, [categories]);
+
+  // Create colors for each category
+  const categoryColors = useMemo(() => {
+    return categories.map((_, i) => {
+      const mix = i / Math.max(categories.length - 1, 1);
+      return new THREE.Color(
+        color1.r + (color2.r - color1.r) * mix,
+        color1.g + (color2.g - color1.g) * mix,
+        color1.b + (color2.b - color1.b) * mix
+      );
+    });
+  }, [categories, color1, color2]);
+
+  const centerColor = new THREE.Color(
+    color1.r + (color2.r - color1.r) * 0.5,
+    color1.g + (color2.g - color1.g) * 0.5,
+    color1.b + (color2.b - color1.b) * 0.5
   );
 
   return (
-    <Text
-      ref={textRef}
-      position={position}
-      fontSize={0.4}
-      color={`rgb(${Math.floor(color.r * 255)}, ${Math.floor(color.g * 255)}, ${Math.floor(color.b * 255)})`}
-      anchorX="center"
-      anchorY="middle"
-      outlineWidth={0.02}
-      outlineColor="#000000"
-    >
-      {symbol}
-    </Text>
+    <>
+      {/* Connecting lines */}
+      {categoryPositions.length > 1 && (
+        <ConnectingLines positions={categoryPositions} color={centerColor} />
+      )}
+
+      {/* Center sphere */}
+      <mesh position={[0, 0, 0]}>
+        <sphereGeometry args={[0.8, 24, 24]} />
+        <meshStandardMaterial
+          color={centerColor}
+          wireframe
+          transparent
+          opacity={0.3}
+          emissive={centerColor}
+          emissiveIntensity={0.2}
+        />
+      </mesh>
+
+      {/* Category spheres */}
+      {categories.map(([category, items], i) => (
+        <CategorySphere
+          key={category}
+          position={categoryPositions[i]}
+          items={items}
+          categoryName={category.charAt(0).toUpperCase() + category.slice(1)}
+          color={categoryColors[i]}
+          index={i}
+        />
+      ))}
+    </>
   );
 }
 
-export default function About3D({ gradientFrom = '#6366f1', gradientTo = '#ec4899' }: About3DProps) {
+export default function About3D({ 
+  gradientFrom = '#6366f1', 
+  gradientTo = '#ec4899',
+  techStack = ['React', 'Next.js', 'TypeScript', 'Node.js', 'MongoDB', 'Three.js', 'Tailwind', 'Git', 'Express', 'Python', 'Docker', 'AWS']
+}: About3DProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -263,24 +296,35 @@ export default function About3D({ gradientFrom = '#6366f1', gradientTo = '#ec489
     );
   }
 
+  if (techStack.length === 0) {
+    return (
+      <div className="w-full h-full flex items-center justify-center" style={{ minHeight: '400px' }}>
+        <div className="text-white/50">No tech stack to display</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full h-full" style={{ minHeight: '400px' }}>
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-        <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
-        <directionalLight position={[0, 5, 5]} intensity={0.8} />
-        <FloatingShape gradientFrom={gradientFrom} gradientTo={gradientTo} />
-        <OrbitControls
-          enableZoom={false}
+    <div className="w-full h-full" style={{ minHeight: '400px', background: 'transparent' }}>
+      <Canvas 
+        camera={{ position: [0, 0, 10], fov: 60 }}
+        gl={{ alpha: true, antialias: true }}
+        style={{ background: 'transparent' }}
+      >
+        <ambientLight intensity={0.6} />
+        <pointLight position={[10, 10, 10]} intensity={1.2} />
+        <pointLight position={[-10, -10, -10]} intensity={0.6} />
+        <directionalLight position={[0, 5, 5]} intensity={1} />
+        <CategorySpheres techStack={techStack} gradientFrom={gradientFrom} gradientTo={gradientTo} />
+        <OrbitControls 
+          enableZoom={false} 
           enablePan={false}
           autoRotate
-          autoRotateSpeed={0.5}
-          minPolarAngle={Math.PI / 3}
-          maxPolarAngle={(2 * Math.PI) / 3}
+          autoRotateSpeed={0.8}
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={(3 * Math.PI) / 4}
         />
       </Canvas>
     </div>
   );
 }
-

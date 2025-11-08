@@ -21,6 +21,7 @@ export default function ProjectFormPage() {
     featured: false,
     isCurrentlyWorking: false,
     order: 0,
+    content: '',
   });
   const [techInput, setTechInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -47,6 +48,7 @@ export default function ProjectFormPage() {
         featured: data.featured || false,
         isCurrentlyWorking: data.isCurrentlyWorking || false,
         order: data.order || 0,
+        content: data.content || '',
       });
     } catch (error) {
       console.error('Error fetching project:', error);
@@ -334,6 +336,22 @@ export default function ProjectFormPage() {
               </span>
             ))}
           </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-300 mb-2">
+            Project Documentation (Markdown)
+          </label>
+          <p className="text-sm text-slate-400 mb-3">
+            Write comprehensive documentation for this project in Markdown format. This will be displayed on the project details page.
+          </p>
+          <textarea
+            value={formData.content}
+            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+            rows={20}
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none font-mono text-sm"
+            placeholder="# Project Overview&#10;&#10;Write your project documentation here using Markdown...&#10;&#10;## Features&#10;&#10;- Feature 1&#10;- Feature 2&#10;&#10;## Technologies Used&#10;&#10;...&#10;"
+          />
         </div>
 
         <div className="grid grid-cols-2 gap-4">

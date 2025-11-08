@@ -103,7 +103,11 @@ export default function About({
                 </div>
               </div>
             ) : (
-              <About3D gradientFrom={colors.gradientFrom} gradientTo={colors.gradientTo} />
+              <About3D 
+                gradientFrom={colors.gradientFrom} 
+                gradientTo={colors.gradientTo}
+                techStack={aboutTechStack || []}
+              />
             )}
           </motion.div>
 

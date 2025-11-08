@@ -56,6 +56,11 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     if (body.technologies !== undefined) project.technologies = body.technologies;
     if (body.liveUrl !== undefined) project.liveUrl = body.liveUrl;
     if (body.githubUrl !== undefined) project.githubUrl = body.githubUrl;
+    // Explicitly handle content field - allow empty strings to be saved
+    if ('content' in body) {
+      project.content = body.content ?? '';
+      project.markModified('content');
+    }
     // Explicitly handle boolean fields to ensure false values are saved
     if (body.featured !== undefined) project.featured = Boolean(body.featured);
     if (body.isCurrentlyWorking !== undefined) project.isCurrentlyWorking = Boolean(body.isCurrentlyWorking);

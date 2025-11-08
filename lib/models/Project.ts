@@ -10,6 +10,7 @@ export interface IProject extends Document {
   featured: boolean;
   isCurrentlyWorking: boolean;
   order: number;
+  content?: string; // Markdown content for detailed documentation
   createdAt: Date;
   updatedAt: Date;
 }
@@ -49,6 +50,9 @@ const ProjectSchema: Schema = new Schema(
     order: {
       type: Number,
       default: 0,
+    },
+    content: {
+      type: String,
     },
   },
   {
