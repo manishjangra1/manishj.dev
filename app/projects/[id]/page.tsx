@@ -49,7 +49,9 @@ export default async function ProjectDetailsPage({ params }: { params: Promise<{
   // Get settings for footer
   let settings = await Settings.findOne().lean();
   if (!settings) {
-    settings = { socialLinks: {} };
+    // Create default settings if none exist
+    const newSettings = await Settings.create({});
+    settings = JSON.parse(JSON.stringify(newSettings));
   }
   const serializedSettings = serialize(settings);
 

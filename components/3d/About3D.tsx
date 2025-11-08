@@ -154,9 +154,7 @@ function ConnectingLines({ positions, color }: { positions: [number, number, num
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={points.length / 3}
-          array={points}
-          itemSize={3}
+          args={[points, 3]}
         />
       </bufferGeometry>
       <lineBasicMaterial color={color} transparent opacity={0.2} />
