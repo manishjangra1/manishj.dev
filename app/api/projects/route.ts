@@ -19,13 +19,22 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const project = await Project.create(body);
+    
+    // Ensure boolean fields are explicitly set (even if false)
+    const projectData = {
+      ...body,
+      featured: body.featured ?? false,
+      isCurrentlyWorking: body.isCurrentlyWorking ?? false,
+    };
+    
+    const project = await Project.create(projectData);
 
     return NextResponse.json(project.toObject(), { status: 201 });
   } catch (error: any) {
     if (error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    console.error('Error creating project:', error);
     return NextResponse.json({ error: 'Failed to create project' }, { status: 500 });
   }
 }

@@ -30,7 +30,14 @@ export async function POST(request: NextRequest) {
     if (body.published && !body.publishedAt) {
       body.publishedAt = new Date();
     }
-    const post = await BlogPost.create(body);
+    
+    // Ensure boolean fields are explicitly set (even if false)
+    const postData = {
+      ...body,
+      featured: body.featured ?? false,
+    };
+    
+    const post = await BlogPost.create(postData);
 
     return NextResponse.json(post.toObject(), { status: 201 });
   } catch (error: any) {

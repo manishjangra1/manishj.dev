@@ -60,7 +60,7 @@ const themeColors: Record<Theme, ThemeColors> = {
     secondaryHover: '#a78bfa',
     accent: '#ec4899',
     accentHover: '#f472b6',
-    cardBg: 'rgba(255, 255, 255, 0.05)',
+    cardBg: 'rgba(255, 255, 255, 0.2)',
     cardBorder: 'rgba(255, 255, 255, 0.1)',
     textPrimary: '#ffffff',
     textSecondary: 'rgba(255, 255, 255, 0.8)',

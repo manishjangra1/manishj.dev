@@ -4,19 +4,32 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+
+const About3D = dynamic(() => import('@/components/3d/About3D'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center" style={{ minHeight: '400px' }}>
+      <div className="text-white/50">Loading...</div>
+    </div>
+  ),
+});
 
 interface AboutProps {
   aboutText?: string;
   aboutText2?: string;
   aboutTechStack?: string[];
-  aboutIcon?: string;
+  aboutImage?: string;
+  showAboutImage?: boolean;
 }
 
 export default function About({ 
   aboutText = 'Passionate software developer with expertise in modern web technologies.',
   aboutText2,
   aboutTechStack = ['React', 'Next.js', 'TypeScript', 'Node.js', 'MongoDB', 'Three.js'],
-  aboutIcon = '👨‍💻'
+  aboutImage,
+  showAboutImage = false
 }: AboutProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -55,24 +68,43 @@ export default function About({
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
+            className="aspect-square"
           >
-            <div 
-              className="aspect-square rounded-2xl p-8 backdrop-blur-lg border"
-              style={{
-                background: `linear-gradient(to bottom right, ${colors.gradientFrom}20, ${colors.gradientTo}20)`,
-                borderColor: colors.cardBorder,
-              }}
-            >
+            {aboutImage && showAboutImage ? (
               <div 
-                className="w-full h-full rounded-xl flex items-center justify-center"
+                className="w-full h-full rounded-2xl p-4 md:p-6 backdrop-blur-lg border overflow-hidden"
                 style={{
-                  background: `linear-gradient(to bottom right, ${colors.gradientFrom}10, ${colors.gradientTo}10)`,
+                  background: `linear-gradient(to bottom right, ${colors.gradientFrom}20, ${colors.gradientTo}20)`,
+                  borderColor: colors.cardBorder,
                 }}
               >
-                <div className="text-6xl">{aboutIcon}</div>
+                <div 
+                  className="w-full h-full rounded-xl overflow-hidden relative"
+                  style={{
+                    background: `linear-gradient(to bottom right, ${colors.gradientFrom}10, ${colors.gradientTo}10)`,
+                  }}
+                >
+                  {aboutImage.startsWith('/storage/') || aboutImage.includes('blob.vercel-storage.com') ? (
+                    <Image
+                      src={aboutImage}
+                      alt="About me"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      unoptimized={aboutImage.startsWith('/storage/')}
+                    />
+                  ) : (
+                    <img
+                      src={aboutImage}
+                      alt="About me"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
               </div>
-            </div>
+            ) : (
+              <About3D gradientFrom={colors.gradientFrom} gradientTo={colors.gradientTo} />
+            )}
           </motion.div>
 
           <motion.div

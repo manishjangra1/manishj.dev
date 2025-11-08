@@ -10,6 +10,8 @@ export interface ISettings extends Document {
   aboutText2?: string;
   aboutTechStack?: string[];
   aboutIcon?: string;
+  aboutImage?: string;
+  showAboutImage?: boolean;
   contactHeading?: string;
   contactDescription?: string;
   resumeUrl?: string;
@@ -61,6 +63,14 @@ const SettingsSchema: Schema = new Schema(
     aboutIcon: {
       type: String,
       default: '👨‍💻',
+    },
+    aboutImage: {
+      type: String,
+      default: '',
+    },
+    showAboutImage: {
+      type: Boolean,
+      default: false,
     },
     contactHeading: {
       type: String,

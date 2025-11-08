@@ -9,6 +9,7 @@ export interface IBlogPost extends Document {
   published: boolean;
   publishedAt?: Date;
   tags: string[];
+  featured: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -46,6 +47,10 @@ const BlogPostSchema: Schema = new Schema(
     tags: {
       type: [String],
       default: [],
+    },
+    featured: {
+      type: Boolean,
+      default: false,
     },
   },
   {

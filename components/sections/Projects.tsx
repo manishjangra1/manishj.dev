@@ -4,28 +4,56 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { IProject } from '@/lib/models/Project';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Sparkles, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface ProjectsProps {
   projects: IProject[];
+  showAll?: boolean;
 }
 
-export default function Projects({ projects }: ProjectsProps) {
+export default function Projects({ projects, showAll = false }: ProjectsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [filter, setFilter] = useState<string>('all');
+  const filterScrollRef = useRef<HTMLDivElement>(null);
   const { colors } = useTheme();
 
   const allTechnologies = Array.from(
     new Set(projects.flatMap((p) => p.technologies || []))
   );
 
-  const filteredProjects =
+  const scrollFilters = (direction: 'left' | 'right') => {
+    if (filterScrollRef.current) {
+      const scrollAmount = 200;
+      filterScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  // Filter projects based on technology
+  let filteredProjects =
     filter === 'all'
       ? projects
       : projects.filter((p) => p.technologies?.includes(filter));
+
+  // On home page: if no filter, show featured projects; if filter applied, show first 6
+  if (!showAll) {
+    if (filter === 'all') {
+      filteredProjects = projects.filter((p) => p.featured);
+    } else {
+      filteredProjects = filteredProjects.slice(0, 6);
+    }
+  }
+
+  const hasMoreProjects = !showAll && (
+    (filter === 'all' && projects.filter((p) => p.featured).length < projects.length) ||
+    (filter !== 'all' && projects.filter((p) => p.technologies?.includes(filter)).length > 6)
+  );
 
   return (
     <section 
@@ -55,60 +83,155 @@ export default function Projects({ projects }: ProjectsProps) {
           />
           
           {allTechnologies.length > 0 && (
-            <div className="flex flex-wrap gap-3 justify-center">
+            <div className="relative max-w-4xl mx-auto">
+              {/* Left scroll button */}
               <motion.button
-                onClick={() => setFilter('all')}
-                className="px-5 py-2.5 rounded-xl text-sm font-medium transition-all border"
+                onClick={() => scrollFilters('left')}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full backdrop-blur-lg border transition-all hidden md:flex items-center justify-center"
                 style={{
-                  background: filter === 'all' 
-                    ? `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`
-                    : colors.cardBg,
-                  borderColor: filter === 'all' ? 'transparent' : colors.cardBorder,
+                  backgroundColor: colors.cardBg,
+                  borderColor: colors.cardBorder,
                   color: colors.textPrimary,
                 }}
                 onMouseEnter={(e) => {
-                  if (filter !== 'all') {
-                    e.currentTarget.style.backgroundColor = colors.cardBorder;
-                  }
+                  e.currentTarget.style.backgroundColor = colors.cardBorder;
+                  e.currentTarget.style.borderColor = colors.gradientFrom;
                 }}
                 onMouseLeave={(e) => {
-                  if (filter !== 'all') {
-                    e.currentTarget.style.backgroundColor = colors.cardBg;
-                  }
+                  e.currentTarget.style.backgroundColor = colors.cardBg;
+                  e.currentTarget.style.borderColor = colors.cardBorder;
                 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="Scroll filters left"
               >
-                All
+                <ChevronLeft className="w-5 h-5" />
               </motion.button>
-              {allTechnologies.map((tech) => (
-                <motion.button
-                  key={tech}
-                  onClick={() => setFilter(tech)}
-                  className="px-5 py-2.5 rounded-xl text-sm font-medium transition-all border"
+
+              {/* Left gradient fade overlay */}
+              <div
+                className="absolute left-12 md:left-16 top-0 bottom-0 w-20 pointer-events-none hidden md:block"
+                style={{
+                  background: `linear-gradient(to right, ${colors.background}, transparent)`,
+                  zIndex: 15,
+                }}
+              />
+
+              {/* Wrapper to clip overflow */}
+              <div className="relative overflow-hidden px-12 md:px-16">
+
+                {/* Scrollable filter container */}
+                <div
+                  ref={filterScrollRef}
+                  className="flex gap-3 overflow-x-auto scrollbar-hide py-2"
                   style={{
-                    background: filter === tech 
+                    WebkitOverflowScrolling: 'touch',
+                  }}
+                >
+                <motion.button
+                  onClick={() => setFilter('all')}
+                  className="px-6 py-3 rounded-full text-sm font-semibold transition-all border whitespace-nowrap shrink-0"
+                  style={{
+                    background: filter === 'all' 
                       ? `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`
                       : colors.cardBg,
-                    borderColor: filter === tech ? 'transparent' : colors.cardBorder,
-                    color: colors.textPrimary,
+                    borderColor: filter === 'all' ? 'transparent' : colors.cardBorder,
+                    color: filter === 'all' ? '#fff' : colors.textPrimary,
+                    boxShadow: filter === 'all' 
+                      ? `0 4px 15px ${colors.gradientFrom}40`
+                      : 'none',
                   }}
                   onMouseEnter={(e) => {
-                    if (filter !== tech) {
+                    if (filter !== 'all') {
                       e.currentTarget.style.backgroundColor = colors.cardBorder;
+                      e.currentTarget.style.borderColor = colors.gradientFrom;
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (filter !== tech) {
+                    if (filter !== 'all') {
                       e.currentTarget.style.backgroundColor = colors.cardBg;
+                      e.currentTarget.style.borderColor = colors.cardBorder;
                     }
                   }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.3 }}
                 >
-                  {tech}
+                  All
                 </motion.button>
-              ))}
+                {allTechnologies.map((tech, index) => (
+                  <motion.button
+                    key={tech}
+                    onClick={() => setFilter(tech)}
+                    className="px-6 py-3 rounded-full text-sm font-semibold transition-all border whitespace-nowrap shrink-0"
+                    style={{
+                      background: filter === tech 
+                        ? `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`
+                        : colors.cardBg,
+                      borderColor: filter === tech ? 'transparent' : colors.cardBorder,
+                      color: filter === tech ? '#fff' : colors.textPrimary,
+                      boxShadow: filter === tech 
+                        ? `0 4px 15px ${colors.gradientFrom}40`
+                        : 'none',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (filter !== tech) {
+                        e.currentTarget.style.backgroundColor = colors.cardBorder;
+                        e.currentTarget.style.borderColor = colors.gradientFrom;
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (filter !== tech) {
+                        e.currentTarget.style.backgroundColor = colors.cardBg;
+                        e.currentTarget.style.borderColor = colors.cardBorder;
+                      }
+                    }}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                  >
+                    {tech}
+                  </motion.button>
+                ))}
+                </div>
+              </div>
+
+              {/* Right gradient fade overlay */}
+              <div
+                className="absolute right-12 md:right-16 top-0 bottom-0 w-20 pointer-events-none hidden md:block"
+                style={{
+                  background: `linear-gradient(to left, ${colors.background}, transparent)`,
+                  zIndex: 15,
+                }}
+              />
+
+              {/* Right scroll button */}
+              <motion.button
+                onClick={() => scrollFilters('right')}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full backdrop-blur-lg border transition-all hidden md:flex items-center justify-center"
+                style={{
+                  backgroundColor: colors.cardBg,
+                  borderColor: colors.cardBorder,
+                  color: colors.textPrimary,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = colors.cardBorder;
+                  e.currentTarget.style.borderColor = colors.gradientFrom;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = colors.cardBg;
+                  e.currentTarget.style.borderColor = colors.cardBorder;
+                }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="Scroll filters right"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </motion.button>
             </div>
           )}
         </motion.div>
@@ -167,6 +290,20 @@ export default function Projects({ projects }: ProjectsProps) {
                       🚀
                     </div>
                   )}
+                  {project.isCurrentlyWorking && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="absolute top-3 right-3 px-3 py-1.5 rounded-full backdrop-blur-lg border flex items-center gap-1.5 shadow-lg"
+                      style={{
+                        background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`,
+                        borderColor: colors.cardBorder,
+                      }}
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-white animate-pulse" />
+                      <span className="text-xs font-semibold text-white">Working On</span>
+                    </motion.div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     {project.liveUrl && (
@@ -212,12 +349,32 @@ export default function Projects({ projects }: ProjectsProps) {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 
-                    className="text-xl font-bold mb-3"
-                    style={{ color: colors.textPrimary }}
-                  >
-                    {project.title}
-                  </h3>
+                  <div className="flex items-center gap-2 mb-3">
+                    <h3 
+                      className="text-xl font-bold"
+                      style={{ color: colors.textPrimary }}
+                    >
+                      {project.title}
+                    </h3>
+                    {project.isCurrentlyWorking && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{
+                          opacity: [1, 0.7, 1],
+                          scale: [1, 1.2, 1],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                        className="w-2 h-2 rounded-full"
+                        style={{
+                          background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`,
+                        }}
+                      />
+                    )}
+                  </div>
                   <p 
                     className="mb-4 line-clamp-3 text-sm leading-relaxed"
                     style={{ color: colors.textSecondary }}
@@ -255,6 +412,34 @@ export default function Projects({ projects }: ProjectsProps) {
               </motion.div>
             ))}
           </div>
+        )}
+
+        {hasMoreProjects && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="text-center mt-12"
+          >
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all border"
+              style={{
+                background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`,
+                borderColor: 'transparent',
+                color: '#fff',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              View All Projects
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </motion.div>
         )}
       </div>
     </section>

@@ -122,7 +122,7 @@ export default function Hero({
               download
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-3.5 backdrop-blur-lg rounded-xl font-semibold border transition-all flex items-center gap-2"
+              className="px-8 py-3.5 backdrop-blur-lg rounded-xl font-semibold border transition-all hidden items-center gap-2"
               style={{
                 backgroundColor: colors.cardBg,
                 borderColor: colors.cardBorder,

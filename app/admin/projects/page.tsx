@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Plus, Edit, Trash2, ExternalLink, Github } from 'lucide-react';
+import { Plus, Edit, Trash2, ExternalLink, Github, Sparkles } from 'lucide-react';
 import { IProject } from '@/lib/models/Project';
 import Link from 'next/link';
 
@@ -59,9 +59,20 @@ export default function ProjectsPage() {
         {projects.map((project) => (
           <div
             key={project._id?.toString()}
-            className="bg-slate-800 rounded-lg p-6 border border-slate-700"
+            className="bg-slate-800 rounded-lg p-6 border border-slate-700 relative"
           >
-            <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
+            {project.isCurrentlyWorking && (
+              <div className="absolute top-3 right-3 px-2 py-1 bg-purple-600 rounded-full flex items-center gap-1.5 text-xs font-semibold text-white">
+                <Sparkles className="w-3 h-3" />
+                Working On
+              </div>
+            )}
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-xl font-semibold text-white">{project.title}</h3>
+              {project.isCurrentlyWorking && (
+                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+              )}
+            </div>
             <p className="text-slate-400 text-sm mb-4 line-clamp-2">{project.description}</p>
             <div className="flex flex-wrap gap-2 mb-4">
               {project.technologies?.slice(0, 3).map((tech) => (

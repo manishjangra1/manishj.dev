@@ -7,6 +7,7 @@ import Experience from '@/components/sections/Experience';
 import Blog from '@/components/sections/Blog';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/Footer';
+import ResumeDownloadButton from '@/components/ResumeDownloadButton';
 import connectDB from '@/lib/db';
 import Settings from '@/lib/models/Settings';
 import Project from '@/lib/models/Project';
@@ -33,7 +34,7 @@ async function getData() {
       Project.find().sort({ order: 1, createdAt: -1 }).lean(),
       Skill.find().sort({ order: 1, category: 1 }).lean(),
       ExperienceModel.find().sort({ order: 1, startDate: -1 }).lean(),
-      BlogPost.find({ published: true }).sort({ publishedAt: -1, createdAt: -1 }).limit(6).lean(),
+      BlogPost.find({ published: true }).sort({ publishedAt: -1, createdAt: -1 }).lean(),
     ]);
 
     return {
@@ -72,18 +73,20 @@ export default async function Home() {
         aboutText={settings?.aboutText}
         aboutText2={settings?.aboutText2}
         aboutTechStack={settings?.aboutTechStack}
-        aboutIcon={settings?.aboutIcon}
+        aboutImage={settings?.aboutImage}
+        showAboutImage={settings?.showAboutImage}
       />
       <Skills skills={skills as any} />
-      <Projects projects={projects as any} />
+      <Projects projects={projects as any} showAll={false} />
       <Experience experiences={experiences as any} />
-      <Blog posts={blogPosts as any} />
+      <Blog posts={blogPosts as any} showAll={false} />
       <Contact 
         socialLinks={settings?.socialLinks}
         contactHeading={settings?.contactHeading}
         contactDescription={settings?.contactDescription}
       />
       <Footer socialLinks={settings?.socialLinks} />
+      <ResumeDownloadButton resumeUrl={settings?.resumeUrl} />
       </main>
   );
 }
