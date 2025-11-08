@@ -3,13 +3,14 @@ import connectDB from '@/lib/db';
 import Contact from '@/lib/models/Contact';
 import { requireAuth } from '@/lib/auth';
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     await connectDB();
 
+    const { id } = await params;
     const body = await request.json();
-    const contact = await Contact.findByIdAndUpdate(params.id, body, { new: true, runValidators: true });
+    const contact = await Contact.findByIdAndUpdate(id, body, { new: true, runValidators: true });
 
     if (!contact) {
       return NextResponse.json({ error: 'Contact not found' }, { status: 404 });
@@ -24,12 +25,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     await connectDB();
 
-    const contact = await Contact.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const contact = await Contact.findByIdAndDelete(id);
 
     if (!contact) {
       return NextResponse.json({ error: 'Contact not found' }, { status: 404 });

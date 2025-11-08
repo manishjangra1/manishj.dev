@@ -3,10 +3,11 @@ import connectDB from '@/lib/db';
 import Experience from '@/lib/models/Experience';
 import { requireAuth } from '@/lib/auth';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await connectDB();
-    const experience = await Experience.findById(params.id).lean();
+    const { id } = await params;
+    const experience = await Experience.findById(id).lean();
     if (!experience) {
       return NextResponse.json({ error: 'Experience not found' }, { status: 404 });
     }
@@ -16,13 +17,14 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     await connectDB();
 
+    const { id } = await params;
     const body = await request.json();
-    const experience = await Experience.findByIdAndUpdate(params.id, body, { new: true, runValidators: true }).lean();
+    const experience = await Experience.findByIdAndUpdate(id, body, { new: true, runValidators: true }).lean();
 
     if (!experience) {
       return NextResponse.json({ error: 'Experience not found' }, { status: 404 });
@@ -37,12 +39,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     await connectDB();
 
-    const experience = await Experience.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const experience = await Experience.findByIdAndDelete(id);
 
     if (!experience) {
       return NextResponse.json({ error: 'Experience not found' }, { status: 404 });

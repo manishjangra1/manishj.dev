@@ -26,7 +26,7 @@ async function getData() {
     let settings = await Settings.findOne().lean();
     if (!settings) {
       const newSettings = await Settings.create({});
-      settings = newSettings.toObject();
+      settings = JSON.parse(JSON.stringify(newSettings));
     }
 
     const [projects, skills, experiences, blogPosts] = await Promise.all([

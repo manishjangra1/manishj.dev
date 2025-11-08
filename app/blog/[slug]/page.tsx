@@ -10,9 +10,10 @@ function serialize(data: any): any {
   return JSON.parse(JSON.stringify(data));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   await connectDB();
-  const post = await BlogPost.findOne({ slug: params.slug, published: true }).lean();
+  const { slug } = await params;
+  const post = await BlogPost.findOne({ slug, published: true }).lean();
 
   if (!post) {
     return {
@@ -33,9 +34,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   await connectDB();
-  const post = await BlogPost.findOne({ slug: params.slug, published: true }).lean();
+  const { slug } = await params;
+  const post = await BlogPost.findOne({ slug, published: true }).lean();
 
   if (!post) {
     notFound();
@@ -49,7 +51,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       <article className="max-w-4xl mx-auto px-4 py-20">
         <header className="mb-12">
           <div className="flex flex-wrap gap-2 mb-4">
-            {serializedPost.tags?.map((tag) => (
+            {serializedPost.tags?.map((tag: string) => (
               <span
                 key={tag}
                 className="px-3 py-1 text-sm bg-purple-600/20 text-purple-300 rounded-full border border-purple-600/30"

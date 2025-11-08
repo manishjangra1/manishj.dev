@@ -9,7 +9,7 @@ export async function GET() {
     let settings = await Settings.findOne().lean();
     if (!settings) {
       const newSettings = await Settings.create({});
-      settings = newSettings.toObject();
+      settings = JSON.parse(JSON.stringify(newSettings));
     }
     return NextResponse.json(settings);
   } catch (error) {
@@ -23,14 +23,14 @@ export async function PUT(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    let settings = await Settings.findOne();
+    let settings = await Settings.findOne().lean();
 
     if (!settings) {
       const newSettings = await Settings.create(body);
-      settings = newSettings.toObject();
+      settings = JSON.parse(JSON.stringify(newSettings));
     } else {
       const updatedSettings = await Settings.findOneAndUpdate({}, body, { new: true, runValidators: true }).lean();
-      settings = updatedSettings;
+      settings = updatedSettings || settings;
     }
 
     return NextResponse.json(settings);

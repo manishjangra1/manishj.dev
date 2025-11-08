@@ -3,10 +3,11 @@ import connectDB from '@/lib/db';
 import BlogPost from '@/lib/models/BlogPost';
 import { requireAuth } from '@/lib/auth';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await connectDB();
-    const post = await BlogPost.findById(params.id).lean();
+    const { id } = await params;
+    const post = await BlogPost.findById(id).lean();
     if (!post) {
       return NextResponse.json({ error: 'Blog post not found' }, { status: 404 });
     }
@@ -16,17 +17,18 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     await connectDB();
 
+    const { id } = await params;
     const body = await request.json();
     if (body.published && !body.publishedAt) {
       body.publishedAt = new Date();
     }
 
-    const post = await BlogPost.findByIdAndUpdate(params.id, body, { new: true, runValidators: true }).lean();
+    const post = await BlogPost.findByIdAndUpdate(id, body, { new: true, runValidators: true }).lean();
 
     if (!post) {
       return NextResponse.json({ error: 'Blog post not found' }, { status: 404 });
@@ -41,12 +43,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     await connectDB();
 
-    const post = await BlogPost.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const post = await BlogPost.findByIdAndDelete(id);
 
     if (!post) {
       return NextResponse.json({ error: 'Blog post not found' }, { status: 404 });

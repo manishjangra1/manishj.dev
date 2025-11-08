@@ -3,10 +3,11 @@ import connectDB from '@/lib/db';
 import Project from '@/lib/models/Project';
 import { requireAuth } from '@/lib/auth';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await connectDB();
-    const project = await Project.findById(params.id).lean();
+    const { id } = await params;
+    const project = await Project.findById(id).lean();
     if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
@@ -16,13 +17,14 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     await connectDB();
 
+    const { id } = await params;
     const body = await request.json();
-    const project = await Project.findByIdAndUpdate(params.id, body, { new: true, runValidators: true }).lean();
+    const project = await Project.findByIdAndUpdate(id, body, { new: true, runValidators: true }).lean();
 
     if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
@@ -37,12 +39,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAuth();
     await connectDB();
 
-    const project = await Project.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const project = await Project.findByIdAndDelete(id);
 
     if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
