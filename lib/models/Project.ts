@@ -8,6 +8,7 @@ export interface IProject extends Document {
   liveUrl?: string;
   githubUrl?: string;
   featured: boolean;
+  isCurrentlyWorking: boolean;
   order: number;
   createdAt: Date;
   updatedAt: Date;
@@ -38,6 +39,10 @@ const ProjectSchema: Schema = new Schema(
       type: String,
     },
     featured: {
+      type: Boolean,
+      default: false,
+    },
+    isCurrentlyWorking: {
       type: Boolean,
       default: false,
     },

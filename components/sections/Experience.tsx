@@ -58,21 +58,25 @@ export default function Experience({ experiences }: ExperienceProps) {
             </div>
           </motion.div>
         ) : (
-          <div className="relative">
-            <div 
+          <div className="relative pl-12 md:pl-0">
+            <motion.div 
               className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 rounded-full transform md:-translate-x-1/2"
               style={{
-                background: `linear-gradient(to bottom, ${colors.gradientFrom}, ${colors.gradientTo})`
+                background: `linear-gradient(to bottom, ${colors.gradientFrom}, ${colors.gradientTo})`,
+                transformOrigin: 'top',
               }}
+              initial={{ scaleY: 0, opacity: 0 }}
+              animate={isInView ? { scaleY: 1, opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
             />
             
             <div className="space-y-12">
               {experiences.map((exp, i) => (
                 <motion.div
                   key={exp._id?.toString() || i}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: i * 0.2, duration: 0.8 }}
+                  initial={{ opacity: 0, x: 0, scale: 0.95 }}
+                  animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+                  transition={{ delay: i * 0.2 + 0.3, duration: 0.6 }}
                   className={`relative flex items-center ${
                     i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                   }`}
@@ -132,12 +136,15 @@ export default function Experience({ experiences }: ExperienceProps) {
                       </ul>
                     </div>
                   </div>
-                  <div 
-                    className="absolute left-8 md:left-1/2 w-4 h-4 rounded-full border-4 transform md:-translate-x-1/2 z-10"
+                  <motion.div 
+                    className="absolute -left-4 md:left-1/2 w-4 h-4 rounded-full border-4 transform -translate-x-1/2 z-10"
                     style={{
                       backgroundColor: colors.gradientFrom,
                       borderColor: colors.background,
                     }}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={isInView ? { scale: 1, opacity: 1 } : {}}
+                    transition={{ delay: i * 0.2 + 0.5, duration: 0.4, type: 'spring', stiffness: 200 }}
                   />
                   <div className="flex-1 hidden md:block" />
                 </motion.div>

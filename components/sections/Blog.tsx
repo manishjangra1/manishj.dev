@@ -7,25 +7,35 @@ import { IBlogPost } from '@/lib/models/BlogPost';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface BlogProps {
   posts: IBlogPost[];
+  showAll?: boolean;
 }
 
-export default function Blog({ posts }: BlogProps) {
+export default function Blog({ posts, showAll = false }: BlogProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [searchTerm, setSearchTerm] = useState('');
   const { colors } = useTheme();
 
   const publishedPosts = posts.filter((p) => p.published);
-  const filteredPosts = publishedPosts.filter(
+  
+  // On home page, show only featured posts; on dedicated page, show all
+  const postsToShow = showAll 
+    ? publishedPosts 
+    : publishedPosts.filter((p) => p.featured);
+  
+  const filteredPosts = postsToShow.filter(
     (post) =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.tags?.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   );
+
+  const hasMorePosts = !showAll && publishedPosts.filter((p) => p.featured).length < publishedPosts.length;
 
   return (
     <section 
@@ -182,6 +192,34 @@ export default function Blog({ posts }: BlogProps) {
               </motion.div>
             ))}
           </div>
+        )}
+
+        {hasMorePosts && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="text-center mt-12"
+          >
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all border"
+              style={{
+                background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`,
+                borderColor: 'transparent',
+                color: '#fff',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              View All Posts
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </motion.div>
         )}
       </div>
     </section>

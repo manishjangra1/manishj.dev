@@ -50,7 +50,7 @@ export default function Navigation() {
             className="text-xl font-bold transition-colors"
             style={{ color: colors.textPrimary }}
           >
-            Portfolio
+            Welcome!
           </Link>
 
           <div className="hidden md:flex items-center gap-6">
