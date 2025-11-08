@@ -11,7 +11,7 @@ A modern, responsive portfolio website with 3D animations, dynamic content manag
 - **Authentication**: Secure admin authentication with NextAuth.js
 - **Blog System**: Complete blog with markdown support
 - **Contact Form**: Functional contact form with message management
-- **SEO Optimized**: Sitemap, robots.txt, and proper metadata
+- **SEO Optimized**: Sitemap, robots.txt, and proper metadata 
 
 ## Tech Stack
 
