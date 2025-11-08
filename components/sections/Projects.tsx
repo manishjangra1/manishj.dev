@@ -260,7 +260,7 @@ export default function Projects({ projects, showAll = false }: ProjectsProps) {
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: i * 0.1, duration: 0.8 }}
-                className="group relative backdrop-blur-lg rounded-2xl overflow-hidden border transition-all"
+                className="group relative backdrop-blur-lg rounded-2xl overflow-hidden border transition-all cursor-pointer"
                 style={{
                   backgroundColor: colors.cardBg,
                   borderColor: colors.cardBorder,
@@ -272,6 +272,11 @@ export default function Projects({ projects, showAll = false }: ProjectsProps) {
                   e.currentTarget.style.borderColor = colors.cardBorder;
                 }}
               >
+                <Link
+                  href={`/projects/${project._id}`}
+                  className="absolute inset-0 z-10"
+                  aria-label={`View details for ${project.title}`}
+                />
                 <div 
                   className="relative h-48"
                   style={{
@@ -305,7 +310,10 @@ export default function Projects({ projects, showAll = false }: ProjectsProps) {
                     </motion.div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div 
+                    className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {project.liveUrl && (
                       <a
                         href={project.liveUrl}
@@ -322,6 +330,7 @@ export default function Projects({ projects, showAll = false }: ProjectsProps) {
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = colors.cardBg;
                         }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <ExternalLink className="w-5 h-5" style={{ color: colors.textPrimary }} />
                       </a>
@@ -342,6 +351,7 @@ export default function Projects({ projects, showAll = false }: ProjectsProps) {
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = colors.cardBg;
                         }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <Github className="w-5 h-5" style={{ color: colors.textPrimary }} />
                       </a>
@@ -381,7 +391,7 @@ export default function Projects({ projects, showAll = false }: ProjectsProps) {
                   >
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {project.technologies?.slice(0, 3).map((tech) => (
                       <span
                         key={tech}
@@ -407,6 +417,16 @@ export default function Projects({ projects, showAll = false }: ProjectsProps) {
                         +{project.technologies.length - 3}
                       </span>
                     )}
+                  </div>
+                  <div className="flex items-center justify-end">
+                    <span 
+                      className="transition-colors font-medium text-sm"
+                      style={{ color: colors.textSecondary }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = colors.gradientFrom}
+                      onMouseLeave={(e) => e.currentTarget.style.color = colors.textSecondary}
+                    >
+                      Read more →
+                    </span>
                   </div>
                 </div>
               </motion.div>

@@ -29,6 +29,17 @@ const themes: { name: string; value: ReturnType<typeof useTheme>['theme']; color
   { name: 'Violet', value: 'violet', color: '#8b5cf6' },
   { name: 'Sakura', value: 'sakura', color: '#f472b6' },
   { name: 'Cyber', value: 'cyber', color: '#00ff88' },
+  // Pastel themes
+  { name: 'Pastel Pink', value: 'pastelPink', color: '#ffb3d9' },
+  { name: 'Pastel Blue', value: 'pastelBlue', color: '#b3d9ff' },
+  { name: 'Pastel Green', value: 'pastelGreen', color: '#b3ffd9' },
+  { name: 'Pastel Purple', value: 'pastelPurple', color: '#d9b3ff' },
+  { name: 'Pastel Yellow', value: 'pastelYellow', color: '#fff9b3' },
+  { name: 'Pastel Peach', value: 'pastelPeach', color: '#ffd9b3' },
+  { name: 'Pastel Mint', value: 'pastelMint', color: '#b3ffe6' },
+  { name: 'Pastel Lavender', value: 'pastelLavender', color: '#d9d4ff' },
+  { name: 'Pastel Sky', value: 'pastelSky', color: '#b3e0ff' },
+  { name: 'Pastel Rose', value: 'pastelRose', color: '#ffd1d6' },
 ];
 
 export default function ThemeSelector() {

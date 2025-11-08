@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import ThemeSelector from './ThemeSelector';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -11,6 +12,8 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { colors } = useTheme();
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +23,26 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Handle hash navigation when page loads (e.g., when navigating from another page)
+  useEffect(() => {
+    if (pathname === '/' && window.location.hash) {
+      const hash = window.location.hash;
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          const navHeight = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    }
+  }, [pathname]);
+
   const navLinks = [
     { href: '#about', label: 'About' },
     { href: '#skills', label: 'Skills' },
@@ -28,6 +51,55 @@ export default function Navigation() {
     { href: '#blog', label: 'Blog' },
     { href: '#contact', label: 'Contact' },
   ];
+
+  const handleMobileNavClick = (href: string) => {
+    // Close the menu first
+    setIsMobileMenuOpen(false);
+    
+    // If not on home page, navigate to home page with hash
+    if (pathname !== '/') {
+      router.push(`/${href}`);
+      return;
+    }
+    
+    // Wait for menu to close, then scroll to section
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        const navHeight = 80; // Height of navigation bar
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
+
+  const handleDesktopNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // If not on home page, navigate to home page with hash
+    if (pathname !== '/') {
+      e.preventDefault();
+      router.push(`/${href}`);
+      return;
+    }
+    
+    // On home page, handle smooth scrolling with offset
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      const navHeight = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <motion.nav
@@ -58,6 +130,7 @@ export default function Navigation() {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => handleDesktopNavClick(e, link.href)}
                 className="text-sm font-medium transition-colors hover:opacity-100"
                 style={{ 
                   color: colors.textSecondary,
@@ -99,17 +172,19 @@ export default function Navigation() {
           >
             <div className="px-4 py-6 space-y-3">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.href}
-                  href={link.href}
-                  className="block py-2 text-base font-medium transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleMobileNavClick(link.href);
+                  }}
+                  className="block w-full text-left py-2 text-base font-medium transition-colors"
                   style={{ color: colors.textSecondary }}
                   onMouseEnter={(e) => e.currentTarget.style.color = colors.textPrimary}
                   onMouseLeave={(e) => e.currentTarget.style.color = colors.textSecondary}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
-                </a>
+                </button>
               ))}
             </div>
           </motion.div>
