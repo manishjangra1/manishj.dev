@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { FolderKanban, Code, Briefcase, FileText, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({
@@ -12,6 +13,7 @@ export default function DashboardPage() {
     blogPosts: 0,
     messages: 0,
   });
+  const { colors } = useTheme();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -40,16 +42,21 @@ export default function DashboardPage() {
   }, []);
 
   const statCards = [
-    { label: 'Projects', value: stats.projects, icon: FolderKanban, href: '/admin/projects', color: 'from-blue-500 to-cyan-500' },
-    { label: 'Skills', value: stats.skills, icon: Code, href: '/admin/skills', color: 'from-purple-500 to-pink-500' },
-    { label: 'Experience', value: stats.experiences, icon: Briefcase, href: '/admin/experience', color: 'from-green-500 to-emerald-500' },
-    { label: 'Blog Posts', value: stats.blogPosts, icon: FileText, href: '/admin/blog', color: 'from-orange-500 to-red-500' },
-    { label: 'Messages', value: stats.messages, icon: MessageSquare, href: '/admin/contact', color: 'from-indigo-500 to-purple-500' },
+    { label: 'Projects', value: stats.projects, icon: FolderKanban, href: '/admin/projects', gradient: 'from-blue-500 to-cyan-500' },
+    { label: 'Skills', value: stats.skills, icon: Code, href: '/admin/skills', gradient: 'from-purple-500 to-pink-500' },
+    { label: 'Experience', value: stats.experiences, icon: Briefcase, href: '/admin/experience', gradient: 'from-green-500 to-emerald-500' },
+    { label: 'Blog Posts', value: stats.blogPosts, icon: FileText, href: '/admin/blog', gradient: 'from-orange-500 to-red-500' },
+    { label: 'Messages', value: stats.messages, icon: MessageSquare, href: '/admin/contact', gradient: 'from-indigo-500 to-purple-500' },
   ];
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-white mb-8">Dashboard</h1>
+      <h1 
+        className="text-3xl font-bold mb-8"
+        style={{ color: colors.textPrimary }}
+      >
+        Dashboard
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {statCards.map((card) => {
           const Icon = card.icon;
@@ -57,17 +64,40 @@ export default function DashboardPage() {
             <Link
               key={card.label}
               href={card.href}
-              className="bg-slate-800 rounded-lg p-6 border border-slate-700 hover:border-slate-600 transition-colors group"
+              className="rounded-2xl p-6 border transition-all group"
+              style={{
+                backgroundColor: colors.cardBg,
+                borderColor: colors.cardBorder,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = colors.gradientFrom;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = colors.cardBorder;
+              }}
             >
               <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-lg bg-gradient-to-r ${card.color}`}>
+                <div 
+                  className="p-3.5 rounded-xl"
+                  style={{
+                    background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`,
+                  }}
+                >
                   <Icon className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-3xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                <span 
+                  className="text-3xl font-bold transition-colors"
+                  style={{ color: colors.textPrimary }}
+                >
                   {card.value}
                 </span>
               </div>
-              <h3 className="text-lg font-semibold text-slate-300">{card.label}</h3>
+              <h3 
+                className="text-lg font-semibold"
+                style={{ color: colors.textSecondary }}
+              >
+                {card.label}
+              </h3>
             </Link>
           );
         })}

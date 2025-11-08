@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import { IExperience } from '@/lib/models/Experience';
 import { format } from 'date-fns';
 import Image from 'next/image';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface ExperienceProps {
   experiences: IExperience[];
@@ -14,26 +15,42 @@ interface ExperienceProps {
 export default function Experience({ experiences }: ExperienceProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { colors } = useTheme();
 
   return (
-    <section id="experience" className="py-20 px-4 bg-gradient-to-b from-slate-800 to-slate-900">
+    <section 
+      id="experience" 
+      className="py-24 px-6 sm:px-8 lg:px-12"
+      style={{ backgroundColor: colors.background }}
+    >
       <div className="max-w-6xl mx-auto">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Experience</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto" />
+          <h2 
+            className="text-4xl md:text-5xl font-bold mb-6"
+            style={{ color: colors.textPrimary }}
+          >
+            Experience
+          </h2>
+          <div 
+            className="w-24 h-1 mx-auto rounded-full"
+            style={{ 
+              background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`
+            }}
+          />
         </motion.div>
 
         {experiences.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            className="text-center text-white/60 py-12 min-h-[300px] flex items-center justify-center"
+            className="text-center py-12 min-h-[300px] flex items-center justify-center"
+            style={{ color: colors.textSecondary }}
           >
             <div>
               <div className="text-6xl mb-4">💼</div>
@@ -42,7 +59,12 @@ export default function Experience({ experiences }: ExperienceProps) {
           </motion.div>
         ) : (
           <div className="relative">
-            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-600 to-pink-600 transform md:-translate-x-1/2" />
+            <div 
+              className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 rounded-full transform md:-translate-x-1/2"
+              style={{
+                background: `linear-gradient(to bottom, ${colors.gradientFrom}, ${colors.gradientTo})`
+              }}
+            />
             
             <div className="space-y-12">
               {experiences.map((exp, i) => (
@@ -56,10 +78,16 @@ export default function Experience({ experiences }: ExperienceProps) {
                   }`}
                 >
                   <div className={`flex-1 ${i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
-                    <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
-                      <div className="flex items-center gap-4 mb-4">
+                    <div 
+                      className="backdrop-blur-lg rounded-2xl p-6 border"
+                      style={{
+                        backgroundColor: colors.cardBg,
+                        borderColor: colors.cardBorder,
+                      }}
+                    >
+                      <div className={`flex items-center gap-4 mb-4 ${i % 2 === 0 ? 'md:justify-end' : ''}`}>
                         {exp.logo && (
-                          <div className="relative w-12 h-12 rounded-lg overflow-hidden">
+                          <div className="relative w-12 h-12 rounded-xl overflow-hidden border" style={{ borderColor: colors.cardBorder }}>
                             <Image
                               src={exp.logo}
                               alt={exp.company}
@@ -69,11 +97,19 @@ export default function Experience({ experiences }: ExperienceProps) {
                           </div>
                         )}
                         <div className={i % 2 === 0 ? 'md:text-right' : ''}>
-                          <h3 className="text-xl font-bold text-white">{exp.role}</h3>
-                          <p className="text-white/70">{exp.company}</p>
+                          <h3 
+                            className="text-xl font-bold"
+                            style={{ color: colors.textPrimary }}
+                          >
+                            {exp.role}
+                          </h3>
+                          <p style={{ color: colors.textSecondary }}>{exp.company}</p>
                         </div>
                       </div>
-                      <p className="text-white/60 text-sm mb-4">
+                      <p 
+                        className="text-sm mb-4"
+                        style={{ color: colors.textSecondary }}
+                      >
                         {format(new Date(exp.startDate), 'MMM yyyy')} -{' '}
                         {exp.current
                           ? 'Present'
@@ -84,15 +120,25 @@ export default function Experience({ experiences }: ExperienceProps) {
                       </p>
                       <ul className="space-y-2">
                         {exp.description?.map((desc, j) => (
-                          <li key={j} className="text-white/80 text-sm flex items-start gap-2">
-                            <span className="text-purple-400 mt-1">•</span>
+                          <li 
+                            key={j} 
+                            className="text-sm flex items-start gap-2"
+                            style={{ color: colors.textSecondary }}
+                          >
+                            <span className="mt-1" style={{ color: colors.gradientFrom }}>•</span>
                             <span>{desc}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                   </div>
-                  <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-purple-600 rounded-full border-4 border-slate-900 transform md:-translate-x-1/2" />
+                  <div 
+                    className="absolute left-8 md:left-1/2 w-4 h-4 rounded-full border-4 transform md:-translate-x-1/2 z-10"
+                    style={{
+                      backgroundColor: colors.gradientFrom,
+                      borderColor: colors.background,
+                    }}
+                  />
                   <div className="flex-1 hidden md:block" />
                 </motion.div>
               ))}

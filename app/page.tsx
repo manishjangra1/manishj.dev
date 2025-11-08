@@ -59,15 +59,30 @@ export default async function Home() {
   const { settings, projects, skills, experiences, blogPosts } = await getData();
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen w-full">
       <Navigation />
-      <Hero heroText={settings?.heroText} siteTitle={settings?.siteTitle} />
-      <About aboutText={settings?.aboutText} />
+      <Hero 
+        heroText={settings?.heroText} 
+        siteTitle={settings?.siteTitle}
+        heroButton1Text={settings?.heroButton1Text}
+        heroButton2Text={settings?.heroButton2Text}
+        resumeUrl={settings?.resumeUrl}
+      />
+      <About 
+        aboutText={settings?.aboutText}
+        aboutText2={settings?.aboutText2}
+        aboutTechStack={settings?.aboutTechStack}
+        aboutIcon={settings?.aboutIcon}
+      />
       <Skills skills={skills as any} />
       <Projects projects={projects as any} />
       <Experience experiences={experiences as any} />
       <Blog posts={blogPosts as any} />
-      <Contact socialLinks={settings?.socialLinks} />
+      <Contact 
+        socialLinks={settings?.socialLinks}
+        contactHeading={settings?.contactHeading}
+        contactDescription={settings?.contactDescription}
+      />
       <Footer socialLinks={settings?.socialLinks} />
       </main>
   );

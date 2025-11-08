@@ -4,7 +4,15 @@ export interface ISettings extends Document {
   siteTitle: string;
   siteDescription: string;
   heroText: string;
+  heroButton1Text?: string;
+  heroButton2Text?: string;
   aboutText: string;
+  aboutText2?: string;
+  aboutTechStack?: string[];
+  aboutIcon?: string;
+  contactHeading?: string;
+  contactDescription?: string;
+  resumeUrl?: string;
   socialLinks: {
     github?: string;
     linkedin?: string;
@@ -30,7 +38,39 @@ const SettingsSchema: Schema = new Schema(
       type: String,
       default: 'Full Stack Software Developer',
     },
+    heroButton1Text: {
+      type: String,
+      default: 'Learn More',
+    },
+    heroButton2Text: {
+      type: String,
+      default: 'View Projects',
+    },
     aboutText: {
+      type: String,
+      default: '',
+    },
+    aboutText2: {
+      type: String,
+      default: '',
+    },
+    aboutTechStack: {
+      type: [String],
+      default: [],
+    },
+    aboutIcon: {
+      type: String,
+      default: '👨‍💻',
+    },
+    contactHeading: {
+      type: String,
+      default: "Let's Connect",
+    },
+    contactDescription: {
+      type: String,
+      default: "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.",
+    },
+    resumeUrl: {
       type: String,
       default: '',
     },

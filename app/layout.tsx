@@ -16,12 +16,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Portfolio - Full Stack Software Developer",
+    default: "Manish - Full Stack Software Developer",
     template: "%s | Portfolio",
   },
   description: "Modern portfolio website showcasing projects, skills, and experience",
   keywords: ["portfolio", "software developer", "full stack", "web development"],
-  authors: [{ name: "Portfolio" }],
+  authors: [{ name: "Manish" }],
   openGraph: {
     type: "website",
     locale: "en_US",

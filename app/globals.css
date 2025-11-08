@@ -3,47 +3,83 @@
 :root {
   --background: #0a0a0a;
   --foreground: #ededed;
+  --primary: #6366f1;
+  --primary-hover: #818cf8;
+  --secondary: #8b5cf6;
+  --secondary-hover: #a78bfa;
+  --accent: #ec4899;
+  --accent-hover: #f472b6;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --gradient-from: #6366f1;
+  --gradient-to: #ec4899;
+  --nav-bg: rgba(0, 0, 0, 0.8);
+  --nav-border: rgba(255, 255, 255, 0.1);
 }
 
 @theme inline {
+  /* Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-gradient-from: var(--gradient-from);
+  --color-gradient-to: var(--gradient-to);
+  --color-nav-bg: var(--nav-bg);
+  --color-nav-border: var(--nav-border);
+  
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 * {
-  margin: 0;
-  padding: 0;
+  /* margin: 0; */
+  /* padding: 0 !important; */
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
-  scrollbar-gutter: stable;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  position: relative;
   overflow-x: hidden;
 }
 
-/* Custom scrollbar */
+/* Hide scrollbar but keep scrolling functionality */
 ::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #1a1a1a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #6366f1;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #818cf8;
+  display: none;
+  width: 0;
 }

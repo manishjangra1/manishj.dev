@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Download } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getResumeDownloadUrl } from '@/lib/utils/resume';
 
 const Hero3D = dynamic(() => import('@/components/3d/Hero3D'), {
   ssr: false,
@@ -13,10 +15,20 @@ const Hero3D = dynamic(() => import('@/components/3d/Hero3D'), {
 interface HeroProps {
   heroText?: string;
   siteTitle?: string;
+  heroButton1Text?: string;
+  heroButton2Text?: string;
+  resumeUrl?: string;
 }
 
-export default function Hero({ heroText = 'Full Stack Software Developer', siteTitle = 'Portfolio' }: HeroProps) {
+export default function Hero({ 
+  heroText = 'Full Stack Software Developer', 
+  siteTitle = 'Portfolio',
+  heroButton1Text = 'Learn More',
+  heroButton2Text = 'View Projects',
+  resumeUrl
+}: HeroProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { colors } = useTheme();
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -31,12 +43,17 @@ export default function Hero({ heroText = 'Full Stack Software Developer', siteT
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-br from-slate-900 via-purple-900 to-slate-900">
+    <section 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+      style={{ 
+        background: `linear-gradient(to bottom right, ${colors.background}, ${colors.secondary}20, ${colors.background})`
+      }}
+    >
       <Hero3D />
-      <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       
       <motion.div
-        className="relative z-10 text-center px-4 max-w-4xl mx-auto"
+        className="relative z-10 text-center px-6 sm:px-8 lg:px-12 max-w-4xl mx-auto"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -45,7 +62,8 @@ export default function Hero({ heroText = 'Full Stack Software Developer', siteT
         }}
       >
         <motion.h1
-          className="text-5xl md:text-7xl font-bold text-white mb-6"
+          className="text-5xl md:text-7xl font-bold mb-6"
+          style={{ color: colors.textPrimary }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
@@ -53,7 +71,8 @@ export default function Hero({ heroText = 'Full Stack Software Developer', siteT
           {siteTitle}
         </motion.h1>
         <motion.p
-          className="text-xl md:text-2xl text-white/80 mb-8"
+          className="text-xl md:text-2xl mb-10"
+          style={{ color: colors.textSecondary }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
@@ -68,20 +87,60 @@ export default function Hero({ heroText = 'Full Stack Software Developer', siteT
         >
           <motion.a
             href="#about"
-            className="px-8 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
+            className="px-8 py-3.5 text-white rounded-xl font-semibold transition-all border"
+            style={{
+              background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`,
+              borderColor: 'transparent',
+            }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Learn More
+            {heroButton1Text}
           </motion.a>
           <motion.a
             href="#projects"
-            className="px-8 py-3 bg-white/10 backdrop-blur-lg text-white rounded-full font-semibold border border-white/20 hover:bg-white/20 transition-all"
+            className="px-8 py-3.5 backdrop-blur-lg rounded-xl font-semibold border transition-all"
+            style={{
+              backgroundColor: colors.cardBg,
+              borderColor: colors.cardBorder,
+              color: colors.textPrimary,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = colors.cardBorder;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = colors.cardBg;
+            }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            View Projects
+            {heroButton2Text}
           </motion.a>
+          {resumeUrl && (
+            <motion.a
+              href={getResumeDownloadUrl(resumeUrl)}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3.5 backdrop-blur-lg rounded-xl font-semibold border transition-all flex items-center gap-2"
+              style={{
+                backgroundColor: colors.cardBg,
+                borderColor: colors.cardBorder,
+                color: colors.textPrimary,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = colors.cardBorder;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = colors.cardBg;
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Download className="w-5 h-5" />
+              Download Resume
+            </motion.a>
+          )}
         </motion.div>
       </motion.div>
 
@@ -91,7 +150,13 @@ export default function Hero({ heroText = 'Full Stack Software Developer', siteT
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.8, repeat: Infinity, repeatType: 'reverse', repeatDelay: 0.5 }}
       >
-        <a href="#about" className="text-white/70 hover:text-white transition-colors">
+        <a 
+          href="#about" 
+          className="transition-colors"
+          style={{ color: colors.textSecondary }}
+          onMouseEnter={(e) => e.currentTarget.style.color = colors.textPrimary}
+          onMouseLeave={(e) => e.currentTarget.style.color = colors.textSecondary}
+        >
           <ChevronDown className="w-8 h-8" />
         </a>
       </motion.div>

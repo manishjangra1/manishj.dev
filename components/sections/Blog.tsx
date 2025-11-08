@@ -7,6 +7,7 @@ import { IBlogPost } from '@/lib/models/BlogPost';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface BlogProps {
   posts: IBlogPost[];
@@ -16,6 +17,7 @@ export default function Blog({ posts }: BlogProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [searchTerm, setSearchTerm] = useState('');
+  const { colors } = useTheme();
 
   const publishedPosts = posts.filter((p) => p.published);
   const filteredPosts = publishedPosts.filter(
@@ -26,17 +28,31 @@ export default function Blog({ posts }: BlogProps) {
   );
 
   return (
-    <section id="blog" className="py-20 px-4 bg-gradient-to-b from-slate-800 to-slate-900">
+    <section 
+      id="blog" 
+      className="py-24 px-6 sm:px-8 lg:px-12"
+      style={{ backgroundColor: colors.background }}
+    >
       <div className="max-w-7xl mx-auto">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Blog</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mb-8" />
+          <h2 
+            className="text-4xl md:text-5xl font-bold mb-6"
+            style={{ color: colors.textPrimary }}
+          >
+            Blog
+          </h2>
+          <div 
+            className="w-24 h-1 mx-auto mb-10 rounded-full"
+            style={{ 
+              background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`
+            }}
+          />
           
           <div className="max-w-md mx-auto">
             <input
@@ -44,7 +60,18 @@ export default function Blog({ posts }: BlogProps) {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search posts..."
-              className="w-full px-4 py-3 bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-5 py-3.5 backdrop-blur-lg border rounded-xl text-sm focus:outline-none focus:ring-2 transition-all"
+              style={{
+                backgroundColor: colors.cardBg,
+                borderColor: colors.cardBorder,
+                color: colors.textPrimary,
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = colors.gradientFrom;
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = colors.cardBorder;
+              }}
             />
           </div>
         </motion.div>
@@ -53,7 +80,8 @@ export default function Blog({ posts }: BlogProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            className="text-center text-white/60 py-12 min-h-[300px] flex items-center justify-center"
+            className="text-center py-12 min-h-[300px] flex items-center justify-center"
+            style={{ color: colors.textSecondary }}
           >
             <div>
               <div className="text-6xl mb-4">📝</div>
@@ -65,17 +93,32 @@ export default function Blog({ posts }: BlogProps) {
             </div>
           </motion.div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {filteredPosts.map((post, i) => (
               <motion.div
                 key={post._id?.toString() || i}
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: i * 0.1, duration: 0.8 }}
-                className="group bg-white/5 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all"
+                className="group backdrop-blur-lg rounded-2xl overflow-hidden border transition-all"
+                style={{
+                  backgroundColor: colors.cardBg,
+                  borderColor: colors.cardBorder,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = colors.gradientFrom;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = colors.cardBorder;
+                }}
               >
                 <Link href={`/blog/${post.slug}`}>
-                  <div className="relative h-48 bg-gradient-to-br from-purple-600/20 to-pink-600/20">
+                  <div 
+                    className="relative h-48"
+                    style={{
+                      background: `linear-gradient(to bottom right, ${colors.gradientFrom}20, ${colors.gradientTo}20)`,
+                    }}
+                  >
                     {post.coverImage ? (
                       <Image
                         src={post.coverImage}
@@ -94,23 +137,45 @@ export default function Blog({ posts }: BlogProps) {
                       {post.tags?.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-1 text-xs bg-white/10 rounded text-white/80"
+                          className="px-3 py-1.5 text-xs rounded-xl border font-medium"
+                          style={{
+                            backgroundColor: colors.cardBg,
+                            borderColor: colors.cardBorder,
+                            color: colors.textSecondary,
+                          }}
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                    <h3 
+                      className="text-xl font-bold mb-2 transition-colors"
+                      style={{ color: colors.textPrimary }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = colors.gradientFrom}
+                      onMouseLeave={(e) => e.currentTarget.style.color = colors.textPrimary}
+                    >
                       {post.title}
                     </h3>
-                    <p className="text-white/70 text-sm mb-4 line-clamp-3">{post.excerpt}</p>
-                    <div className="flex items-center justify-between text-sm text-white/60">
-                      <span>
+                    <p 
+                      className="text-sm mb-4 line-clamp-3 leading-relaxed"
+                      style={{ color: colors.textSecondary }}
+                    >
+                      {post.excerpt}
+                    </p>
+                    <div className="flex items-center justify-between text-sm">
+                      <span style={{ color: colors.textSecondary }}>
                         {post.publishedAt
                           ? format(new Date(post.publishedAt), 'MMM dd, yyyy')
                           : 'Draft'}
                       </span>
-                      <span className="group-hover:text-purple-400 transition-colors">Read more →</span>
+                      <span 
+                        className="transition-colors font-medium"
+                        style={{ color: colors.textSecondary }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = colors.gradientFrom}
+                        onMouseLeave={(e) => e.currentTarget.style.color = colors.textSecondary}
+                      >
+                        Read more →
+                      </span>
                     </div>
                   </div>
                 </Link>
@@ -122,4 +187,3 @@ export default function Blog({ posts }: BlogProps) {
     </section>
   );
 }
-
