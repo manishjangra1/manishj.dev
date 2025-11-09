@@ -67,12 +67,12 @@ export default function ContactPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-white">Contact Messages</h1>
-        <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">Contact Messages</h1>
+        <div className="flex gap-2 w-full sm:w-auto">
           <button
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-2 rounded-lg transition-colors ${
               filter === 'all'
                 ? 'bg-purple-600 text-white'
                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -82,7 +82,7 @@ export default function ContactPage() {
           </button>
           <button
             onClick={() => setFilter('unread')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-2 rounded-lg transition-colors ${
               filter === 'unread'
                 ? 'bg-purple-600 text-white'
                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -92,7 +92,7 @@ export default function ContactPage() {
           </button>
           <button
             onClick={() => setFilter('read')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-2 rounded-lg transition-colors ${
               filter === 'read'
                 ? 'bg-purple-600 text-white'
                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -111,20 +111,20 @@ export default function ContactPage() {
               message.read ? 'border-slate-700' : 'border-purple-500'
             }`}
           >
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-lg font-semibold text-white">{message.name}</h3>
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-3 mb-2">
+                  <h3 className="text-lg font-semibold text-white break-words">{message.name}</h3>
                   {!message.read && (
-                    <span className="px-2 py-1 text-xs bg-purple-600 text-white rounded">New</span>
+                    <span className="px-2 py-1 text-xs bg-purple-600 text-white rounded whitespace-nowrap">New</span>
                   )}
                 </div>
-                <p className="text-slate-400 text-sm">{message.email}</p>
+                <p className="text-slate-400 text-sm break-all">{message.email}</p>
                 <p className="text-slate-500 text-xs mt-1">
                   {format(new Date(message.createdAt), 'MMM dd, yyyy HH:mm')}
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-shrink-0">
                 {!message.read && (
                   <button
                     onClick={() => handleMarkAsRead(message._id!.toString())}
