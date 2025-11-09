@@ -67,13 +67,24 @@ export default function ProjectFormPage() {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
+        credentials: 'include',
       });
 
-      if (res.ok) {
-        router.push('/admin/projects');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({ error: 'Failed to save project' }));
+        if (res.status === 401) {
+          alert('Unauthorized. Please log in again.');
+          router.push('/login');
+        } else {
+          alert(errorData.error || 'Failed to save project');
+        }
+        return;
       }
+
+      router.push('/admin/projects');
     } catch (error) {
       console.error('Error saving project:', error);
+      alert('An error occurred while saving the project. Please try again.');
     } finally {
       setLoading(false);
     }

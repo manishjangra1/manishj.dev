@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import connectDB from '@/lib/db';
 import Project from '@/lib/models/Project';
 import { requireAuth } from '@/lib/auth';
@@ -69,6 +70,11 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     // Save the updated project
     await project.save();
 
+    // Revalidate the projects page, home page, and the specific project page
+    revalidatePath('/projects');
+    revalidatePath('/');
+    revalidatePath(`/projects/${id}`);
+
     return NextResponse.json(project.toObject());
   } catch (error: any) {
     if (error.message === 'Unauthorized') {
@@ -104,6 +110,11 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
 
     // Delete the project
     await Project.findByIdAndDelete(id);
+
+    // Revalidate the projects page, home page, and the specific project page
+    revalidatePath('/projects');
+    revalidatePath('/');
+    revalidatePath(`/projects/${id}`);
 
     return NextResponse.json({ message: 'Project deleted successfully' });
   } catch (error: any) {
