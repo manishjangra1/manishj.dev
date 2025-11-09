@@ -15,6 +15,9 @@ import Skill from '@/lib/models/Skill';
 import ExperienceModel from '@/lib/models/Experience';
 import BlogPost from '@/lib/models/BlogPost';
 
+// Enable on-demand revalidation for this page
+export const dynamic = 'force-dynamic';
+
 // Helper function to serialize Mongoose documents to plain objects
 function serialize(data: any): any {
   return JSON.parse(JSON.stringify(data));
