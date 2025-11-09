@@ -5,6 +5,9 @@ import connectDB from '@/lib/db';
 import Settings from '@/lib/models/Settings';
 import Project from '@/lib/models/Project';
 
+// Enable on-demand revalidation for this page
+export const dynamic = 'force-dynamic';
+
 // Helper function to serialize Mongoose documents to plain objects
 function serialize(data: any): any {
   return JSON.parse(JSON.stringify(data));

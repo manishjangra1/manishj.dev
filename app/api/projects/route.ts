@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import connectDB from '@/lib/db';
 import Project from '@/lib/models/Project';
 import { requireAuth } from '@/lib/auth';
@@ -28,6 +29,10 @@ export async function POST(request: NextRequest) {
     };
     
     const project = await Project.create(projectData);
+
+    // Revalidate the projects page and home page to show the new project
+    revalidatePath('/projects');
+    revalidatePath('/');
 
     return NextResponse.json(project.toObject(), { status: 201 });
   } catch (error: any) {
