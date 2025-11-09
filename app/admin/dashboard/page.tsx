@@ -52,7 +52,7 @@ export default function DashboardPage() {
   return (
     <div>
       <h1 
-        className="text-3xl font-bold mb-8"
+        className="text-2xl sm:text-3xl font-bold mb-8"
         style={{ color: colors.textPrimary }}
       >
         Dashboard

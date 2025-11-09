@@ -45,11 +45,11 @@ export default function ExperiencePage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-white">Experience</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">Experience</h1>
         <Link
           href="/admin/experience/new"
-          className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center"
         >
           <Plus className="w-5 h-5" />
           Add Experience
@@ -62,8 +62,8 @@ export default function ExperiencePage() {
             key={exp._id?.toString()}
             className="bg-slate-800 rounded-lg p-6 border border-slate-700"
           >
-            <div className="flex justify-between items-start">
-              <div>
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+              <div className="flex-1">
                 <h3 className="text-xl font-semibold text-white">{exp.role}</h3>
                 <p className="text-slate-300">{exp.company}</p>
                 <p className="text-slate-400 text-sm mt-2">
