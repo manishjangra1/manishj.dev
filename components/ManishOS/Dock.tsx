@@ -13,12 +13,12 @@ import {
 } from 'lucide-react';
 
 const APPS: { id: AppId; icon: any; label: string; color: string }[] = [
-  { id: 'projects', icon: Briefcase, label: 'Projects', color: 'bg-blue-500' },
-  { id: 'about', icon: User, label: 'About', color: 'bg-green-500' },
-  { id: 'terminal', icon: TerminalIcon, label: 'Terminal', color: 'bg-zinc-800' },
-  { id: 'gallery', icon: ImageIcon, label: 'Gallery', color: 'bg-purple-500' },
-  { id: 'messages', icon: MessageSquare, label: 'Messages', color: 'bg-emerald-500' },
-  { id: 'settings', icon: SettingsIcon, label: 'Settings', color: 'bg-gray-500' },
+  { id: 'projects', icon: Briefcase, label: 'Projects', color: 'text-orange-400' },
+  { id: 'about', icon: User, label: 'About', color: 'text-blue-400' },
+  { id: 'terminal', icon: TerminalIcon, label: 'Terminal', color: 'text-emerald-400' },
+  { id: 'gallery', icon: ImageIcon, label: 'Gallery', color: 'text-purple-400' },
+  { id: 'messages', icon: MessageSquare, label: 'Messages', color: 'text-pink-400' },
+  { id: 'settings', icon: SettingsIcon, label: 'Settings', color: 'text-zinc-400' },
 ];
 
 function DockItem({ 
@@ -52,10 +52,12 @@ function DockItem({
       onClick={onClick}
       className={`relative flex items-center justify-center rounded-2xl cursor-pointer group overflow-visible`}
     >
-      <div className={`relative z-10 w-full h-full flex items-center justify-center rounded-2xl border transition-colors duration-500 ${
-        resolvedTheme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
-      } backdrop-blur-md`}>
-        <app.icon className={`w-1/2 h-1/2 transition-colors duration-500 ${resolvedTheme === 'dark' ? 'text-white' : 'text-zinc-900'}`} />
+      <div className={`relative z-10 w-full h-full flex items-center justify-center rounded-2xl border transition-all duration-500 backdrop-blur-md ${
+        resolvedTheme === 'dark' 
+          ? 'bg-white/5 border-white/10 group-hover:bg-white/10' 
+          : 'bg-black/5 border-black/5 group-hover:bg-black/10'
+      }`}>
+        <app.icon className={`w-1/2 h-1/2 transition-all duration-500 drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] ${app.color}`} />
       </div>
 
       {/* Tooltip */}

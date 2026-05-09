@@ -10,20 +10,6 @@ const ProfileCard: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Top Tag */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className={`inline-flex items-center px-4 py-1.5 rounded-xl border backdrop-blur-md self-start transition-colors duration-500 ${
-          resolvedTheme === 'dark' 
-            ? 'border-white/40 bg-white/5 text-white' 
-            : 'border-black/20 bg-black/5 text-zinc-900'
-        }`}
-      >
-        <span className="text-sm font-semibold">Steve Mac</span>
-      </motion.div>
-
       {/* Main Card */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9, x: -20 }}

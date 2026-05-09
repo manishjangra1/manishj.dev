@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useOS, AppId } from '@/contexts/OSContext';
 import { motion } from 'framer-motion';
-import { Wifi, Battery, Search, Command } from 'lucide-react';
+import { Command } from 'lucide-react';
 
 const MenuBar: React.FC = () => {
   const { openApp, resolvedTheme } = useOS();
@@ -52,13 +52,7 @@ const MenuBar: React.FC = () => {
         </div>
       </div>
 
-      {/* Right Side */}
       <div className="flex items-center gap-4 h-full">
-        <div className="flex items-center gap-3 opacity-60">
-          <Wifi className="w-3.5 h-3.5" />
-          <Battery className="w-3.5 h-3.5" />
-          <Search className="w-3.5 h-3.5" />
-        </div>
         <div className="text-[11px] font-medium tracking-wide">
           {time.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
           <span className="ml-2 uppercase">{time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</span>

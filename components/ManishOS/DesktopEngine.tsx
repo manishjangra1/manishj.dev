@@ -6,7 +6,6 @@ import { useOS } from '@/contexts/OSContext';
 import WindowManager from './WindowManager';
 import Dock from './Dock';
 import Wallpaper from './Wallpaper';
-import AIAssistant from './AIAssistant';
 import BootSequence from './BootSequence';
 import ContextMenu from './ContextMenu';
 import ProfileCard from './ProfileCard';
@@ -66,7 +65,7 @@ const DesktopEngineContent: React.FC = () => {
       </motion.div>
 
       {/* Personal Profile Card - Top Left */}
-      <div className="absolute top-10 left-10 z-[5]">
+      <div className="absolute top-12 left-4 z-[5]">
         <ProfileCard />
       </div>
 
@@ -75,8 +74,6 @@ const DesktopEngineContent: React.FC = () => {
         <WindowManager />
       </main>
 
-      {/* Ambient Assistant */}
-      <AIAssistant />
 
       {/* macOS-style Dock */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50">
