@@ -17,7 +17,7 @@ const BOOT_LOGS = [
   "Loading Glassmorphism Shaders...",
   "Mounting Projects District...",
   "Connecting to MongoDB CMS...",
-  "Syncing Simulation Data...",
+  "Pre-caching Simulation Assets...",
   "Optimizing cinematic interactions...",
   "Ready.",
 ];
@@ -25,36 +25,64 @@ const BOOT_LOGS = [
 const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
   const [currentLog, setCurrentLog] = useState(0);
   const [showWelcome, setShowWelcome] = useState(false);
-  const { isLoading, settings } = useData();
-  const profileImage = settings?.aboutImage || '/avatar.png';
+  const [isAssetsLoaded, setIsAssetsLoaded] = useState(false);
+  const { isLoading, projects, settings } = useData();
+
+  // Pre-cache all critical images
+  useEffect(() => {
+    const cacheImages = async () => {
+      const imagesToCache = [
+        settings?.aboutImage,
+        ...projects.map(p => p.image).filter(Boolean)
+      ];
+
+      try {
+        await Promise.all(imagesToCache.map(src => {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = src!;
+            img.onload = resolve;
+            img.onerror = resolve; // Continue even if one fails
+          });
+        }));
+        setIsAssetsLoaded(true);
+      } catch (e) {
+        setIsAssetsLoaded(true);
+      }
+    };
+
+    if (projects.length > 0) {
+      cacheImages();
+    } else if (!isLoading) {
+      setIsAssetsLoaded(true);
+    }
+  }, [projects, settings, isLoading]);
 
   useEffect(() => {
-    // If we are at the "Syncing Simulation Data..." log, wait for isLoading to be false
-    const isSyncingLog = BOOT_LOGS[currentLog] === "Syncing Simulation Data...";
+    const isSyncingLog = BOOT_LOGS[currentLog] === "Connecting to MongoDB CMS...";
+    const isCachingLog = BOOT_LOGS[currentLog] === "Pre-caching Simulation Assets...";
     
     if (currentLog < BOOT_LOGS.length) {
-      if (isSyncingLog && isLoading) {
-        // Stay on this log while loading
-        return;
-      }
+      if (isSyncingLog && isLoading) return;
+      if (isCachingLog && !isAssetsLoaded) return;
 
       const timer = setTimeout(() => {
         setCurrentLog(prev => prev + 1);
-      }, 400 + Math.random() * 600);
+      }, 150 + Math.random() * 250); // Sped up the logs for snappier feel
       return () => clearTimeout(timer);
     } else {
       const timer = setTimeout(() => {
         setShowWelcome(true);
-      }, 500);
+      }, 300);
       return () => clearTimeout(timer);
     }
-  }, [currentLog, isLoading]);
+  }, [currentLog, isLoading, isAssetsLoaded]);
 
   useEffect(() => {
     if (showWelcome) {
       const timer = setTimeout(() => {
         onComplete();
-      }, 2000);
+      }, 800); // Shorter welcome for faster entry
       return () => clearTimeout(timer);
     }
   }, [showWelcome, onComplete]);
@@ -91,23 +119,19 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
               exit={{ opacity: 0, scale: 1.1 }}
               className="flex flex-col items-center"
             >
-              {/* <div className="w-20 h-20 rounded-2xl overflow-hidden mb-6 shadow-[0_0_40px_rgba(59,130,246,0.5)] border border-white/10">
-                <img 
-                  src={profileImage} 
-                  alt="Profile" 
-                  className="w-full h-full object-cover"
-                />
-              </div> */}
-              {/* <h1 className="text-2xl font-sans font-light tracking-widest text-white uppercase">
-                MOS
-              </h1> */}
-              {/* <p className="text-gray-500 mt-2 font-sans tracking-wide">Spatial Portfolio Simulation</p> */}
+              <motion.h1 
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="text-2xl font-sans font-light tracking-[0.3em] text-white uppercase"
+              >
+                SYSTEM READY
+              </motion.h1>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-12 text-gray-700 text-xs tracking-widest uppercase">
+      <div className="absolute bottom-12 left-0 right-0 text-center text-gray-700 text-[10px] md:text-xs tracking-widest uppercase px-4 pointer-events-none">
         © 2026 Manish Jangra — All Rights Reserved
       </div>
     </div>

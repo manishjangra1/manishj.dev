@@ -15,11 +15,11 @@ interface WindowProps {
 type ResizeDirection = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
 
 const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
-  const { closeApp, minimizeApp, maximizeApp, focusApp, windows, resolvedTheme } = useOS();
+  const { closeApp, minimizeApp, maximizeApp, focusApp, windows, resolvedTheme, isMobile } = useOS();
   const windowRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
   
-  const isMaximized = windows[id].isMaximized;
+  const isMaximized = windows[id].isMaximized || isMobile;
   
   // Size and Position State
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -29,17 +29,28 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
   // Initialize size and position on first render
   useEffect(() => {
     if (!isInitialized) {
-      setSize({ 
-        width: window.innerWidth * 0.7, 
-        height: window.innerHeight * 0.6 
-      });
-      setPosition({ 
-        x: window.innerWidth * 0.15, 
-        y: window.innerHeight * 0.1 
-      });
+      if (isMobile) {
+        setSize({ 
+          width: window.innerWidth * 0.96, 
+          height: window.innerHeight * 0.85 
+        });
+        setPosition({ 
+          x: window.innerWidth * 0.02, 
+          y: 44 
+        });
+      } else {
+        setSize({ 
+          width: window.innerWidth * 0.7, 
+          height: window.innerHeight * 0.6 
+        });
+        setPosition({ 
+          x: window.innerWidth * 0.15, 
+          y: window.innerHeight * 0.1 
+        });
+      }
       setIsInitialized(true);
     }
-  }, [isInitialized]);
+  }, [isInitialized, isMobile]);
 
   // Resizing logic
   const resizingRef = useRef<{
@@ -53,6 +64,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
   } | null>(null);
 
   const startResize = useCallback((e: React.PointerEvent, direction: ResizeDirection) => {
+    if (isMobile) return;
     e.preventDefault();
     e.stopPropagation();
     focusApp(id);
@@ -107,25 +119,25 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
 
     window.addEventListener('pointermove', handlePointerMove);
     window.addEventListener('pointerup', handlePointerUp);
-  }, [size, position, id, focusApp]);
+  }, [size, position, id, focusApp, isMobile]);
 
   if (!isInitialized) return null;
 
   return (
     <motion.div
       ref={windowRef}
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.95, x: isMobile ? 0 : -20, y: isMobile ? 20 : -20 }}
       animate={{ 
         opacity: 1, 
         scale: 1, 
         zIndex: zIndex,
-        width: isMaximized ? 'calc(100% - 24px)' : size.width,
-        height: isMaximized ? 'calc(100% - 120px)' : size.height,
-        x: isMaximized ? 12 : position.x,
-        y: isMaximized ? 40 : position.y,
+        width: isMaximized ? (isMobile ? 'calc(100% - 16px)' : 'calc(100% - 24px)') : size.width,
+        height: isMaximized ? (isMobile ? 'calc(100% - 120px)' : 'calc(100% - 120px)') : size.height,
+        x: isMaximized ? (isMobile ? 8 : 12) : position.x,
+        y: isMaximized ? (isMobile ? 44 : 40) : position.y,
       }}
-      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-      drag={!isMaximized}
+      exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.1 } }}
+      drag={!isMaximized && !isMobile}
       dragControls={dragControls}
       dragListener={false}
       dragMomentum={false}
@@ -139,8 +151,8 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
       onPointerDown={() => focusApp(id)}
       transition={{ 
         type: 'spring', 
-        damping: 35, 
-        stiffness: 450,
+        damping: 30, 
+        stiffness: 550,
         x: { type: 'just' },
         y: { type: 'just' }
       }}
@@ -152,35 +164,37 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
     >
       {/* Title Bar */}
       <div 
-        className={`h-11 flex items-center justify-between px-5 border-b cursor-default select-none shrink-0 transition-colors duration-500 rounded-t-2xl ${
+        className={`${isMobile ? 'h-14' : 'h-11'} flex items-center justify-between px-5 border-b cursor-default select-none shrink-0 transition-colors duration-500 rounded-t-2xl ${
           resolvedTheme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
         }`}
-        onPointerDown={(e) => dragControls.start(e)}
-        onDoubleClick={() => maximizeApp(id)}
+        onPointerDown={(e) => !isMaximized && !isMobile && dragControls.start(e)}
+        onDoubleClick={() => !isMobile && maximizeApp(id)}
       >
         <div className="flex items-center gap-2">
           {/* Traffic Lights */}
-          <div className="flex gap-2.5 mr-5 group/controls">
+          <div className={`${isMobile ? 'gap-3.5 mr-6' : 'gap-2.5 mr-5'} flex group/controls`}>
             <button 
               onClick={(e) => { e.stopPropagation(); closeApp(id); }}
-              className="w-3.5 h-3.5 rounded-full bg-[#ff5f56] flex items-center justify-center group/btn transition-colors hover:bg-[#ff4b40]"
+              className={`${isMobile ? 'w-4.5 h-4.5' : 'w-3.5 h-3.5'} rounded-full bg-[#ff5f56] flex items-center justify-center group/btn transition-colors hover:bg-[#ff4b40]`}
             >
-              <X className="w-2.5 h-2.5 text-black/40 opacity-0 group-hover/controls:opacity-100" />
+              <X className={`${isMobile ? 'w-3 h-3 opacity-100' : 'w-2.5 h-2.5 opacity-0'} text-black/40 group-hover/controls:opacity-100`} />
             </button>
             <button 
               onClick={(e) => { e.stopPropagation(); minimizeApp(id); }}
-              className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e] flex items-center justify-center group/btn transition-colors hover:bg-[#ffad1a]"
+              className={`${isMobile ? 'w-4.5 h-4.5' : 'w-3.5 h-3.5'} rounded-full bg-[#ffbd2e] flex items-center justify-center group/btn transition-colors hover:bg-[#ffad1a]`}
             >
-              <Minus className="w-2.5 h-2.5 text-black/40 opacity-0 group-hover/controls:opacity-100" />
+              <Minus className={`${isMobile ? 'w-3 h-3 opacity-100' : 'w-2.5 h-2.5 opacity-0'} text-black/40 group-hover/controls:opacity-100`} />
             </button>
-            <button 
-              onClick={(e) => { e.stopPropagation(); maximizeApp(id); }}
-              className="w-3.5 h-3.5 rounded-full bg-[#27c93f] flex items-center justify-center group/btn transition-colors hover:bg-[#1eb332]"
-            >
-              <Maximize2 className="w-2.5 h-2.5 text-black/40 opacity-0 group-hover/controls:opacity-100" />
-            </button>
+            {!isMobile && (
+              <button 
+                onClick={(e) => { e.stopPropagation(); maximizeApp(id); }}
+                className="w-3.5 h-3.5 rounded-full bg-[#27c93f] flex items-center justify-center group/btn transition-colors hover:bg-[#1eb332]"
+              >
+                <Maximize2 className="w-2.5 h-2.5 text-black/40 opacity-0 group-hover/controls:opacity-100" />
+              </button>
+            )}
           </div>
-          <span className={`text-[11px] font-bold tracking-widest uppercase opacity-40`}>
+          <span className={`text-[10px] md:text-[11px] font-bold tracking-widest uppercase opacity-40`}>
             {title}
           </span>
         </div>
@@ -194,7 +208,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
       </div>
 
       {/* Resize Handles */}
-      {!isMaximized && (
+      {!isMaximized && !isMobile && (
         <>
           {/* Edges */}
           <div className="absolute top-0 left-0 right-0 h-2 cursor-ns-resize z-50" onPointerDown={(e) => startResize(e, 'n')} />

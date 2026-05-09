@@ -15,7 +15,7 @@ import FeaturedProjectIcons from './FeaturedProjectIcons';
 
 const DesktopEngineContent: React.FC = () => {
   const [isBooted, setIsBooted] = useState(false);
-  const { setContextMenu, closeContextMenu, resolvedTheme, motionEnabled, openApp } = useOS();
+  const { setContextMenu, closeContextMenu, resolvedTheme, motionEnabled, openApp, isMobile } = useOS();
   
   // Mouse parallax effect with smooth spring physics
   const springConfig = { damping: 25, stiffness: 150 };
@@ -140,10 +140,12 @@ const DesktopEngineContent: React.FC = () => {
         <Wallpaper />
       </motion.div>
 
-      {/* Personal Profile Card - Top Left */}
+      {/* Personal Profile Card - Responsive Position */}
       <motion.div 
         variants={itemVariants}
-        className="absolute top-12 left-4 z-[5]"
+        className={`absolute z-[5] transition-all duration-700 ${
+          isMobile ? 'top-10 left-4' : 'top-12 left-4'
+        }`}
       >
         <ProfileCard />
       </motion.div>

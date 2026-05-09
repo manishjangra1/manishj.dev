@@ -30,7 +30,7 @@ function DockItem({
   onClick: () => void 
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { windows, resolvedTheme } = useOS();
+  const { windows, resolvedTheme, isMobile } = useOS();
   const isOpen = windows[app.id].isOpen;
 
   const distance = useTransform(mouseX, (val) => {
@@ -38,8 +38,11 @@ function DockItem({
     return val - bounds.x - bounds.width / 2;
   });
 
-  const widthTransform = useTransform(distance, [-150, 0, 150], [40, 52, 40]);
-  const heightTransform = useTransform(distance, [-150, 0, 150], [40, 52, 40]);
+  const baseWidth = isMobile ? 36 : 40;
+  const activeWidth = isMobile ? 44 : 52;
+
+  const widthTransform = useTransform(distance, [-150, 0, 150], [baseWidth, activeWidth, baseWidth]);
+  const heightTransform = useTransform(distance, [-150, 0, 150], [baseWidth, activeWidth, baseWidth]);
 
   const width = useSpring(widthTransform, { mass: 0.1, stiffness: 400, damping: 25 });
   const height = useSpring(heightTransform, { mass: 0.1, stiffness: 400, damping: 25 });
@@ -78,13 +81,15 @@ function DockItem({
 
 const Dock: React.FC = () => {
   const mouseX = useMotionValue(Infinity);
-  const { openApp, resolvedTheme } = useOS();
+  const { openApp, resolvedTheme, isMobile } = useOS();
 
   return (
     <motion.div
-      onMouseMove={(e) => mouseX.set(e.pageX)}
-      onMouseLeave={() => mouseX.set(Infinity)}
-      className={`flex h-16 items-center gap-2.5 px-3 rounded-[1.5rem] border shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 ${
+      onMouseMove={(e) => !isMobile && mouseX.set(e.pageX)}
+      onMouseLeave={() => !isMobile && mouseX.set(Infinity)}
+      className={`flex items-center transition-all duration-500 border shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${
+        isMobile ? 'h-14 gap-1.5 px-2 rounded-2xl' : 'h-16 gap-2.5 px-3 rounded-[1.5rem]'
+      } ${
         resolvedTheme === 'dark' 
           ? 'bg-white/5 border-white/10 backdrop-blur-2xl' 
           : 'bg-white/70 border-black/10 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)]'
