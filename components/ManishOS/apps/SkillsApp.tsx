@@ -1,12 +1,28 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useOS } from '@/contexts/OSContext';
 import { useSkills } from '@/hooks/useData';
 
 const SkillsApp: React.FC = () => {
   const { resolvedTheme } = useOS();
   const { groupedSkills, isLoading, error } = useSkills();
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
 
   if (isLoading) {
     return (
@@ -25,16 +41,21 @@ const SkillsApp: React.FC = () => {
   }
 
   return (
-    <div className={`h-full p-8 overflow-y-auto custom-scrollbar transition-colors duration-500 ${
-      resolvedTheme === 'dark' ? 'bg-zinc-900/50 text-white' : 'bg-white/50 text-zinc-900'
-    }`}>
-      <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
+    <motion.div 
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className={`h-full p-8 overflow-y-auto custom-scrollbar transition-colors duration-500 ${
+        resolvedTheme === 'dark' ? 'bg-zinc-900/50 text-white' : 'bg-white/50 text-zinc-900'
+      }`}
+    >
+      <motion.h2 variants={itemVariants} className="text-2xl font-bold mb-8 flex items-center gap-3">
         Technical Skills
         <span className="h-px flex-1 bg-current opacity-10"></span>
-      </h2>
+      </motion.h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {Object.entries(groupedSkills).map(([category, skills]) => (
-          <div key={category} className="space-y-5">
+          <motion.div key={category} variants={itemVariants} className="space-y-5">
             <h3 className="text-xs font-bold uppercase tracking-[0.2em] opacity-40 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-blue-500"></span>
               {category}
@@ -64,7 +85,7 @@ const SkillsApp: React.FC = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
       {Object.keys(groupedSkills).length === 0 && (
@@ -72,7 +93,7 @@ const SkillsApp: React.FC = () => {
           No skills registered in the simulation core.
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
