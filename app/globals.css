@@ -55,10 +55,8 @@ html {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 html::-webkit-scrollbar {
@@ -73,9 +71,10 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 /* Hide scrollbar but keep scrolling functionality */

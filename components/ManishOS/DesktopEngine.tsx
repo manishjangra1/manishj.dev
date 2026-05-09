@@ -35,7 +35,7 @@ const DesktopEngineContent: React.FC = () => {
   }
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-black font-sans text-white select-none">
+    <div className="relative w-screen h-screen overflow-hidden bg-black font-sans text-white select-none touch-none">
       {/* Cinematic Wallpaper with Parallax */}
       <motion.div 
         style={{ x: translateX, y: translateY, scale: 1.1 }}
