@@ -37,9 +37,11 @@ export interface Experience {
   location?: string;
   startDate: string;
   endDate?: string;
-  isCurrent: boolean;
-  description: string;
-  technologies: string[];
+  isCurrent: boolean; // UI alias
+  current?: boolean; // DB field
+  description: string[];
+  technologies?: string[];
+  logo?: string;
   order: number;
 }
 
