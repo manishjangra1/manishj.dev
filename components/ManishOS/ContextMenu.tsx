@@ -29,6 +29,7 @@ const MenuItem = ({
   submenu?: React.ReactNode;
   danger?: boolean;
 }) => {
+  const { closeContextMenu } = useOS();
   const [showSubmenu, setShowSubmenu] = React.useState(false);
 
   return (
@@ -42,6 +43,7 @@ const MenuItem = ({
           if (!submenu && onClick) {
             e.stopPropagation();
             onClick();
+            closeContextMenu();
           }
         }}
         className={`w-full flex items-center justify-between px-3 py-1.5 text-[13px] rounded-md transition-colors ${
@@ -137,11 +139,6 @@ const ContextMenu: React.FC = () => {
           label="Open Projects" 
           icon={Briefcase} 
           onClick={() => openApp('projects')} 
-        />
-        <MenuItem 
-          label="Open Gallery" 
-          icon={ImageIcon} 
-          onClick={() => openApp('gallery')} 
         />
         <div className="h-px bg-white/10 my-1 mx-2" />
         <MenuItem 
