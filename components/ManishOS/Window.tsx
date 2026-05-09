@@ -126,7 +126,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
   return (
     <motion.div
       ref={windowRef}
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.9, x: isMobile ? 0 : -20, y: isMobile ? 20 : -20 }}
       animate={{ 
         opacity: 1, 
         scale: 1, 
@@ -167,7 +167,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
         className={`${isMobile ? 'h-14' : 'h-11'} flex items-center justify-between px-5 border-b cursor-default select-none shrink-0 transition-colors duration-500 rounded-t-2xl ${
           resolvedTheme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
         }`}
-        onPointerDown={(e) => !isMobile && dragControls.start(e)}
+        onPointerDown={(e) => !isMaximized && !isMobile && dragControls.start(e)}
         onDoubleClick={() => !isMobile && maximizeApp(id)}
       >
         <div className="flex items-center gap-2">
