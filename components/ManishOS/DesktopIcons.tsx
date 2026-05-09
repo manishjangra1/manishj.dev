@@ -7,7 +7,6 @@ import { useSettings } from '@/hooks/useData';
 
 const DesktopIcons: React.FC = () => {
   const { settings } = useSettings();
-  const constraintsRef = React.useRef(null);
 
   const icons = [
     {
@@ -25,7 +24,7 @@ const DesktopIcons: React.FC = () => {
       label: 'LinkedIn',
       href: settings?.socialLinks?.linkedin,
       color: 'text-blue-400',
-      top: 200,
+      top: 220,
       right: 24
     },
     {
@@ -34,7 +33,7 @@ const DesktopIcons: React.FC = () => {
       label: 'Twitter',
       href: settings?.socialLinks?.twitter,
       color: 'text-sky-400',
-      top: 300,
+      top: 340,
       right: 24
     },
     {
@@ -43,7 +42,7 @@ const DesktopIcons: React.FC = () => {
       label: 'Email',
       href: settings?.socialLinks?.email ? `mailto:${settings.socialLinks.email}` : undefined,
       color: 'text-rose-400',
-      top: 400,
+      top: 460,
       right: 24
     },
     {
@@ -52,7 +51,7 @@ const DesktopIcons: React.FC = () => {
       label: 'Resume',
       href: settings?.resumeUrl,
       color: 'text-emerald-400',
-      top: 500,
+      top: 580,
       right: 24
     }
   ];

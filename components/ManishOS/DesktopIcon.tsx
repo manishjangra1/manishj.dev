@@ -30,8 +30,8 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, onClick, href, c
     <motion.div
       drag
       dragMomentum={false}
-      whileHover={{ scale: 1.1, y: -5 }}
-      whileTap={{ scale: 0.9 }}
+      whileHover={{ scale: 1.05, y: -2 }}
+      whileTap={{ scale: 0.95 }}
       onDoubleClick={handleLaunch}
       className="absolute flex flex-col items-center gap-2 w-24 cursor-pointer group select-none pointer-events-auto"
       style={{ top, right }}
@@ -41,7 +41,7 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, onClick, href, c
           ? 'bg-white/10 border-white/20 group-hover:bg-white/20 group-hover:border-white/30' 
           : 'bg-white/60 border-black/5 group-hover:bg-white group-hover:shadow-2xl'
       }`}>
-        <div className={`w-11 h-11 transition-all duration-500 drop-shadow-lg group-hover:scale-110 flex items-center justify-center ${color}`}>
+        <div className={`w-11 h-11 transition-all duration-500 drop-shadow-lg group-hover:scale-105 flex items-center justify-center ${color}`}>
           {React.cloneElement(icon as React.ReactElement<any>, { size: 44, strokeWidth: 1.5 })}
         </div>
       </div>
