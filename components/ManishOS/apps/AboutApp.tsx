@@ -2,50 +2,114 @@
 
 import React from 'react';
 import { useOS } from '@/contexts/OSContext';
+import { useSettings } from '@/hooks/useData';
 
 const AboutApp: React.FC = () => {
   const { resolvedTheme } = useOS();
+  const { settings, isLoading, error } = useSettings();
+
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-full flex items-center justify-center text-red-500 p-4 text-center">
+        {error}
+      </div>
+    );
+  }
+
+  const profile = {
+    name: settings?.siteTitle || 'Manish Jangra',
+    role: settings?.heroText || 'Full Stack Developer',
+    bio: settings?.siteDescription || 'Spatial Computing Enthusiast',
+    aboutText: settings?.aboutText || 'I am a full-stack developer dedicated to bridging the gap between traditional web experiences and immersive spatial computing.',
+    aboutImage: settings?.aboutImage || '',
+  };
 
   return (
-    <div className={`h-full p-8 overflow-y-auto custom-scrollbar flex flex-col md:flex-row gap-8 transition-colors duration-500 ${
+    <div className={`h-full p-8 overflow-y-auto custom-scrollbar flex flex-col md:flex-row gap-12 transition-colors duration-500 ${
       resolvedTheme === 'dark' ? 'bg-zinc-900/50 text-white' : 'bg-white/50 text-zinc-900'
     }`}>
       <div className="w-full md:w-1/3 space-y-6">
-        <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-2xl relative overflow-hidden">
-          {/* Avatar Placeholder */}
-          <div className="absolute inset-0 flex items-center justify-center text-6xl">👨‍💻</div>
+        <div className="aspect-square rounded-3xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-2xl relative overflow-hidden group">
+          {profile.aboutImage ? (
+            <img 
+              src={profile.aboutImage} 
+              alt={profile.name} 
+              className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105 duration-700"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-8xl">👨‍💻</div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
         </div>
-        <div className="space-y-2">
-          <h2 className="text-2xl font-bold">Manish Jangra</h2>
-          <p className={resolvedTheme === 'dark' ? 'text-blue-400' : 'text-blue-600'}>Spatial Computing Enthusiast</p>
+        <div className="space-y-2 text-center md:text-left">
+          <h2 className="text-3xl font-bold tracking-tight">{profile.name}</h2>
+          <p className={`text-lg font-medium ${resolvedTheme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>
+            {profile.role}
+          </p>
+          <p className="text-sm opacity-60 italic">{profile.bio}</p>
         </div>
       </div>
       
-      <div className="flex-1 space-y-8">
+      <div className="flex-1 space-y-10">
         <section>
-          <h3 className={`text-sm font-semibold uppercase tracking-widest mb-4 ${
-            resolvedTheme === 'dark' ? 'text-gray-500' : 'text-zinc-400'
-          }`}>The Story</h3>
-          <p className={`leading-relaxed text-lg transition-colors ${
-            resolvedTheme === 'dark' ? 'text-gray-300' : 'text-zinc-600'
+          <h3 className={`text-xs font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-2 ${
+            resolvedTheme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'
           }`}>
-            I am a full-stack developer dedicated to bridging the gap between traditional web experiences and immersive spatial computing. My work focuses on creating cinematic, interaction-heavy digital environments that feel like a real operating system.
-          </p>
+            <span className="w-8 h-px bg-current opacity-20"></span>
+            The Story
+          </h3>
+          <div className={`leading-relaxed text-lg transition-colors space-y-4 ${
+            resolvedTheme === 'dark' ? 'text-zinc-300' : 'text-zinc-600'
+          }`}>
+            {profile.aboutText.split('\n').map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
         </section>
 
         <section>
-          <h3 className={`text-sm font-semibold uppercase tracking-widest mb-4 ${
-            resolvedTheme === 'dark' ? 'text-gray-500' : 'text-zinc-400'
-          }`}>Tech Stack</h3>
-          <div className="flex flex-wrap gap-2">
-            {['React', 'Next.js', 'Three.js', 'Framer Motion', 'Tailwind', 'MongoDB'].map(tech => (
-              <span key={tech} className={`px-3 py-1 rounded-full border text-sm transition-all ${
-                resolvedTheme === 'dark' 
-                  ? 'bg-white/5 border-white/10 text-gray-400' 
-                  : 'bg-black/5 border-black/5 text-zinc-600'
-              }`}>
-                {tech}
-              </span>
+          <h3 className={`text-xs font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-2 ${
+            resolvedTheme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'
+          }`}>
+            <span className="w-8 h-px bg-current opacity-20"></span>
+            Connect
+          </h3>
+          <div className="flex flex-wrap gap-4">
+            {settings?.resumeUrl && (
+              <a 
+                href={settings.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2 rounded-xl bg-blue-500 text-white text-sm font-bold tracking-tight hover:bg-blue-600 transition-all hover:scale-105 shadow-lg shadow-blue-500/25 flex items-center gap-2"
+              >
+                <span>📄</span>
+                Download Resume
+              </a>
+            )}
+            {settings?.socialLinks && Object.entries(settings.socialLinks).map(([platform, url]) => (
+              url && (
+                <a 
+                  key={platform}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`px-5 py-2 rounded-xl border text-sm font-medium capitalize transition-all ${
+                    resolvedTheme === 'dark' 
+                      ? 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-blue-500/50' 
+                      : 'bg-black/5 border-black/5 hover:bg-white hover:shadow-md hover:border-blue-500/30'
+                  }`}
+                >
+                  {platform}
+                </a>
+              )
             ))}
           </div>
         </section>

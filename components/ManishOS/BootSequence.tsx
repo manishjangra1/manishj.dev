@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useData } from '@/contexts/DataContext';
 
 interface BootSequenceProps {
   onComplete: () => void;
@@ -16,6 +17,7 @@ const BOOT_LOGS = [
   "Loading Glassmorphism Shaders...",
   "Mounting Projects District...",
   "Connecting to MongoDB CMS...",
+  "Syncing Simulation Data...",
   "Optimizing cinematic interactions...",
   "Ready.",
 ];
@@ -23,9 +25,18 @@ const BOOT_LOGS = [
 const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
   const [currentLog, setCurrentLog] = useState(0);
   const [showWelcome, setShowWelcome] = useState(false);
+  const { isLoading } = useData();
 
   useEffect(() => {
+    // If we are at the "Syncing Simulation Data..." log, wait for isLoading to be false
+    const isSyncingLog = BOOT_LOGS[currentLog] === "Syncing Simulation Data...";
+    
     if (currentLog < BOOT_LOGS.length) {
+      if (isSyncingLog && isLoading) {
+        // Stay on this log while loading
+        return;
+      }
+
       const timer = setTimeout(() => {
         setCurrentLog(prev => prev + 1);
       }, 400 + Math.random() * 600);
@@ -36,7 +47,7 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [currentLog]);
+  }, [currentLog, isLoading]);
 
   useEffect(() => {
     if (showWelcome) {
