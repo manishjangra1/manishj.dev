@@ -47,8 +47,16 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
       dragControls={dragControls}
       dragListener={false}
       dragMomentum={false}
+      dragElastic={0}
       onPointerDown={() => focusApp(id)}
-      className={`absolute flex flex-col pointer-events-auto rounded-xl border backdrop-blur-3xl shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-500 ${
+      transition={{ 
+        type: 'spring', 
+        damping: 30, 
+        stiffness: 400,
+        x: { type: 'just' },
+        y: { type: 'just' }
+      }}
+      className={`absolute flex flex-col pointer-events-auto rounded-xl border backdrop-blur-3xl shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden ${
         isMaximized ? 'rounded-none' : ''
       } ${
         resolvedTheme === 'dark' 

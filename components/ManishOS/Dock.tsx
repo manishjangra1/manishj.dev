@@ -42,15 +42,15 @@ function DockItem({
   const widthTransform = useTransform(distance, [-150, 0, 150], [48, 64, 48]);
   const heightTransform = useTransform(distance, [-150, 0, 150], [48, 64, 48]);
 
-  const width = useSpring(widthTransform, { mass: 0.1, stiffness: 150, damping: 12 });
-  const height = useSpring(heightTransform, { mass: 0.1, stiffness: 150, damping: 12 });
+  const width = useSpring(widthTransform, { mass: 0.1, stiffness: 400, damping: 25 });
+  const height = useSpring(heightTransform, { mass: 0.1, stiffness: 400, damping: 25 });
 
   return (
     <motion.div
       ref={ref}
       style={{ width, height }}
       onClick={onClick}
-      className={`relative flex items-center justify-center rounded-2xl cursor-pointer group shadow-lg transition-all overflow-visible`}
+      className={`relative flex items-center justify-center rounded-2xl cursor-pointer group shadow-lg overflow-visible`}
     >
       <div className={`absolute inset-0 rounded-2xl opacity-60 blur-md group-hover:blur-lg transition-all ${app.color}`} />
       <div className={`relative z-10 w-full h-full flex items-center justify-center rounded-2xl border transition-colors duration-500 ${
