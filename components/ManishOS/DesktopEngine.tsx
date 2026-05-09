@@ -48,6 +48,20 @@ const DesktopEngineContent: React.FC = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [translateX, translateY, motionEnabled]);
 
+  // Auto-open About window after 2 seconds (only once)
+  const { openApp } = useOS();
+  const [hasAutoOpened, setHasAutoOpened] = useState(false);
+  
+  useEffect(() => {
+    if (isBooted && !hasAutoOpened) {
+      const timer = setTimeout(() => {
+        openApp('about');
+        setHasAutoOpened(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isBooted, hasAutoOpened, openApp]);
+
   if (!isBooted) {
     return <BootSequence onComplete={() => setIsBooted(true)} />;
   }
