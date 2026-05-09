@@ -1,13 +1,4 @@
-import Navigation from '@/components/Navigation';
-import Hero from '@/components/sections/Hero';
-import About from '@/components/sections/About';
-import Skills from '@/components/sections/Skills';
-import Projects from '@/components/sections/Projects';
-import Experience from '@/components/sections/Experience';
-import Blog from '@/components/sections/Blog';
-import Contact from '@/components/sections/Contact';
-import Footer from '@/components/Footer';
-import ResumeDownloadButton from '@/components/ResumeDownloadButton';
+import DesktopEngine from '@/components/ManishOS/DesktopEngine';
 import connectDB from '@/lib/db';
 import Settings from '@/lib/models/Settings';
 import Project from '@/lib/models/Project';
@@ -60,36 +51,11 @@ async function getData() {
 }
 
 export default async function Home() {
-  const { settings, projects, skills, experiences, blogPosts } = await getData();
+  const data = await getData();
 
   return (
-    <main className="min-h-screen w-full">
-      <Navigation />
-      <Hero 
-        heroText={settings?.heroText} 
-        siteTitle={settings?.siteTitle}
-        heroButton1Text={settings?.heroButton1Text}
-        heroButton2Text={settings?.heroButton2Text}
-        resumeUrl={settings?.resumeUrl}
-      />
-      <About 
-        aboutText={settings?.aboutText}
-        aboutText2={settings?.aboutText2}
-        aboutTechStack={settings?.aboutTechStack}
-        aboutImage={settings?.aboutImage}
-        showAboutImage={settings?.showAboutImage}
-      />
-      <Skills skills={skills as any} />
-      <Projects projects={projects as any} showAll={false} />
-      <Experience experiences={experiences as any} />
-      <Blog posts={blogPosts as any} showAll={false} />
-      <Contact 
-        socialLinks={settings?.socialLinks}
-        contactHeading={settings?.contactHeading}
-        contactDescription={settings?.contactDescription}
-      />
-      <Footer socialLinks={settings?.socialLinks} />
-      <ResumeDownloadButton resumeUrl={settings?.resumeUrl} />
-      </main>
+    <main className="min-h-screen w-full bg-black overflow-hidden">
+      <DesktopEngine />
+    </main>
   );
 }
