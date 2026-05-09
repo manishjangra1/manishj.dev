@@ -69,7 +69,7 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({
       <div className={`relative w-16 h-16 rounded-[1.25rem] flex items-center justify-center border shadow-xl transition-all duration-500 backdrop-blur-xl overflow-hidden ${
         resolvedTheme === 'dark' 
           ? 'bg-white/10 border-white/20 group-hover:bg-white/20 group-hover:border-white/30 shadow-blue-500/10' 
-          : 'bg-white/60 border-black/5 group-hover:bg-white group-hover:shadow-2xl'
+          : 'bg-white/80 border-black/10 group-hover:bg-white group-hover:shadow-2xl'
       }`}>
         {/* Hover Glow Effect */}
         <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl ${
@@ -122,7 +122,7 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({
       <span className={`text-[11px] font-bold tracking-wide px-0.5 py-0.5 rounded-lg transition-all duration-500 text-center leading-tight line-clamp-1 ${
         resolvedTheme === 'dark' 
           ? 'text-white/80 bg-black/40 border border-white/5 group-hover:text-white group-hover:bg-black/60' 
-          : 'text-zinc-800 bg-white/60 shadow-sm border border-black/5 group-hover:bg-white'
+          : 'text-zinc-900 bg-white/80 shadow-md border border-black/10 group-hover:bg-white'
       }`}>
         {displayLabel}
       </span>

@@ -87,7 +87,7 @@ const Dock: React.FC = () => {
       className={`flex h-16 items-center gap-2.5 px-3 rounded-[1.5rem] border shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 ${
         resolvedTheme === 'dark' 
           ? 'bg-white/5 border-white/10 backdrop-blur-2xl' 
-          : 'bg-white/40 border-black/5 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]'
+          : 'bg-white/70 border-black/10 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)]'
       }`}
     >
       {APPS.map((app) => (

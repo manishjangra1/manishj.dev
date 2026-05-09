@@ -27,7 +27,7 @@ const ProfileCard: React.FC = () => {
         className={`w-[340px] p-7 rounded-[32px] border backdrop-blur-3xl shadow-2xl relative overflow-hidden group transition-colors duration-500 ${
           resolvedTheme === 'dark' 
             ? 'border-white/15 bg-white/10 text-white' 
-            : 'border-black/5 bg-white/40 text-zinc-900 shadow-xl'
+            : 'border-black/10 bg-white/90 text-zinc-900 shadow-xl'
         }`}
       >
         {/* Subtle Inner Glow */}
@@ -38,7 +38,7 @@ const ProfileCard: React.FC = () => {
         <div className="relative z-10 flex flex-col gap-6">
           {/* Avatar */}
           <div className={`w-16 h-16 rounded-full overflow-hidden border-2 shadow-lg transition-colors duration-500 ${
-            resolvedTheme === 'dark' ? 'border-white/20 bg-neutral-800' : 'border-black/10 bg-neutral-200'
+            resolvedTheme === 'dark' ? 'border-white/20 bg-neutral-800' : 'border-black/20 bg-neutral-200'
           }`}>
             {isLoading ? (
               <div className="w-full h-full animate-pulse bg-zinc-500/20" />
@@ -46,7 +46,9 @@ const ProfileCard: React.FC = () => {
               <img 
                 src={profile.aboutImage} 
                 alt={profile.name} 
-                className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700"
+                className={`object-cover w-full h-full transition-all duration-700 ${
+                  resolvedTheme === 'dark' ? 'grayscale opacity-80 hover:grayscale-0 hover:opacity-100' : 'grayscale-0 opacity-100'
+                }`}
               />
             )}
           </div>
@@ -54,12 +56,12 @@ const ProfileCard: React.FC = () => {
           {/* Info */}
           <div className="flex flex-col gap-2">
             <h2 className="text-[22px] font-bold tracking-tight leading-tight">
-              {isLoading ? 'Loading...' : profile.name} — <span className={`opacity-70 font-medium text-[20px] transition-opacity ${
-                resolvedTheme === 'dark' ? 'text-white' : 'text-zinc-600'
+              {isLoading ? 'Loading...' : profile.name} — <span className={`opacity-80 font-medium text-[20px] transition-opacity ${
+                resolvedTheme === 'dark' ? 'text-white' : 'text-zinc-700'
               }`}>{isLoading ? '...' : profile.role}</span>
             </h2>
             <p className={`leading-relaxed text-[15px] font-medium transition-colors ${
-              resolvedTheme === 'dark' ? 'text-white/60' : 'text-zinc-500'
+              resolvedTheme === 'dark' ? 'text-white/60' : 'text-zinc-600'
             }`}>
               {isLoading ? 'Syncing simulation...' : profile.bio}
             </p>
@@ -74,7 +76,7 @@ const ProfileCard: React.FC = () => {
               }`} />
             </div>
             <span className={`text-[15px] font-medium transition-colors ${
-              resolvedTheme === 'dark' ? 'text-white/80' : 'text-zinc-700'
+              resolvedTheme === 'dark' ? 'text-white/80' : 'text-zinc-800'
             }`}>Available for work</span>
           </div>
         </div>
