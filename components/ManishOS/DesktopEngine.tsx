@@ -72,7 +72,7 @@ const DesktopEngineContent: React.FC = () => {
       onContextMenu={handleContextMenu}
       onClick={closeContextMenu}
       className={`relative w-screen h-screen overflow-hidden font-sans text-white select-none touch-none transition-colors duration-1000 ${
-        resolvedTheme === 'dark' ? 'bg-[#050505]' : 'bg-[#f5f5f7]'
+        resolvedTheme === 'dark' ? 'bg-[#050505]' : 'bg-[#dddde2]'
       }`}
     >
       <MenuBar />
