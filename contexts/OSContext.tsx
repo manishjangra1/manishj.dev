@@ -1,8 +1,9 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
 
 export type AppId = 'projects' | 'about' | 'terminal' | 'gallery' | 'messages' | 'settings';
+export type ThemeMode = 'light' | 'dark' | 'auto';
 
 export interface WindowState {
   id: AppId;
@@ -13,14 +14,26 @@ export interface WindowState {
   zIndex: number;
 }
 
+interface ContextMenuState {
+  isOpen: boolean;
+  x: number;
+  y: number;
+}
+
 interface OSContextType {
   windows: Record<AppId, WindowState>;
   focusedAppId: AppId | null;
+  theme: ThemeMode;
+  resolvedTheme: 'light' | 'dark';
+  contextMenu: ContextMenuState;
   openApp: (id: AppId) => void;
   closeApp: (id: AppId) => void;
   minimizeApp: (id: AppId) => void;
   maximizeApp: (id: AppId) => void;
   focusApp: (id: AppId) => void;
+  setTheme: (theme: ThemeMode) => void;
+  setContextMenu: (state: ContextMenuState) => void;
+  closeContextMenu: () => void;
 }
 
 const OSContext = createContext<OSContextType | undefined>(undefined);
@@ -31,13 +44,38 @@ const INITIAL_WINDOWS: Record<AppId, WindowState> = {
   terminal: { id: 'terminal', title: 'Terminal', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
   gallery: { id: 'gallery', title: 'Gallery', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
   messages: { id: 'messages', title: 'Messages', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
-  settings: { id: 'settings', title: 'Settings', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
+  settings: { id: 'settings', title: 'System Settings', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
 };
 
 export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [windows, setWindows] = useState<Record<AppId, WindowState>>(INITIAL_WINDOWS);
   const [focusedAppId, setFocusedAppId] = useState<AppId | null>(null);
   const [maxZIndex, setMaxZIndex] = useState(10);
+  const [theme, setThemeState] = useState<ThemeMode>('dark');
+  const [contextMenu, setContextMenu] = useState<ContextMenuState>({ isOpen: false, x: 0, y: 0 });
+
+  // Resolve theme based on system preference if 'auto'
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('dark');
+
+  useEffect(() => {
+    if (theme === 'auto') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
+      setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    } else {
+      setResolvedTheme(theme);
+    }
+  }, [theme]);
+
+  const setTheme = useCallback((newTheme: ThemeMode) => {
+    setThemeState(newTheme);
+  }, []);
+
+  const closeContextMenu = useCallback(() => {
+    setContextMenu(prev => ({ ...prev, isOpen: false }));
+  }, []);
 
   const focusApp = useCallback((id: AppId) => {
     setFocusedAppId(id);
@@ -87,12 +125,32 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
   const value = useMemo(() => ({
     windows,
     focusedAppId,
+    theme,
+    resolvedTheme,
+    contextMenu,
     openApp,
     closeApp,
     minimizeApp,
     maximizeApp,
     focusApp,
-  }), [windows, focusedAppId, openApp, closeApp, minimizeApp, maximizeApp, focusApp]);
+    setTheme,
+    setContextMenu,
+    closeContextMenu,
+  }), [
+    windows, 
+    focusedAppId, 
+    theme, 
+    resolvedTheme, 
+    contextMenu, 
+    openApp, 
+    closeApp, 
+    minimizeApp, 
+    maximizeApp, 
+    focusApp, 
+    setTheme, 
+    setContextMenu, 
+    closeContextMenu
+  ]);
 
   return <OSContext.Provider value={value}>{children}</OSContext.Provider>;
 };

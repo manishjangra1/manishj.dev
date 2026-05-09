@@ -31,7 +31,7 @@ function DockItem({
   onClick: () => void 
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { windows } = useOS();
+  const { windows, resolvedTheme } = useOS();
   const isOpen = windows[app.id].isOpen;
 
   const distance = useTransform(mouseX, (val) => {
@@ -50,21 +50,27 @@ function DockItem({
       ref={ref}
       style={{ width, height }}
       onClick={onClick}
-      className={`relative flex items-center justify-center rounded-2xl cursor-pointer group shadow-lg transition-colors overflow-visible`}
+      className={`relative flex items-center justify-center rounded-2xl cursor-pointer group shadow-lg transition-all overflow-visible`}
     >
-      <div className={`absolute inset-0 rounded-2xl opacity-80 blur-md group-hover:blur-lg transition-all ${app.color}`} />
-      <div className={`relative z-10 w-full h-full flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md`}>
-        <app.icon className="w-1/2 h-1/2 text-white" />
+      <div className={`absolute inset-0 rounded-2xl opacity-60 blur-md group-hover:blur-lg transition-all ${app.color}`} />
+      <div className={`relative z-10 w-full h-full flex items-center justify-center rounded-2xl border transition-colors duration-500 ${
+        resolvedTheme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
+      } backdrop-blur-md`}>
+        <app.icon className={`w-1/2 h-1/2 transition-colors duration-500 ${resolvedTheme === 'dark' ? 'text-white' : 'text-zinc-900'}`} />
       </div>
 
       {/* Tooltip */}
-      <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1 bg-zinc-900/80 backdrop-blur-md rounded-lg text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10">
+      <div className={`absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1 backdrop-blur-md rounded-lg text-xs opacity-0 group-hover:opacity-100 transition-all pointer-events-none whitespace-nowrap border ${
+        resolvedTheme === 'dark' ? 'bg-zinc-900/80 border-white/10 text-white' : 'bg-white/80 border-black/10 text-zinc-900'
+      }`}>
         {app.label}
       </div>
 
       {/* Active Indicator */}
       {isOpen && (
-        <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white shadow-[0_0_5px_white]" />
+        <div className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full transition-colors duration-500 ${
+          resolvedTheme === 'dark' ? 'bg-white shadow-[0_0_5px_white]' : 'bg-black shadow-[0_0_5px_rgba(0,0,0,0.3)]'
+        }`} />
       )}
     </motion.div>
   );
@@ -72,13 +78,17 @@ function DockItem({
 
 const Dock: React.FC = () => {
   const mouseX = useMotionValue(Infinity);
-  const { openApp } = useOS();
+  const { openApp, resolvedTheme } = useOS();
 
   return (
     <motion.div
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
-      className="flex h-20 items-center gap-3 px-4 rounded-[2rem] bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+      className={`flex h-20 items-center gap-3 px-4 rounded-[2rem] border shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 ${
+        resolvedTheme === 'dark' 
+          ? 'bg-white/5 border-white/10 backdrop-blur-2xl' 
+          : 'bg-white/40 border-black/5 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]'
+      }`}
     >
       {APPS.map((app) => (
         <DockItem 

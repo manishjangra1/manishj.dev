@@ -13,7 +13,7 @@ interface WindowProps {
 }
 
 const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
-  const { closeApp, minimizeApp, maximizeApp, focusApp, windows } = useOS();
+  const { closeApp, minimizeApp, maximizeApp, focusApp, windows, resolvedTheme } = useOS();
   const windowRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
   
@@ -48,11 +48,19 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
       dragListener={false}
       dragMomentum={false}
       onPointerDown={() => focusApp(id)}
-      className={`absolute flex flex-col pointer-events-auto rounded-xl border border-white/20 bg-zinc-900/40 backdrop-blur-3xl shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden transition-shadow duration-300 ${isMaximized ? 'rounded-none' : ''}`}
+      className={`absolute flex flex-col pointer-events-auto rounded-xl border backdrop-blur-3xl shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-500 ${
+        isMaximized ? 'rounded-none' : ''
+      } ${
+        resolvedTheme === 'dark' 
+          ? 'bg-zinc-900/40 border-white/20 text-white' 
+          : 'bg-white/40 border-black/10 text-zinc-900'
+      }`}
     >
       {/* Title Bar */}
       <div 
-        className="h-10 flex items-center justify-between px-4 bg-white/5 border-b border-white/10 cursor-default select-none shrink-0"
+        className={`h-10 flex items-center justify-between px-4 border-b cursor-default select-none shrink-0 transition-colors duration-500 ${
+          resolvedTheme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
+        }`}
         onPointerDown={(e) => dragControls.start(e)}
       >
         <div className="flex items-center gap-2">
@@ -77,12 +85,16 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
               <Maximize2 className="w-2 h-2 text-green-900 opacity-0 group-hover/controls:opacity-100" />
             </button>
           </div>
-          <span className="text-xs font-medium text-white/60 tracking-wide uppercase">{title}</span>
+          <span className={`text-xs font-medium tracking-wide uppercase opacity-60`}>
+            {title}
+          </span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-auto bg-black/20 custom-scrollbar">
+      <div className={`flex-1 overflow-auto custom-scrollbar transition-colors duration-500 ${
+        resolvedTheme === 'dark' ? 'bg-black/20' : 'bg-white/20'
+      }`}>
         {children}
       </div>
 
