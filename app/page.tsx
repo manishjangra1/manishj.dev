@@ -5,6 +5,7 @@ import Project from '@/lib/models/Project';
 import Skill from '@/lib/models/Skill';
 import ExperienceModel from '@/lib/models/Experience';
 import BlogPost from '@/lib/models/BlogPost';
+import { DataProvider } from '@/contexts/DataContext';
 
 // Enable on-demand revalidation for this page
 export const dynamic = 'force-dynamic';
@@ -35,7 +36,7 @@ async function getData() {
       settings: serialize(settings) || {},
       projects: serialize(projects) || [],
       skills: serialize(skills) || [],
-      experiences: serialize(experiences) || [],
+      experience: serialize(experiences) || [],
       blogPosts: serialize(blogPosts) || [],
     };
   } catch (error) {
@@ -44,7 +45,7 @@ async function getData() {
       settings: {},
       projects: [],
       skills: [],
-      experiences: [],
+      experience: [],
       blogPosts: [],
     };
   }
@@ -55,7 +56,9 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen w-full bg-black overflow-hidden">
-      <DesktopEngine />
+      <DataProvider initialData={data}>
+        <DesktopEngine />
+      </DataProvider>
     </main>
   );
 }

@@ -9,9 +9,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <OSProvider>
-        <DataProvider>
-          <SessionProvider>{children}</SessionProvider>
-        </DataProvider>
+        <SessionProvider>{children}</SessionProvider>
       </OSProvider>
     </ThemeProvider>
   );

@@ -86,17 +86,30 @@ interface DataContextType {
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [experience, setExperience] = useState<Experience[]>([]);
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [settings, setSettings] = useState<Settings | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export const DataProvider: React.FC<{ 
+  children: React.ReactNode;
+  initialData?: {
+    projects: Project[];
+    skills: Skill[];
+    experience: Experience[];
+    blogPosts: BlogPost[];
+    settings: Settings | null;
+  };
+}> = ({ children, initialData }) => {
+  const [projects, setProjects] = useState<Project[]>(initialData?.projects || []);
+  const [skills, setSkills] = useState<Skill[]>(initialData?.skills || []);
+  const [experience, setExperience] = useState<Experience[]>(initialData?.experience || []);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(initialData?.blogPosts || []);
+  const [settings, setSettings] = useState<Settings | null>(initialData?.settings || null);
+  const [isLoading, setIsLoading] = useState(!initialData);
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
-    setIsLoading(true);
+    // Only show loading spinner if we don't have any data yet
+    if (projects.length === 0) {
+      setIsLoading(true);
+    }
+    
     setError(null);
     try {
       const [projectsRes, skillsRes, experienceRes, blogRes, settingsRes] = await Promise.all([

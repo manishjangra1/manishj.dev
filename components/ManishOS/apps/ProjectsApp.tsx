@@ -14,7 +14,7 @@ const ProjectsApp: React.FC = () => {
     openApp('projectDetail');
   };
 
-  if (isLoading) {
+  if (isLoading && projects.length === 0) {
     return (
       <div className="h-full flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
