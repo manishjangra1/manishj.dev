@@ -22,7 +22,7 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, onClick, href, c
     if (onClick) {
       onClick();
     } else if (href) {
-      window.location.href = href;
+      window.open(href, '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -32,7 +32,7 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, onClick, href, c
       dragMomentum={false}
       whileHover={{ scale: 1.1, y: -5 }}
       whileTap={{ scale: 0.9 }}
-      onTap={handleLaunch}
+      onDoubleClick={handleLaunch}
       className="absolute flex flex-col items-center gap-2 w-24 cursor-pointer group select-none pointer-events-auto"
       style={{ top, right }}
     >

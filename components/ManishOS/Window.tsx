@@ -120,7 +120,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
         scale: 1, 
         zIndex: zIndex,
         width: isMaximized ? 'calc(100% - 24px)' : size.width,
-        height: isMaximized ? 'calc(100% - 52px)' : size.height,
+        height: isMaximized ? 'calc(100% - 120px)' : size.height,
         x: isMaximized ? 12 : position.x,
         y: isMaximized ? 40 : position.y,
       }}
@@ -156,6 +156,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
           resolvedTheme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
         }`}
         onPointerDown={(e) => dragControls.start(e)}
+        onDoubleClick={() => maximizeApp(id)}
       >
         <div className="flex items-center gap-2">
           {/* Traffic Lights */}
