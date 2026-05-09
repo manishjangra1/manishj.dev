@@ -16,7 +16,6 @@ const APPS: { id: AppId; icon: any; label: string; color: string }[] = [
   { id: 'projects', icon: Briefcase, label: 'Projects', color: 'text-orange-400' },
   { id: 'about', icon: User, label: 'About', color: 'text-blue-400' },
   { id: 'terminal', icon: TerminalIcon, label: 'Terminal', color: 'text-emerald-400' },
-  { id: 'gallery', icon: ImageIcon, label: 'Gallery', color: 'text-purple-400' },
   { id: 'messages', icon: MessageSquare, label: 'Messages', color: 'text-pink-400' },
   { id: 'settings', icon: SettingsIcon, label: 'Settings', color: 'text-zinc-400' },
 ];

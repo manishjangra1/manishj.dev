@@ -19,7 +19,6 @@ const MenuBar: React.FC = () => {
     { label: 'Skills', id: 'skills' },
     { label: 'Projects', id: 'projects' },
     { label: 'Experience', id: 'experience' },
-    { label: 'Blog', id: 'blog' },
     { label: 'Contact', id: 'messages' }, // Using messages for contact
   ];
 
