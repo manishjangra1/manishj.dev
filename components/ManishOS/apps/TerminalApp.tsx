@@ -2,11 +2,18 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useOS } from '@/contexts/OSContext';
+import { useProjects, useSkills, useExperience, useSettings } from '@/hooks/useData';
 
 const TerminalApp: React.FC = () => {
   const { resolvedTheme } = useOS();
+  const { projects, isLoading: projectsLoading } = useProjects();
+  const { groupedSkills, isLoading: skillsLoading } = useSkills();
+  const { experience, isLoading: expLoading } = useExperience();
+
+  const { settings, isLoading: settingsLoading } = useSettings();
+
   const [history, setHistory] = useState<string[]>([
-    "Welcome to MOS Terminal v1.0.4",
+    "Welcome to MOS Terminal",
     "Type 'help' to see available commands.",
     ""
   ]);
@@ -28,24 +35,71 @@ const TerminalApp: React.FC = () => {
 
     switch (cmd) {
       case 'help':
-        newHistory.push("Available commands: help, about, projects, skills, contact, clear");
+        newHistory.push("Available commands: help, about, projects, skills, experience, contact, clear");
         break;
+      
       case 'about':
-        newHistory.push("Manish Jangra: A Fullstack Developer & Spatial Designer building the future of the web.");
+        if (settingsLoading) {
+          newHistory.push("Reading system configuration...");
+        } else if (!settings) {
+          newHistory.push("Manish Jangra: Full Stack Developer & Spatial Designer.");
+        } else {
+          newHistory.push(`[System Profile]: ${settings.siteTitle || 'Manish Jangra'}`);
+          newHistory.push(`[Status]: ${settings.heroText || 'Available for work'}`);
+          newHistory.push(`[Description]: ${settings.aboutText || 'Building the future of the web.'}`);
+        }
         break;
+      
       case 'projects':
-        newHistory.push("Loading projects database... [Found 12 projects]");
-        newHistory.push("- Simulation Engine");
-        newHistory.push("- Quantum CRM");
-        newHistory.push("- Neural Portfolio");
+        if (projectsLoading) {
+          newHistory.push("Synchronizing with project database...");
+        } else if (projects.length === 0) {
+          newHistory.push("No projects found in the simulation catalog.");
+        } else {
+          newHistory.push(`Retrieved ${projects.length} projects:`);
+          projects.forEach(p => {
+            newHistory.push(`- ${p.title}: ${p.description.substring(0, 50)}...`);
+          });
+        }
         break;
+      
       case 'skills':
-        newHistory.push("Core Tech: React, Next.js, TypeScript, Three.js, Node.js, MongoDB.");
+        if (skillsLoading) {
+          newHistory.push("Scanning technical core...");
+        } else {
+          newHistory.push("Technical Stack Breakdown:");
+          Object.entries(groupedSkills).forEach(([category, skills]) => {
+            const skillNames = skills.map(s => s.name).join(", ");
+            newHistory.push(`[${category}]: ${skillNames}`);
+          });
+        }
         break;
+
+      case 'experience':
+        if (expLoading) {
+          newHistory.push("Accessing professional timeline...");
+        } else if (experience.length === 0) {
+          newHistory.push("No experience records found.");
+        } else {
+          newHistory.push("Professional History:");
+          experience.forEach(job => {
+            newHistory.push(`- ${job.role} @ ${job.company} (${job.location || 'Remote'})`);
+          });
+        }
+        break;
+      
+      case 'contact':
+        newHistory.push("Contact Details:");
+        newHistory.push("- Email: manish@manishj.dev");
+        newHistory.push("- GitHub: github.com/manishjangra1");
+        newHistory.push("- LinkedIn: linkedin.com/in/manishjangra1");
+        break;
+
       case 'clear':
         setHistory([]);
         setInput("");
         return;
+      
       default:
         newHistory.push(`Command not found: ${cmd}. Type 'help' for assistance.`);
     }
