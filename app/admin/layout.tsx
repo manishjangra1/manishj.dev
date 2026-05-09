@@ -8,6 +8,7 @@ import { LayoutDashboard, FolderKanban, Code, Briefcase, FileText, Settings, Mes
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/contexts/ThemeContext';
 import { usePathname } from 'next/navigation';
+import { DataProvider } from '@/contexts/DataContext';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
@@ -262,13 +263,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Main Content */}
       <main className="lg:ml-64 pt-20 lg:pt-8 p-4 sm:p-6 lg:p-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {children}
-        </motion.div>
+        <DataProvider>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {children}
+          </motion.div>
+        </DataProvider>
       </main>
     </div>
   );
