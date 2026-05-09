@@ -58,7 +58,7 @@ const DesktopEngineContent: React.FC = () => {
       const timer = setTimeout(() => {
         openApp('about');
         setHasAutoOpened(true);
-      }, 2000);
+      }, 4000);
       return () => clearTimeout(timer);
     }
   }, [isBooted, hasAutoOpened, openApp]);

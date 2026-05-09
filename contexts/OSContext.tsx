@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
 
-export type AppId = 'projects' | 'about' | 'terminal' | 'gallery' | 'messages' | 'settings' | 'skills' | 'experience' | 'blog';
+export type AppId = 'projects' | 'about' | 'terminal' | 'gallery' | 'messages' | 'settings' | 'skills' | 'experience' | 'blog' | 'projectDetail';
 export type ThemeMode = 'light' | 'dark' | 'auto';
 
 export interface WindowState {
@@ -40,6 +40,8 @@ interface OSContextType {
   setMotionEnabled: (val: boolean) => void;
   setSoundsEnabled: (val: boolean) => void;
   setDensity: (val: 'compact' | 'standard') => void;
+  selectedProjectId: string | null;
+  setSelectedProjectId: (id: string | null) => void;
 }
 
 const OSContext = createContext<OSContextType | undefined>(undefined);
@@ -54,6 +56,7 @@ const INITIAL_WINDOWS: Record<AppId, WindowState> = {
   skills: { id: 'skills', title: 'Skills', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
   experience: { id: 'experience', title: 'Experience', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
   blog: { id: 'blog', title: 'Blog', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
+  projectDetail: { id: 'projectDetail', title: 'Project Details', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
 };
 
 export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -65,6 +68,7 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
   const [motionEnabled, setMotionEnabled] = useState(true);
   const [soundsEnabled, setSoundsEnabled] = useState(false);
   const [density, setDensity] = useState<'compact' | 'standard'>('compact');
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
   // Resolve theme based on system preference if 'auto'
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('dark');
@@ -154,6 +158,8 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     setMotionEnabled,
     setSoundsEnabled,
     setDensity,
+    selectedProjectId,
+    setSelectedProjectId,
   }), [
     windows, 
     focusedAppId, 
@@ -171,6 +177,7 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     motionEnabled,
     soundsEnabled,
     density,
+    selectedProjectId,
   ]);
 
   return <OSContext.Provider value={value}>{children}</OSContext.Provider>;

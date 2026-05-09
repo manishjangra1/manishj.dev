@@ -15,6 +15,7 @@ import SystemSettingsApp from './apps/SystemSettingsApp';
 import SkillsApp from './apps/SkillsApp';
 import ExperienceApp from './apps/ExperienceApp';
 import BlogApp from './apps/BlogApp';
+import ProjectDetailApp from './apps/ProjectDetailApp';
 
 const APP_COMPONENTS: Record<string, React.FC> = {
   projects: ProjectsApp,
@@ -26,6 +27,7 @@ const APP_COMPONENTS: Record<string, React.FC> = {
   skills: SkillsApp,
   experience: ExperienceApp,
   blog: BlogApp,
+  projectDetail: ProjectDetailApp,
 };
 
 const WindowManager: React.FC = () => {

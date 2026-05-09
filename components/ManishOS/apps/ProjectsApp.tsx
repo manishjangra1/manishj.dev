@@ -6,8 +6,13 @@ import { useOS } from '@/contexts/OSContext';
 import { useProjects } from '@/hooks/useData';
 
 const ProjectsApp: React.FC = () => {
-  const { resolvedTheme } = useOS();
+  const { resolvedTheme, openApp, setSelectedProjectId } = useOS();
   const { projects, isLoading, error } = useProjects();
+
+  const handleProjectClick = (projectId: string) => {
+    setSelectedProjectId(projectId);
+    openApp('projectDetail');
+  };
 
   if (isLoading) {
     return (
@@ -33,11 +38,13 @@ const ProjectsApp: React.FC = () => {
         {projects.map((project) => (
           <motion.div
             key={project._id}
-            whileHover={{ y: -10 }}
-            className={`aspect-video rounded-xl border overflow-hidden group relative transition-all ${
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handleProjectClick(project._id)}
+            className={`aspect-video rounded-xl border overflow-hidden group relative transition-all cursor-pointer ${
               resolvedTheme === 'dark' 
-                ? 'bg-white/5 border-white/10' 
-                : 'bg-black/5 border-black/5 shadow-sm'
+                ? 'bg-white/5 border-white/10 hover:border-blue-500/30' 
+                : 'bg-black/5 border-black/5 shadow-sm hover:border-blue-500/30'
             }`}
           >
             {project.image ? (
@@ -67,16 +74,6 @@ const ProjectsApp: React.FC = () => {
                 ))}
               </div>
             </div>
-            {(project.link || project.github) && (
-              <a 
-                href={project.link || project.github} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
-              >
-                <span className="text-white text-xs">→</span>
-              </a>
-            )}
           </motion.div>
         ))}
       </div>

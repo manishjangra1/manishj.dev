@@ -7,11 +7,18 @@ export interface Project {
   title: string;
   description: string;
   image?: string;
-  tags: string[];
-  link?: string;
-  github?: string;
+  tags?: string[]; // Legacy field
+  link?: string; // Legacy field
+  github?: string; // Legacy field
+  technologies: string[];
+  liveUrl?: string;
+  githubUrl?: string;
   featured: boolean;
+  isCurrentlyWorking: boolean;
   order: number;
+  content?: string;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 export interface Skill {
