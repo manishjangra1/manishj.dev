@@ -89,6 +89,23 @@ const ContextMenu: React.FC = () => {
 
   if (!contextMenu.isOpen) return null;
 
+  const MENU_WIDTH = 224; // w-56 = 14rem = 224px
+  const MENU_HEIGHT = 300; // Approximate height
+
+  let adjustedX = contextMenu.x;
+  let adjustedY = contextMenu.y;
+
+  // Horizontal check
+  if (typeof window !== 'undefined') {
+    if (adjustedX + MENU_WIDTH > window.innerWidth) {
+      adjustedX -= MENU_WIDTH;
+    }
+    // Vertical check
+    if (adjustedY + MENU_HEIGHT > window.innerHeight) {
+      adjustedY -= MENU_HEIGHT;
+    }
+  }
+
   const themes: { mode: ThemeMode; label: string; icon: any }[] = [
     { mode: 'light', label: 'Light', icon: Sun },
     { mode: 'dark', label: 'Dark', icon: Moon },
@@ -101,7 +118,7 @@ const ContextMenu: React.FC = () => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      style={{ top: contextMenu.y, left: contextMenu.x }}
+      style={{ top: adjustedY, left: adjustedX }}
       className="fixed w-56 bg-zinc-900/80 backdrop-blur-2xl border border-white/10 rounded-lg p-1 shadow-2xl z-[100] select-none"
     >
       <div className="space-y-0.5">

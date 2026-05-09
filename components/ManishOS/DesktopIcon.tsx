@@ -10,48 +10,50 @@ interface DesktopIconProps {
   onClick?: () => void;
   href?: string;
   color?: string;
+  top?: number;
+  right?: number;
+  dragConstraints?: React.RefObject<any>;
 }
 
-const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, onClick, href, color = 'bg-white/10' }) => {
+const DesktopIcon: React.FC<DesktopIconProps> = ({ icon, label, onClick, href, color = 'text-white', top, right }) => {
   const { resolvedTheme } = useOS();
 
-  const content = (
+  const handleLaunch = () => {
+    if (onClick) {
+      onClick();
+    } else if (href) {
+      window.location.href = href;
+    }
+  };
+
+  return (
     <motion.div
       drag
       dragMomentum={false}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="flex flex-col items-center gap-1.5 w-20 cursor-pointer group select-none"
-      onClick={onClick}
+      whileHover={{ scale: 1.1, y: -5 }}
+      whileTap={{ scale: 0.9 }}
+      onTap={handleLaunch}
+      className="absolute flex flex-col items-center gap-2 w-24 cursor-pointer group select-none pointer-events-auto"
+      style={{ top, right }}
     >
-      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border backdrop-blur-md transition-all duration-300 ${
+      <div className={`w-16 h-16 rounded-[1.25rem] flex items-center justify-center border shadow-xl transition-all duration-500 backdrop-blur-xl ${
         resolvedTheme === 'dark' 
-          ? 'bg-white/5 border-white/10 group-hover:bg-white/15' 
-          : 'bg-black/5 border-black/5 group-hover:bg-white group-hover:shadow-lg'
+          ? 'bg-white/10 border-white/20 group-hover:bg-white/20 group-hover:border-white/30' 
+          : 'bg-white/60 border-black/5 group-hover:bg-white group-hover:shadow-2xl'
       }`}>
-        <div className={`w-8 h-8 transition-transform duration-500 group-hover:scale-110 ${color}`}>
-          {icon}
+        <div className={`w-11 h-11 transition-all duration-500 drop-shadow-lg group-hover:scale-110 flex items-center justify-center ${color}`}>
+          {React.cloneElement(icon as React.ReactElement<any>, { size: 44, strokeWidth: 1.5 })}
         </div>
       </div>
-      <span className={`text-[10px] font-bold tracking-tight px-2 py-0.5 rounded-md transition-colors ${
+      <span className={`text-[11px] font-bold tracking-wide px-2 py-0.5 rounded-lg transition-all duration-500 ${
         resolvedTheme === 'dark' 
-          ? 'text-white/70 bg-black/20' 
-          : 'text-zinc-700 bg-white/40 shadow-sm'
+          ? 'text-white/80 bg-black/40 border border-white/5 group-hover:text-white group-hover:bg-black/60' 
+          : 'text-zinc-800 bg-white/60 shadow-sm border border-black/5 group-hover:bg-white'
       }`}>
         {label}
       </span>
     </motion.div>
   );
-
-  if (href) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="no-underline">
-        {content}
-      </a>
-    );
-  }
-
-  return content;
 };
 
 export default DesktopIcon;
