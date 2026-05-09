@@ -126,7 +126,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
   return (
     <motion.div
       ref={windowRef}
-      initial={{ opacity: 0, scale: 0.9, x: isMobile ? 0 : -20, y: isMobile ? 20 : -20 }}
+      initial={{ opacity: 0, scale: 0.95, x: isMobile ? 0 : -20, y: isMobile ? 20 : -20 }}
       animate={{ 
         opacity: 1, 
         scale: 1, 
@@ -136,7 +136,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
         x: isMaximized ? (isMobile ? 8 : 12) : position.x,
         y: isMaximized ? (isMobile ? 44 : 40) : position.y,
       }}
-      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+      exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.1 } }}
       drag={!isMaximized && !isMobile}
       dragControls={dragControls}
       dragListener={false}
@@ -151,8 +151,8 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
       onPointerDown={() => focusApp(id)}
       transition={{ 
         type: 'spring', 
-        damping: 35, 
-        stiffness: 450,
+        damping: 30, 
+        stiffness: 550,
         x: { type: 'just' },
         y: { type: 'just' }
       }}

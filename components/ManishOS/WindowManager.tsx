@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { useOS } from '@/contexts/OSContext';
 import Window from './Window';
