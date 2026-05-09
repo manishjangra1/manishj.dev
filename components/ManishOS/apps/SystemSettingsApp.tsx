@@ -55,7 +55,12 @@ const AppearanceCard = ({
 );
 
 const SystemSettingsApp: React.FC = () => {
-  const { theme, setTheme, resolvedTheme } = useOS();
+  const { 
+    theme, setTheme, resolvedTheme, 
+    motionEnabled, setMotionEnabled,
+    soundsEnabled, setSoundsEnabled,
+    density, setDensity 
+  } = useOS();
 
   return (
     <div className={`h-full p-8 overflow-y-auto custom-scrollbar transition-colors duration-500 ${
@@ -106,9 +111,17 @@ const SystemSettingsApp: React.FC = () => {
                   <div className="text-xs opacity-50">Enable spatial depth effects</div>
                 </div>
               </div>
-              <div className="w-12 h-6 bg-blue-500 rounded-full relative p-1 cursor-pointer">
-                <div className="absolute right-1 w-4 h-4 bg-white rounded-full shadow-sm" />
-              </div>
+              <button 
+                onClick={() => setMotionEnabled(!motionEnabled)}
+                className={`w-12 h-6 rounded-full relative p-1 transition-colors duration-300 ${
+                  motionEnabled ? 'bg-blue-500' : (resolvedTheme === 'dark' ? 'bg-zinc-700' : 'bg-zinc-300')
+                }`}
+              >
+                <motion.div 
+                  animate={{ x: motionEnabled ? 24 : 0 }}
+                  className="w-4 h-4 bg-white rounded-full shadow-sm" 
+                />
+              </button>
             </div>
 
             <div className="flex items-center justify-between">
@@ -119,11 +132,17 @@ const SystemSettingsApp: React.FC = () => {
                   <div className="text-xs opacity-50">Audio feedback for interactions</div>
                 </div>
               </div>
-              <div className={`w-12 h-6 rounded-full relative p-1 cursor-pointer transition-colors ${
-                resolvedTheme === 'dark' ? 'bg-zinc-700' : 'bg-zinc-300'
-              }`}>
-                <div className="absolute left-1 w-4 h-4 bg-white rounded-full shadow-sm" />
-              </div>
+              <button 
+                onClick={() => setSoundsEnabled(!soundsEnabled)}
+                className={`w-12 h-6 rounded-full relative p-1 transition-colors duration-300 ${
+                  soundsEnabled ? 'bg-blue-500' : (resolvedTheme === 'dark' ? 'bg-zinc-700' : 'bg-zinc-300')
+                }`}
+              >
+                <motion.div 
+                  animate={{ x: soundsEnabled ? 24 : 0 }}
+                  className="w-4 h-4 bg-white rounded-full shadow-sm" 
+                />
+              </button>
             </div>
 
             <div className="flex items-center justify-between">
@@ -137,10 +156,26 @@ const SystemSettingsApp: React.FC = () => {
               <div className={`flex gap-1 p-1 rounded-lg transition-colors ${
                 resolvedTheme === 'dark' ? 'bg-white/5' : 'bg-black/5'
               }`}>
-                <button className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
-                  resolvedTheme === 'dark' ? 'bg-white/10' : 'bg-black/10'
-                }`}>Compact</button>
-                <button className="px-3 py-1 rounded-md text-xs font-medium opacity-50 hover:opacity-100">Standard</button>
+                <button 
+                  onClick={() => setDensity('compact')}
+                  className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
+                    density === 'compact' 
+                      ? (resolvedTheme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/10 text-black')
+                      : 'opacity-50 hover:opacity-100'
+                  }`}
+                >
+                  Compact
+                </button>
+                <button 
+                  onClick={() => setDensity('standard')}
+                  className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
+                    density === 'standard'
+                      ? (resolvedTheme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/10 text-black')
+                      : 'opacity-50 hover:opacity-100'
+                  }`}
+                >
+                  Standard
+                </button>
               </div>
             </div>
           </div>

@@ -13,7 +13,7 @@ import MenuBar from './MenuBar';
 
 const DesktopEngineContent: React.FC = () => {
   const [isBooted, setIsBooted] = useState(false);
-  const { setContextMenu, closeContextMenu, resolvedTheme } = useOS();
+  const { setContextMenu, closeContextMenu, resolvedTheme, motionEnabled } = useOS();
   
   // Mouse parallax effect with smooth spring physics
   const springConfig = { damping: 25, stiffness: 150 };
@@ -31,6 +31,7 @@ const DesktopEngineContent: React.FC = () => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
+      if (!motionEnabled) return;
       const { clientX, clientY } = e;
       const moveX = (clientX - window.innerWidth / 2) / 150;
       const moveY = (clientY - window.innerHeight / 2) / 150;
@@ -38,9 +39,14 @@ const DesktopEngineContent: React.FC = () => {
       translateY.set(-moveY);
     };
 
+    if (!motionEnabled) {
+      translateX.set(0);
+      translateY.set(0);
+    }
+
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [translateX, translateY]);
+  }, [translateX, translateY, motionEnabled]);
 
   if (!isBooted) {
     return <BootSequence onComplete={() => setIsBooted(true)} />;

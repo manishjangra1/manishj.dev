@@ -34,6 +34,12 @@ interface OSContextType {
   setTheme: (theme: ThemeMode) => void;
   setContextMenu: (state: ContextMenuState) => void;
   closeContextMenu: () => void;
+  motionEnabled: boolean;
+  soundsEnabled: boolean;
+  density: 'compact' | 'standard';
+  setMotionEnabled: (val: boolean) => void;
+  setSoundsEnabled: (val: boolean) => void;
+  setDensity: (val: 'compact' | 'standard') => void;
 }
 
 const OSContext = createContext<OSContextType | undefined>(undefined);
@@ -56,6 +62,9 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
   const [maxZIndex, setMaxZIndex] = useState(10);
   const [theme, setThemeState] = useState<ThemeMode>('dark');
   const [contextMenu, setContextMenu] = useState<ContextMenuState>({ isOpen: false, x: 0, y: 0 });
+  const [motionEnabled, setMotionEnabled] = useState(true);
+  const [soundsEnabled, setSoundsEnabled] = useState(false);
+  const [density, setDensity] = useState<'compact' | 'standard'>('compact');
 
   // Resolve theme based on system preference if 'auto'
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('dark');
@@ -139,6 +148,12 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     setTheme,
     setContextMenu,
     closeContextMenu,
+    motionEnabled,
+    soundsEnabled,
+    density,
+    setMotionEnabled,
+    setSoundsEnabled,
+    setDensity,
   }), [
     windows, 
     focusedAppId, 
@@ -152,7 +167,10 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     focusApp, 
     setTheme, 
     setContextMenu, 
-    closeContextMenu
+    closeContextMenu,
+    motionEnabled,
+    soundsEnabled,
+    density,
   ]);
 
   return <OSContext.Provider value={value}>{children}</OSContext.Provider>;
