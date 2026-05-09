@@ -16,12 +16,12 @@ const AnimatedGradient = () => {
   });
 
   return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+    <Float speed={0.4} rotationIntensity={0.1} floatIntensity={0.1}>
       <Sphere ref={meshRef} args={[2, 100, 100]} scale={1.5}>
         <MeshDistortMaterial
           color="#3b82f6"
-          speed={3}
-          distort={0.4}
+          speed={0.3}
+          distort={0.2}
           radius={1}
           metalness={0.5}
           roughness={0.2}

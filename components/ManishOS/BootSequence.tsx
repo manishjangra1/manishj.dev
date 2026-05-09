@@ -28,7 +28,7 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
     if (currentLog < BOOT_LOGS.length) {
       const timer = setTimeout(() => {
         setCurrentLog(prev => prev + 1);
-      }, 150 + Math.random() * 300);
+      }, 400 + Math.random() * 600);
       return () => clearTimeout(timer);
     } else {
       const timer = setTimeout(() => {

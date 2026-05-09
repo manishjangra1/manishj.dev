@@ -39,8 +39,8 @@ function DockItem({
     return val - bounds.x - bounds.width / 2;
   });
 
-  const widthTransform = useTransform(distance, [-150, 0, 150], [48, 80, 48]);
-  const heightTransform = useTransform(distance, [-150, 0, 150], [48, 80, 48]);
+  const widthTransform = useTransform(distance, [-150, 0, 150], [48, 64, 48]);
+  const heightTransform = useTransform(distance, [-150, 0, 150], [48, 64, 48]);
 
   const width = useSpring(widthTransform, { mass: 0.1, stiffness: 150, damping: 12 });
   const height = useSpring(heightTransform, { mass: 0.1, stiffness: 150, damping: 12 });
@@ -78,7 +78,7 @@ const Dock: React.FC = () => {
     <motion.div
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
-      className="flex items-end gap-3 px-4 py-3 rounded-[2rem] bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+      className="flex h-20 items-center gap-3 px-4 rounded-[2rem] bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
     >
       {APPS.map((app) => (
         <DockItem 

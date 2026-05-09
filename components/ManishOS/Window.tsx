@@ -3,7 +3,7 @@
 import React, { useRef } from 'react';
 import { motion, useDragControls } from 'framer-motion';
 import { useOS, AppId } from '@/contexts/OSContext';
-import { X, Minus, Square, Maximize2 } from 'lucide-react';
+import { X, Minus, Maximize2 } from 'lucide-react';
 
 interface WindowProps {
   id: AppId;
@@ -26,7 +26,6 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
       animate={{ 
         opacity: 1, 
         scale: 1, 
-        y: 0,
         zIndex: zIndex,
         ...(isMaximized ? {
           width: '100%',
@@ -40,6 +39,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
           height: '70%',
           top: '10%',
           left: '10%',
+          y: 0,
         })
       }}
       exit={{ opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.2 } }}

@@ -17,7 +17,7 @@ const AIAssistant: React.FC = () => {
           ]
         }}
         transition={{
-          duration: 8,
+          duration: 30,
           repeat: Infinity,
           ease: "linear"
         }}

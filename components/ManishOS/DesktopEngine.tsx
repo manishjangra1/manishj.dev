@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { OSProvider, useOS } from '@/contexts/OSContext';
+import { motion, useSpring } from 'framer-motion';
+import { useOS } from '@/contexts/OSContext';
 import WindowManager from './WindowManager';
 import Dock from './Dock';
 import Wallpaper from './Wallpaper';
@@ -11,21 +11,17 @@ import BootSequence from './BootSequence';
 
 const DesktopEngineContent: React.FC = () => {
   const [isBooted, setIsBooted] = useState(false);
-  const { windows } = useOS();
-
-  // Mouse parallax effect
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
+  
+  // Mouse parallax effect with smooth spring physics
   const springConfig = { damping: 25, stiffness: 150 };
-  const translateX = useSpring(useMotionValue(0), springConfig);
-  const translateY = useSpring(useMotionValue(0), springConfig);
+  const translateX = useSpring(0, springConfig);
+  const translateY = useSpring(0, springConfig);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-      const moveX = (clientX - window.innerWidth / 2) / 50;
-      const moveY = (clientY - window.innerHeight / 2) / 50;
+      const moveX = (clientX - window.innerWidth / 2) / 150;
+      const moveY = (clientY - window.innerHeight / 2) / 150;
       translateX.set(-moveX);
       translateY.set(-moveY);
     };
