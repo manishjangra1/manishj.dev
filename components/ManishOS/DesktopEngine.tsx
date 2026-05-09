@@ -10,6 +10,7 @@ import BootSequence from './BootSequence';
 import ContextMenu from './ContextMenu';
 import ProfileCard from './ProfileCard';
 import MenuBar from './MenuBar';
+import DesktopIcons from './DesktopIcons';
 
 const DesktopEngineContent: React.FC = () => {
   const [isBooted, setIsBooted] = useState(false);
@@ -88,6 +89,9 @@ const DesktopEngineContent: React.FC = () => {
       <div className="absolute top-12 left-4 z-[5]">
         <ProfileCard />
       </div>
+
+      {/* Draggable Desktop Icons - Top Right */}
+      <DesktopIcons />
 
       {/* Main Desktop Area */}
       <main className="relative z-10 w-full h-full flex flex-col items-center justify-center overflow-hidden">
