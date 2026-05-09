@@ -9,6 +9,7 @@ import Wallpaper from './Wallpaper';
 import AIAssistant from './AIAssistant';
 import BootSequence from './BootSequence';
 import ContextMenu from './ContextMenu';
+import ProfileCard from './ProfileCard';
 
 const DesktopEngineContent: React.FC = () => {
   const [isBooted, setIsBooted] = useState(false);
@@ -60,6 +61,11 @@ const DesktopEngineContent: React.FC = () => {
       >
         <Wallpaper />
       </motion.div>
+
+      {/* Personal Profile Card - Top Left */}
+      <div className="absolute top-10 left-10 z-[5]">
+        <ProfileCard />
+      </div>
 
       {/* Main Desktop Area */}
       <main className="relative z-10 w-full h-full flex flex-col items-center justify-center p-4 overflow-hidden">

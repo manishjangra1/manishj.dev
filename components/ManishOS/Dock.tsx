@@ -50,9 +50,8 @@ function DockItem({
       ref={ref}
       style={{ width, height }}
       onClick={onClick}
-      className={`relative flex items-center justify-center rounded-2xl cursor-pointer group shadow-lg overflow-visible`}
+      className={`relative flex items-center justify-center rounded-2xl cursor-pointer group overflow-visible`}
     >
-      <div className={`absolute inset-0 rounded-2xl opacity-60 blur-md group-hover:blur-lg transition-all ${app.color}`} />
       <div className={`relative z-10 w-full h-full flex items-center justify-center rounded-2xl border transition-colors duration-500 ${
         resolvedTheme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
       } backdrop-blur-md`}>
@@ -69,7 +68,7 @@ function DockItem({
       {/* Active Indicator */}
       {isOpen && (
         <div className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full transition-colors duration-500 ${
-          resolvedTheme === 'dark' ? 'bg-white shadow-[0_0_5px_white]' : 'bg-black shadow-[0_0_5px_rgba(0,0,0,0.3)]'
+          resolvedTheme === 'dark' ? 'bg-white' : 'bg-black'
         }`} />
       )}
     </motion.div>

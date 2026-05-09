@@ -64,7 +64,7 @@ const TerminalApp: React.FC = () => {
         <span className="text-blue-400 shrink-0">manish@os:~$</span>
         <input 
           autoFocus
-          className="bg-transparent border-none outline-none flex-1 text-white"
+          className="bg-transparent border-none outline-none flex-1 text-white font-mono"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
