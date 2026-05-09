@@ -41,8 +41,23 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({
 
   const displayLabel = label.length > 10 ? `${label.slice(0, 5)}...` : label;
 
+  const iconVariants = {
+    hidden: { opacity: 0, scale: 0.5, y: 20 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      y: 0,
+      transition: { 
+        type: "spring", 
+        stiffness: 260, 
+        damping: 20,
+      }
+    }
+  };
+
   return (
     <motion.div
+      variants={iconVariants}
       drag
       dragMomentum={false}
       whileHover={{ scale: 1.05, y: -2 }}
@@ -56,16 +71,21 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({
           ? 'bg-white/10 border-white/20 group-hover:bg-white/20 group-hover:border-white/30 shadow-blue-500/10' 
           : 'bg-white/60 border-black/5 group-hover:bg-white group-hover:shadow-2xl'
       }`}>
+        {/* Hover Glow Effect */}
+        <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl ${
+          resolvedTheme === 'dark' ? 'bg-blue-400/20' : 'bg-white'
+        }`} />
+
         {/* Project Image or Icon */}
         {image ? (
           <img 
             src={image} 
             alt={label}
             draggable="false"
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none relative z-10"
           />
         ) : (
-          <div className={`w-11 h-11 transition-all duration-500 drop-shadow-lg group-hover:scale-105 flex items-center justify-center ${color}`}>
+          <div className={`w-11 h-11 transition-all duration-500 drop-shadow-lg group-hover:scale-105 flex items-center justify-center relative z-10 ${color}`}>
             {icon && React.cloneElement(icon as React.ReactElement<any>, { size: 44, strokeWidth: 1.5 })}
           </div>
         )}
