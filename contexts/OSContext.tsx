@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
 
-export type AppId = 'projects' | 'about' | 'terminal' | 'gallery' | 'messages' | 'settings';
+export type AppId = 'projects' | 'about' | 'terminal' | 'gallery' | 'messages' | 'settings' | 'skills' | 'experience' | 'blog';
 export type ThemeMode = 'light' | 'dark' | 'auto';
 
 export interface WindowState {
@@ -45,6 +45,9 @@ const INITIAL_WINDOWS: Record<AppId, WindowState> = {
   gallery: { id: 'gallery', title: 'Gallery', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
   messages: { id: 'messages', title: 'Messages', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
   settings: { id: 'settings', title: 'System Settings', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
+  skills: { id: 'skills', title: 'Skills', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
+  experience: { id: 'experience', title: 'Experience', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
+  blog: { id: 'blog', title: 'Blog', isOpen: false, isMinimized: false, isMaximized: false, zIndex: 0 },
 };
 
 export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

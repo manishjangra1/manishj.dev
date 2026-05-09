@@ -10,6 +10,7 @@ import AIAssistant from './AIAssistant';
 import BootSequence from './BootSequence';
 import ContextMenu from './ContextMenu';
 import ProfileCard from './ProfileCard';
+import MenuBar from './MenuBar';
 
 const DesktopEngineContent: React.FC = () => {
   const [isBooted, setIsBooted] = useState(false);
@@ -54,6 +55,8 @@ const DesktopEngineContent: React.FC = () => {
         resolvedTheme === 'dark' ? 'bg-[#050505]' : 'bg-[#f5f5f7]'
       }`}
     >
+      <MenuBar />
+
       {/* Cinematic Wallpaper with Parallax */}
       <motion.div 
         style={{ x: translateX, y: translateY, scale: 1.1 }}

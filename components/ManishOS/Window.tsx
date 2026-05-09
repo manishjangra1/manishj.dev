@@ -120,9 +120,9 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
         scale: 1, 
         zIndex: zIndex,
         width: isMaximized ? 'calc(100% - 24px)' : size.width,
-        height: isMaximized ? 'calc(100% - 24px)' : size.height,
+        height: isMaximized ? 'calc(100% - 52px)' : size.height,
         x: isMaximized ? 12 : position.x,
-        y: isMaximized ? 12 : position.y,
+        y: isMaximized ? 40 : position.y,
       }}
       exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
       drag={!isMaximized}

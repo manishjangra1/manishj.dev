@@ -12,6 +12,9 @@ import TerminalApp from './apps/TerminalApp';
 import GalleryApp from './apps/GalleryApp';
 import MessagesApp from './apps/MessagesApp';
 import SystemSettingsApp from './apps/SystemSettingsApp';
+import SkillsApp from './apps/SkillsApp';
+import ExperienceApp from './apps/ExperienceApp';
+import BlogApp from './apps/BlogApp';
 
 const APP_COMPONENTS: Record<string, React.FC> = {
   projects: ProjectsApp,
@@ -20,6 +23,9 @@ const APP_COMPONENTS: Record<string, React.FC> = {
   gallery: GalleryApp,
   messages: MessagesApp,
   settings: SystemSettingsApp,
+  skills: SkillsApp,
+  experience: ExperienceApp,
+  blog: BlogApp,
 };
 
 const WindowManager: React.FC = () => {
