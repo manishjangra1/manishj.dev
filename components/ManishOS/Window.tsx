@@ -119,10 +119,10 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
         opacity: 1, 
         scale: 1, 
         zIndex: zIndex,
-        width: isMaximized ? '100vw' : size.width,
-        height: isMaximized ? '100vh' : size.height,
-        x: isMaximized ? 0 : position.x,
-        y: isMaximized ? 0 : position.y,
+        width: isMaximized ? 'calc(100% - 24px)' : size.width,
+        height: isMaximized ? 'calc(100% - 24px)' : size.height,
+        x: isMaximized ? 12 : position.x,
+        y: isMaximized ? 12 : position.y,
       }}
       exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
       drag={!isMaximized}
@@ -144,9 +144,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
         x: { type: 'just' },
         y: { type: 'just' }
       }}
-      className={`absolute flex flex-col pointer-events-auto border backdrop-blur-3xl shadow-[0_40px_100px_rgba(0,0,0,0.5)] overflow-visible ${
-        isMaximized ? 'rounded-none' : 'rounded-2xl'
-      } ${
+      className={`absolute flex flex-col pointer-events-auto border backdrop-blur-3xl shadow-[0_40px_100px_rgba(0,0,0,0.5)] overflow-hidden rounded-2xl ${
         resolvedTheme === 'dark' 
           ? 'bg-zinc-900/40 border-white/20 text-white' 
           : 'bg-white/40 border-black/10 text-zinc-900'
@@ -155,8 +153,6 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
       {/* Title Bar */}
       <div 
         className={`h-11 flex items-center justify-between px-5 border-b cursor-default select-none shrink-0 transition-colors duration-500 rounded-t-2xl ${
-          isMaximized ? 'rounded-none' : ''
-        } ${
           resolvedTheme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
         }`}
         onPointerDown={(e) => dragControls.start(e)}
@@ -190,7 +186,7 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
       </div>
 
       {/* Content */}
-      <div className={`flex-1 overflow-auto custom-scrollbar transition-colors duration-500 ${
+      <div className={`flex-1 overflow-auto custom-scrollbar transition-colors duration-500 rounded-b-2xl ${
         resolvedTheme === 'dark' ? 'bg-black/20' : 'bg-white/20'
       }`}>
         {children}
@@ -200,16 +196,16 @@ const Window: React.FC<WindowProps> = ({ id, title, zIndex, children }) => {
       {!isMaximized && (
         <>
           {/* Edges */}
-          <div className="absolute top-0 left-4 right-4 h-1 cursor-ns-resize z-50" onPointerDown={(e) => startResize(e, 'n')} />
-          <div className="absolute bottom-0 left-4 right-4 h-1 cursor-ns-resize z-50" onPointerDown={(e) => startResize(e, 's')} />
-          <div className="absolute top-4 bottom-4 left-0 w-1 cursor-ew-resize z-50" onPointerDown={(e) => startResize(e, 'w')} />
-          <div className="absolute top-4 bottom-4 right-0 w-1 cursor-ew-resize z-50" onPointerDown={(e) => startResize(e, 'e')} />
+          <div className="absolute top-0 left-0 right-0 h-2 cursor-ns-resize z-50" onPointerDown={(e) => startResize(e, 'n')} />
+          <div className="absolute bottom-0 left-0 right-0 h-2 cursor-ns-resize z-50" onPointerDown={(e) => startResize(e, 's')} />
+          <div className="absolute top-0 bottom-0 left-0 w-2 cursor-ew-resize z-50" onPointerDown={(e) => startResize(e, 'w')} />
+          <div className="absolute top-0 bottom-0 right-0 w-2 cursor-ew-resize z-50" onPointerDown={(e) => startResize(e, 'e')} />
           
           {/* Corners */}
-          <div className="absolute top-0 left-0 w-4 h-4 cursor-nwse-resize z-50" onPointerDown={(e) => startResize(e, 'nw')} />
-          <div className="absolute top-0 right-0 w-4 h-4 cursor-nesw-resize z-50" onPointerDown={(e) => startResize(e, 'ne')} />
-          <div className="absolute bottom-0 left-0 w-4 h-4 cursor-nesw-resize z-50" onPointerDown={(e) => startResize(e, 'sw')} />
-          <div className="absolute bottom-0 right-0 w-4 h-4 cursor-nwse-resize z-50" onPointerDown={(e) => startResize(e, 'se')} />
+          <div className="absolute top-0 left-0 w-5 h-5 cursor-nwse-resize z-50" onPointerDown={(e) => startResize(e, 'nw')} />
+          <div className="absolute top-0 right-0 w-5 h-5 cursor-nesw-resize z-50" onPointerDown={(e) => startResize(e, 'ne')} />
+          <div className="absolute bottom-0 left-0 w-5 h-5 cursor-nesw-resize z-50" onPointerDown={(e) => startResize(e, 'sw')} />
+          <div className="absolute bottom-0 right-0 w-5 h-5 cursor-nwse-resize z-50" onPointerDown={(e) => startResize(e, 'se')} />
         </>
       )}
     </motion.div>

@@ -68,7 +68,7 @@ const DesktopEngineContent: React.FC = () => {
       </div>
 
       {/* Main Desktop Area */}
-      <main className="relative z-10 w-full h-full flex flex-col items-center justify-center p-4 overflow-hidden">
+      <main className="relative z-10 w-full h-full flex flex-col items-center justify-center overflow-hidden">
         <WindowManager />
       </main>
 

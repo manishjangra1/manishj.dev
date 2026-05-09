@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useOS } from '@/contexts/OSContext';
 
 const TerminalApp: React.FC = () => {
+  const { resolvedTheme } = useOS();
   const [history, setHistory] = useState<string[]>([
-    "Welcome to Manish OS Terminal v1.0.4",
+    "Welcome to MOS Terminal v1.0.4",
     "Type 'help' to see available commands.",
     ""
   ]);
@@ -54,17 +55,38 @@ const TerminalApp: React.FC = () => {
   };
 
   return (
-    <div className="h-full bg-zinc-950/90 p-4 font-mono text-sm text-emerald-500 overflow-hidden flex flex-col">
+    <div 
+      className={`h-full p-4 overflow-hidden flex flex-col transition-colors duration-500 antialiased ${
+        resolvedTheme === 'dark' 
+          ? 'bg-zinc-950/90 text-emerald-500' 
+          : 'bg-zinc-50/90 text-emerald-700'
+      }`}
+      style={{ 
+        fontFamily: 'SF Mono, ui-monospace, Menlo, Monaco, Consolas, monospace',
+        fontSize: '13px',
+        lineHeight: '1.5'
+      }}
+    >
       <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-1 mb-2 custom-scrollbar">
         {history.map((line, i) => (
           <div key={i} className="whitespace-pre-wrap">{line}</div>
         ))}
       </div>
       <form onSubmit={handleCommand} className="flex items-center gap-2">
-        <span className="text-blue-400 shrink-0">manish@os:~$</span>
+        <span className={`shrink-0 transition-colors font-medium ${
+          resolvedTheme === 'dark' ? 'text-blue-400' : 'text-blue-600'
+        }`}>manish@os:~$</span>
         <input 
           autoFocus
-          className="bg-transparent border-none outline-none flex-1 text-white font-mono"
+          spellCheck={false}
+          autoComplete="off"
+          className={`bg-transparent border-none outline-none flex-1 transition-colors ${
+            resolvedTheme === 'dark' ? 'text-white' : 'text-zinc-900'
+          }`}
+          style={{ 
+            fontFamily: 'SF Mono, ui-monospace, Menlo, Monaco, Consolas, monospace',
+            fontSize: '13px'
+          }}
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />

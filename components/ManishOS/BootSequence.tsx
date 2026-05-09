@@ -8,7 +8,7 @@ interface BootSequenceProps {
 }
 
 const BOOT_LOGS = [
-  "Initializing MANISH OS v1.0.4...",
+  "Initializing MOS v1.0.4...",
   "Loading kernel modules...",
   "Scanning hardware architecture...",
   "Memory check: 64GB Virtual RAM OK",
@@ -81,7 +81,7 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
             >
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-6 shadow-[0_0_40px_rgba(59,130,246,0.5)]" />
               <h1 className="text-2xl font-sans font-light tracking-widest text-white uppercase">
-                Manish OS
+                MOS
               </h1>
               <p className="text-gray-500 mt-2 font-sans tracking-wide">Spatial Portfolio Simulation</p>
             </motion.div>

@@ -22,23 +22,29 @@ const AppearanceCard = ({
   active, 
   onClick, 
   icon: Icon, 
-  label 
+  label,
+  resolvedTheme
 }: { 
   mode: ThemeMode; 
   active: boolean; 
   onClick: () => void;
   icon: any;
   label: string;
+  resolvedTheme: string;
 }) => (
   <button
     onClick={onClick}
     className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
       active 
         ? 'bg-blue-500/20 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]' 
-        : 'bg-white/5 border-white/10 hover:bg-white/10'
+        : resolvedTheme === 'dark' ? 'bg-white/5 border-white/10 hover:bg-white/10' : 'bg-black/5 border-black/5 hover:bg-black/10'
     }`}
   >
-    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${active ? 'bg-blue-500 text-white' : 'bg-white/10 text-white/60'}`}>
+    <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+      active 
+        ? 'bg-blue-500 text-white' 
+        : resolvedTheme === 'dark' ? 'bg-white/10 text-white/60' : 'bg-black/10 text-black/40'
+    }`}>
       <Icon className="w-5 h-5" />
     </div>
     <div className="text-left">
@@ -49,10 +55,12 @@ const AppearanceCard = ({
 );
 
 const SystemSettingsApp: React.FC = () => {
-  const { theme, setTheme } = useOS();
+  const { theme, setTheme, resolvedTheme } = useOS();
 
   return (
-    <div className="h-full p-8 overflow-y-auto custom-scrollbar space-y-12">
+    <div className={`h-full p-8 overflow-y-auto custom-scrollbar transition-colors duration-500 ${
+      resolvedTheme === 'dark' ? 'text-white' : 'text-zinc-900'
+    }`}>
       <div className="max-w-2xl mx-auto space-y-12">
         <section className="text-center space-y-2">
           <h1 className="text-3xl font-bold">System Settings</h1>
@@ -66,6 +74,7 @@ const SystemSettingsApp: React.FC = () => {
             icon={Sun} 
             active={theme === 'light'} 
             onClick={() => setTheme('light')} 
+            resolvedTheme={resolvedTheme}
           />
           <AppearanceCard 
             mode="dark" 
@@ -73,6 +82,7 @@ const SystemSettingsApp: React.FC = () => {
             icon={Moon} 
             active={theme === 'dark'} 
             onClick={() => setTheme('dark')} 
+            resolvedTheme={resolvedTheme}
           />
           <AppearanceCard 
             mode="auto" 
@@ -80,11 +90,14 @@ const SystemSettingsApp: React.FC = () => {
             icon={Monitor} 
             active={theme === 'auto'} 
             onClick={() => setTheme('auto')} 
+            resolvedTheme={resolvedTheme}
           />
         </SettingsSection>
 
         <SettingsSection title="Experience" icon={Zap}>
-          <div className="col-span-full bg-white/5 border border-white/10 rounded-xl p-6 space-y-6">
+          <div className={`col-span-full border rounded-xl p-6 space-y-6 transition-colors ${
+            resolvedTheme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/5'
+          }`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <MonitorPlay className="w-5 h-5 opacity-50" />
@@ -106,7 +119,9 @@ const SystemSettingsApp: React.FC = () => {
                   <div className="text-xs opacity-50">Audio feedback for interactions</div>
                 </div>
               </div>
-              <div className="w-12 h-6 bg-zinc-700 rounded-full relative p-1 cursor-pointer">
+              <div className={`w-12 h-6 rounded-full relative p-1 cursor-pointer transition-colors ${
+                resolvedTheme === 'dark' ? 'bg-zinc-700' : 'bg-zinc-300'
+              }`}>
                 <div className="absolute left-1 w-4 h-4 bg-white rounded-full shadow-sm" />
               </div>
             </div>
@@ -119,8 +134,12 @@ const SystemSettingsApp: React.FC = () => {
                   <div className="text-xs opacity-50">Compact vs. Spacious layout</div>
                 </div>
               </div>
-              <div className="flex gap-1 p-1 bg-white/5 rounded-lg">
-                <button className="px-3 py-1 rounded-md bg-white/10 text-xs font-medium">Compact</button>
+              <div className={`flex gap-1 p-1 rounded-lg transition-colors ${
+                resolvedTheme === 'dark' ? 'bg-white/5' : 'bg-black/5'
+              }`}>
+                <button className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+                  resolvedTheme === 'dark' ? 'bg-white/10' : 'bg-black/10'
+                }`}>Compact</button>
                 <button className="px-3 py-1 rounded-md text-xs font-medium opacity-50 hover:opacity-100">Standard</button>
               </div>
             </div>
@@ -128,7 +147,7 @@ const SystemSettingsApp: React.FC = () => {
         </SettingsSection>
 
         <footer className="pt-12 text-center text-[10px] opacity-30 uppercase tracking-[0.2em]">
-          Manish OS v1.0.4 • Build 24A5264n
+          MOS v1.0.4 • Build 24A5264n
         </footer>
       </div>
     </div>
