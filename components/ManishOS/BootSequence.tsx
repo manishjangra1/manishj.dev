@@ -91,23 +91,12 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
               exit={{ opacity: 0, scale: 1.1 }}
               className="flex flex-col items-center"
             >
-              {/* <div className="w-20 h-20 rounded-2xl overflow-hidden mb-6 shadow-[0_0_40px_rgba(59,130,246,0.5)] border border-white/10">
-                <img 
-                  src={profileImage} 
-                  alt="Profile" 
-                  className="w-full h-full object-cover"
-                />
-              </div> */}
-              {/* <h1 className="text-2xl font-sans font-light tracking-widest text-white uppercase">
-                MOS
-              </h1> */}
-              {/* <p className="text-gray-500 mt-2 font-sans tracking-wide">Spatial Portfolio Simulation</p> */}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-12 text-gray-700 text-xs tracking-widest uppercase">
+      <div className="absolute bottom-12 left-0 right-0 text-center text-gray-700 text-[10px] md:text-xs tracking-widest uppercase px-4 pointer-events-none">
         © 2026 Manish Jangra — All Rights Reserved
       </div>
     </div>

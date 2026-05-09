@@ -42,6 +42,7 @@ interface OSContextType {
   setDensity: (val: 'compact' | 'standard') => void;
   selectedProjectId: string | null;
   setSelectedProjectId: (id: string | null) => void;
+  isMobile: boolean;
 }
 
 const OSContext = createContext<OSContextType | undefined>(undefined);
@@ -84,6 +85,17 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
       setResolvedTheme(theme);
     }
   }, [theme]);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const setTheme = useCallback((newTheme: ThemeMode) => {
     setThemeState(newTheme);
@@ -160,6 +172,7 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     setDensity,
     selectedProjectId,
     setSelectedProjectId,
+    isMobile,
   }), [
     windows, 
     focusedAppId, 
@@ -178,6 +191,7 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     soundsEnabled,
     density,
     selectedProjectId,
+    isMobile,
   ]);
 
   return <OSContext.Provider value={value}>{children}</OSContext.Provider>;

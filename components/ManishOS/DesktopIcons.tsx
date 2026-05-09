@@ -4,9 +4,11 @@ import React from 'react';
 import DesktopIcon from './DesktopIcon';
 import { Github, Linkedin, Twitter, Mail, FileText } from 'lucide-react';
 import { useSettings } from '@/hooks/useData';
+import { useOS } from '@/contexts/OSContext';
 
 const DesktopIcons: React.FC = () => {
   const { settings } = useSettings();
+  const { isMobile } = useOS();
 
   const icons = [
     {
@@ -15,8 +17,6 @@ const DesktopIcons: React.FC = () => {
       label: 'GitHub',
       href: settings?.socialLinks?.github,
       color: 'text-zinc-400',
-      top: 100,
-      right: 24
     },
     {
       id: 'linkedin',
@@ -24,8 +24,6 @@ const DesktopIcons: React.FC = () => {
       label: 'LinkedIn',
       href: settings?.socialLinks?.linkedin,
       color: 'text-blue-400',
-      top: 220,
-      right: 24
     },
     {
       id: 'twitter',
@@ -33,8 +31,6 @@ const DesktopIcons: React.FC = () => {
       label: 'Twitter',
       href: settings?.socialLinks?.twitter,
       color: 'text-sky-400',
-      top: 340,
-      right: 24
     },
     {
       id: 'email',
@@ -42,8 +38,6 @@ const DesktopIcons: React.FC = () => {
       label: 'Email',
       href: settings?.socialLinks?.email ? `mailto:${settings.socialLinks.email}` : undefined,
       color: 'text-rose-400',
-      top: 460,
-      right: 24
     },
     {
       id: 'resume',
@@ -51,26 +45,35 @@ const DesktopIcons: React.FC = () => {
       label: 'Resume',
       href: settings?.resumeUrl,
       color: 'text-emerald-400',
-      top: 580,
-      right: 24
     }
   ];
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none">
-      {icons.map((icon) => (
-        (icon.href || icon.id === 'resume') && (
+      {icons.map((icon, index) => {
+        const isVisible = icon.href || icon.id === 'resume';
+        if (!isVisible) return null;
+
+        // On mobile, align from bottom to top using 'bottom' property
+        const pos = isMobile ? {
+          bottom: 120 + (icons.length - 1 - index) * 75,
+          right: 12
+        } : {
+          top: 100 + index * 120,
+          right: 24
+        };
+
+        return (
           <DesktopIcon
             key={icon.id}
             icon={icon.icon}
             label={icon.label}
             href={icon.href}
             color={icon.color}
-            top={icon.top}
-            right={icon.right}
+            {...pos}
           />
-        )
-      ))}
+        );
+      })}
     </div>
   );
 };
