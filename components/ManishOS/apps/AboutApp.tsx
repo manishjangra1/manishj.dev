@@ -1,12 +1,22 @@
 'use client';
 
 import React from 'react';
+import { Github, Linkedin, Twitter, Mail, Globe, FileText } from 'lucide-react';
 import { useOS } from '@/contexts/OSContext';
 import { useSettings } from '@/hooks/useData';
 
 const AboutApp: React.FC = () => {
   const { resolvedTheme } = useOS();
   const { settings, isLoading, error } = useSettings();
+
+  const SOCIAL_ICONS: Record<string, any> = {
+    github: Github,
+    linkedin: Linkedin,
+    twitter: Twitter,
+    email: Mail,
+    portfolio: Globe,
+    website: Globe
+  };
 
   if (isLoading) {
     return (
@@ -82,35 +92,38 @@ const AboutApp: React.FC = () => {
             <span className="w-8 h-px bg-current opacity-20"></span>
             Connect
           </h3>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-3">
             {settings?.resumeUrl && (
               <a 
                 href={settings.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2 rounded-xl bg-blue-500 text-white text-sm font-bold tracking-tight hover:bg-blue-600 transition-all hover:scale-105 shadow-lg shadow-blue-500/25 flex items-center gap-2"
+                className="px-6 py-3 rounded-2xl bg-blue-500 text-white text-sm font-bold tracking-tight hover:bg-blue-600 transition-all hover:scale-105 shadow-xl shadow-blue-500/20 flex items-center gap-3 group"
               >
-                <span>📄</span>
+                <FileText className="w-4 h-4 transition-transform group-hover:rotate-6" />
                 Download Resume
               </a>
             )}
-            {settings?.socialLinks && Object.entries(settings.socialLinks).map(([platform, url]) => (
-              url && (
+            {settings?.socialLinks && Object.entries(settings.socialLinks).map(([platform, url]) => {
+              if (!url) return null;
+              const Icon = SOCIAL_ICONS[platform.toLowerCase()] || Globe;
+              return (
                 <a 
                   key={platform}
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`px-5 py-2 rounded-xl border text-sm font-medium capitalize transition-all ${
+                  className={`px-6 py-3 rounded-2xl border text-sm font-bold capitalize transition-all flex items-center gap-3 group ${
                     resolvedTheme === 'dark' 
-                      ? 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-blue-500/50' 
-                      : 'bg-black/5 border-black/5 hover:bg-white hover:shadow-md hover:border-blue-500/30'
+                      ? 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20' 
+                      : 'bg-white border-black/5 shadow-sm hover:shadow-md hover:border-black/10'
                   }`}
                 >
+                  <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
                   {platform}
                 </a>
-              )
-            ))}
+              );
+            })}
           </div>
         </section>
       </div>
