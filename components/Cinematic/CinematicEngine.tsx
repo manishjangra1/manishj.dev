@@ -11,6 +11,8 @@ import CustomCursor from './Effects/CustomCursor';
 import LoadingScreen from './UI/LoadingScreen';
 import CommandPalette from './UI/CommandPalette';
 import TopSearchBar from './UI/TopSearchBar';
+import AIGuide from './UI/AIGuide';
+import { useData } from '@/contexts/DataContext';
 
 import ProjectsShowcase from './Sections/ProjectsShowcase';
 import AboutStory from './Sections/AboutStory';
@@ -20,7 +22,7 @@ import ContactSection from './Sections/ContactSection';
 import ProjectDetails from './Sections/ProjectDetails';
 
 const CinematicEngine: React.FC = () => {
-  const { isLoaded, setLoaded, activeSection } = useExperienceStore();
+  const { isLoaded, setLoaded, activeSection, setGuideMessage } = useExperienceStore();
 
   useEffect(() => {
     // Simulate loading for the sequence
@@ -29,6 +31,62 @@ const CinematicEngine: React.FC = () => {
     }, 2000);
     return () => clearTimeout(timer);
   }, [setLoaded]);
+
+  // AI Guide: Onboarding
+  useEffect(() => {
+    if (isLoaded) {
+      const timer = setTimeout(() => {
+        setGuideMessage("Hello. I am Iris, your digital assistant. How can I help you explore today?");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoaded, setGuideMessage]);
+
+  // AI Guide: Contextual Lines
+  useEffect(() => {
+    if (!isLoaded) return;
+    
+    const messages: Record<string, string> = {
+      projects: "You are now viewing the Projects section. Select a project to view its details.",
+      about: "You are now viewing the About section. Here is more information about my background.",
+      skills: "You are now viewing the Technical Skills section. These are my areas of expertise.",
+      experience: "You are now viewing the Experience section. This is my professional career timeline.",
+      contact: "You are now viewing the Contact section. Feel free to reach out to me here.",
+      home: "Welcome back to the Home screen. I am ready to assist you."
+    };
+
+    if (messages[activeSection]) {
+      // Delay slightly to feel reactive
+      const timer = setTimeout(() => {
+        setGuideMessage(messages[activeSection]);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [activeSection, isLoaded, setGuideMessage]);
+
+  // AI Guide: Idle Re-engagement
+  useEffect(() => {
+    let idleTimer: NodeJS.Timeout;
+    
+    const resetTimer = () => {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        if (isLoaded) {
+          setGuideMessage("Still exploring? There's more hidden inside the workspace.");
+        }
+      }, 30000); // 30 seconds idle
+    };
+
+    window.addEventListener('mousemove', resetTimer);
+    window.addEventListener('keydown', resetTimer);
+    resetTimer();
+
+    return () => {
+      window.removeEventListener('mousemove', resetTimer);
+      window.removeEventListener('keydown', resetTimer);
+      clearTimeout(idleTimer);
+    };
+  }, [isLoaded, setGuideMessage]);
 
   return (
     <div className="relative w-screen h-screen bg-black overflow-hidden font-sans selection:bg-accent-blue/30">
@@ -93,6 +151,7 @@ const CinematicEngine: React.FC = () => {
       {/* Command Palette */}
       <CommandPalette />
       <TopSearchBar />
+      <AIGuide />
       <ProjectDetails />
     </div>
   );

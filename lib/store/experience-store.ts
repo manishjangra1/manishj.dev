@@ -14,6 +14,10 @@ interface ExperienceState {
   isProjectDetailsOpen: boolean;
   isCommandPaletteOpen: boolean;
   
+  // AI Guide State
+  guideMessage: string | null;
+  guideState: 'idle' | 'speaking' | 'thinking';
+  
   // Camera & Spatial State
   cameraPosition: [number, number, number];
   cameraRotation: [number, number, number];
@@ -26,6 +30,8 @@ interface ExperienceState {
   setSelectedProject: (project: Project | null) => void;
   setProjectDetailsOpen: (open: boolean) => void;
   setIsCommandPaletteOpen: (open: boolean) => void;
+  setGuideMessage: (message: string | null) => void;
+  setGuideState: (state: 'idle' | 'speaking' | 'thinking') => void;
   updateCamera: (position: [number, number, number], rotation: [number, number, number]) => void;
 }
 
@@ -38,6 +44,9 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
   selectedProject: null,
   isProjectDetailsOpen: false,
   isCommandPaletteOpen: false,
+  
+  guideMessage: null,
+  guideState: 'idle',
   
   cameraPosition: [0, 0, 5],
   cameraRotation: [0, 0, 0],
@@ -80,5 +89,7 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
   setSelectedProject: (project) => set({ selectedProject: project }),
   setProjectDetailsOpen: (open) => set({ isProjectDetailsOpen: open }),
   setIsCommandPaletteOpen: (open) => set({ isCommandPaletteOpen: open }),
+  setGuideMessage: (message) => set({ guideMessage: message }),
+  setGuideState: (state) => set({ guideState: state }),
   updateCamera: (position, rotation) => set({ cameraPosition: position, cameraRotation: rotation }),
 }));

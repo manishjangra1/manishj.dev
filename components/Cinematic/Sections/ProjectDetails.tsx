@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useExperienceStore } from '@/lib/store/experience-store';
@@ -8,7 +8,16 @@ import { X, Sparkles, Globe, Terminal } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 const ProjectDetails: React.FC = () => {
-  const { isProjectDetailsOpen, setProjectDetailsOpen, selectedProject } = useExperienceStore();
+  const { isProjectDetailsOpen, setProjectDetailsOpen, selectedProject, setGuideMessage } = useExperienceStore();
+
+  useEffect(() => {
+    if (isProjectDetailsOpen && selectedProject) {
+      const timer = setTimeout(() => {
+        setGuideMessage(`Viewing project: ${selectedProject.title}. Explore the details and source code below.`);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isProjectDetailsOpen, selectedProject, setGuideMessage]);
 
   if (!selectedProject) return null;
 
