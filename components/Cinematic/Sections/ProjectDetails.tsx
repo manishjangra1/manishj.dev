@@ -194,13 +194,14 @@ const ProjectDetails: React.FC = () => {
                 
                 {/* Main Content (Markdown Engine) */}
                 <div className="lg:col-span-3">
-                  <div className="prose prose-invert prose-lg max-w-none 
-                    prose-h1:text-4xl prose-h1:font-black prose-h1:tracking-tighter prose-h1:mb-8
-                    prose-h2:text-2xl prose-h2:font-bold prose-h2:tracking-tight prose-h2:mt-16 prose-h2:mb-6 prose-h2:text-white/90
-                    prose-p:text-white/60 prose-p:leading-relaxed prose-p:mb-6
-                    prose-li:text-white/60 prose-li:mb-2
-                    prose-strong:text-accent-blue prose-strong:font-bold
-                    prose-ul:list-disc prose-ul:ml-6
+                  <div className="prose prose-invert max-w-none 
+                    prose-h1:text-2xl prose-h1:font-bold prose-h1:tracking-tight prose-h1:mb-6 prose-h1:text-white
+                    prose-h2:text-xl prose-h2:font-semibold prose-h2:tracking-tight prose-h2:mt-12 prose-h2:mb-4 prose-h2:text-white/90
+                    prose-h3:text-lg prose-h3:font-medium prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-white/80
+                    prose-p:text-white/50 prose-p:leading-relaxed prose-p:mb-4 prose-p:text-[15px]
+                    prose-li:text-white/50 prose-li:mb-1 prose-li:text-[15px]
+                    prose-strong:text-accent-blue prose-strong:font-semibold
+                    prose-ul:list-disc prose-ul:ml-4
                   ">
                     <ReactMarkdown 
                       remarkPlugins={[remarkGfm]}
