@@ -113,11 +113,10 @@ p, .body {
 /* Layout Utilities */
 .top-nav-wrapper {
   width: 100%;
-  height: 160px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 160px 0px 0px;
+  padding-top: 32px;
+  padding-bottom: 80px;
 }
 
 .main-container {
