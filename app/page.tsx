@@ -1,11 +1,20 @@
-import DesktopEngine from '@/components/ManishOS/DesktopEngine';
+import BackgroundSystem from '@/components/BackgroundSystem';
+import CustomCursor from '@/components/CustomCursor';
+import Navigation from '@/components/Navigation';
+import Hero from '@/components/sections/Hero';
+import Projects from '@/components/sections/Projects';
+import About from '@/components/sections/About';
+import Experience from '@/components/sections/Experience';
+import Tools from '@/components/sections/Tools';
+import Blog from '@/components/sections/Blog';
+import Contact from '@/components/sections/Contact';
+import { DataProvider } from '@/contexts/DataContext';
 import connectDB from '@/lib/db';
 import Settings from '@/lib/models/Settings';
 import Project from '@/lib/models/Project';
 import Skill from '@/lib/models/Skill';
 import ExperienceModel from '@/lib/models/Experience';
 import BlogPost from '@/lib/models/BlogPost';
-import { DataProvider } from '@/contexts/DataContext';
 
 // Enable on-demand revalidation for this page
 export const dynamic = 'force-dynamic';
@@ -55,9 +64,24 @@ export default async function Home() {
   const data = await getData();
 
   return (
-    <main className="min-h-screen w-full bg-black overflow-hidden">
+    <main className="relative min-h-screen w-full">
       <DataProvider initialData={data}>
-        <DesktopEngine />
+        <BackgroundSystem />
+        <CustomCursor />
+        <Navigation />
+        
+        <Hero />
+        <About />
+        <Projects />
+        <Experience />
+        <Tools />
+        <Blog />
+        <Contact />
+        
+        <footer className="section-padding py-20 flex flex-col items-center justify-center border-t border-white/5">
+          <p className="label mb-4">Manish Portfolio © 2026</p>
+          <p className="text-[10px] opacity-30 uppercase tracking-widest">Designed for precision & emotion</p>
+        </footer>
       </DataProvider>
     </main>
   );

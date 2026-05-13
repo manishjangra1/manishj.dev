@@ -1,94 +1,197 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --primary: #6366f1;
-  --primary-hover: #818cf8;
-  --secondary: #8b5cf6;
-  --secondary-hover: #a78bfa;
-  --accent: #ec4899;
-  --accent-hover: #f472b6;
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.8);
-  --gradient-from: #6366f1;
-  --gradient-to: #ec4899;
-  --nav-bg: rgba(0, 0, 0, 0.8);
-  --nav-border: rgba(255, 255, 255, 0.1);
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-outfit);
+
+  --color-eclipse-bg: #050505;
+  --color-eclipse-fg: #f5f5f5;
+  --color-eclipse-accent: #ff3e00;
+
+  --color-bone-bg: #f5f2ed;
+  --color-bone-fg: #1a1a1a;
+  --color-bone-accent: #333333;
+
+  --color-graphite-bg: #1c1c1c;
+  --color-graphite-fg: #e0e0e0;
+  --color-graphite-accent: #888888;
+
+  --color-amber-bg: #0a0805;
+  --color-amber-fg: #fffcf0;
+  --color-amber-accent: #ff9d00;
 }
 
-@theme inline {
-  /* Colors */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-secondary: var(--secondary);
-  --color-secondary-hover: var(--secondary-hover);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-card-bg: var(--card-bg);
-  --color-card-border: var(--card-border);
-  --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-secondary);
-  --color-gradient-from: var(--gradient-from);
-  --color-gradient-to: var(--gradient-to);
-  --color-nav-bg: var(--nav-bg);
-  --color-nav-border: var(--nav-border);
-  
-  /* Fonts */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --background: #050505;
+  --foreground: #f5f5f5;
+  --accent: #ff3e00;
+  --noise-opacity: 0.05;
+  --cursor-size: 20px;
+}
+
+[data-theme='eclipse'] {
+  --background: #050505;
+  --foreground: #f5f5f5;
+  --accent: #ff3e00;
+}
+
+[data-theme='bone'] {
+  --background: #f5f2ed;
+  --foreground: #1a1a1a;
+  --accent: #333333;
+}
+
+[data-theme='graphite'] {
+  --background: #1c1c1c;
+  --foreground: #e0e0e0;
+  --accent: #888888;
+}
+
+[data-theme='amber'] {
+  --background: #0a0805;
+  --foreground: #fffcf0;
+  --accent: #ff9d00;
 }
 
 * {
-  /* margin: 0; */
-  /* padding: 0 !important; */
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
   width: 100%;
-  height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  overscroll-behavior: none;
-}
-
-html::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari, Opera */
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   position: relative;
-  overflow: hidden;
-  overscroll-behavior: none;
+  overflow-x: hidden;
 }
 
-/* Hide scrollbar but keep scrolling functionality */
+/* Typography Scale */
+h1, .h1 {
+  font-family: var(--font-outfit);
+  font-size: clamp(3rem, 15vw, 12rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+h2, .h2 {
+  font-family: var(--font-outfit);
+  font-size: clamp(2rem, 8vw, 6rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+h3, .h3 {
+  font-family: var(--font-outfit);
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.label {
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  opacity: 0.5;
+}
+
+p, .body {
+  font-family: var(--font-inter);
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+/* Background Effects */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.ambient-glow {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 50%, var(--accent), transparent 70%);
+  opacity: 0.03;
+  filter: blur(100px);
+}
+
+/* Hide scrollbar */
 ::-webkit-scrollbar {
   display: none;
-  width: 0;
 }
 
-/* Hide scrollbar for specific elements */
-.scrollbar-hide {
-  -ms-overflow-style: none;
+* {
   scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+/* Custom Cursor Styles */
+.custom-cursor {
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  background-color: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+  transition: transform 0.15s ease-out, width 0.3s ease, height 0.3s ease;
+}
+
+.cursor-hover {
+  transform: scale(2.5);
+  background-color: var(--foreground);
+}
+
+/* Editorial Rhythm */
+.section-padding {
+  padding: clamp(4rem, 10vw, 12rem) clamp(1rem, 5vw, 6rem);
+}
+
+.asymmetrical-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+}
+
+/* Animations */
+.reveal-text {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.reveal-text-child {
+  display: inline-block;
+  transform: translateY(100%);
 }

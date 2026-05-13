@@ -1,31 +1,31 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Manish - Full Stack Software Developer",
-    template: "%s | Portfolio",
+    default: "Manish — Creative Engineer",
+    template: "%s | Manish",
   },
-  description: "Modern portfolio website showcasing projects, skills, and experience",
-  keywords: ["portfolio", "software developer", "full stack", "web development"],
+  description: "Engineering products with precision and emotion. A curated portfolio of digital experiences and systems.",
+  keywords: ["design engineering", "interaction design", "software architecture", "creative development"],
   authors: [{ name: "Manish" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Portfolio",
+    siteName: "Manish Portfolio",
   },
   twitter: {
     card: "summary_large_image",
@@ -40,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${outfit.variable} antialiased`}
       >
         <Providers>
           <ErrorBoundary>{children}</ErrorBoundary>

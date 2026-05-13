@@ -1,227 +1,76 @@
 'use client';
 
+import { useData } from '@/contexts/DataContext';
+import Section from '../Section';
 import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { IBlogPost } from '@/lib/models/BlogPost';
-import { format } from 'date-fns';
-import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { useTheme } from '@/contexts/ThemeContext';
 
-interface BlogProps {
-  posts: IBlogPost[];
-  showAll?: boolean;
-}
+export default function Blog() {
+  const { blogPosts } = useData();
 
-export default function Blog({ posts, showAll = false }: BlogProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [searchTerm, setSearchTerm] = useState('');
-  const { colors } = useTheme();
-
-  const publishedPosts = posts.filter((p) => p.published);
-  
-  // On home page, show only featured posts; on dedicated page, show all
-  const postsToShow = showAll 
-    ? publishedPosts 
-    : publishedPosts.filter((p) => p.featured);
-  
-  const filteredPosts = postsToShow.filter(
-    (post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.tags?.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
-  const hasMorePosts = !showAll && publishedPosts.filter((p) => p.featured).length < publishedPosts.length;
+  const displayPosts = blogPosts.length > 0 ? blogPosts : [
+    { _id: '1', title: 'The Future of Creative Engineering', slug: 'future-of-creative-engineering', createdAt: new Date(), excerpt: 'Exploring the intersection of art and architecture in modern web systems.' },
+    { _id: '2', title: 'Why Minimalism is Luxurious', slug: 'minimalism-is-luxurious', createdAt: new Date(), excerpt: 'How restraint in design communicates confidence and premium taste.' },
+    { _id: '3', title: 'Interaction as Narrative', slug: 'interaction-as-narrative', createdAt: new Date(), excerpt: 'Building digital experiences that tell stories through motion and response.' },
+  ];
 
   return (
-    <section 
-      id="blog" 
-      className="py-24 px-6 sm:px-8 lg:px-12"
-      style={{ backgroundColor: colors.background }}
-    >
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <h2 
-            className="text-4xl md:text-5xl font-bold mb-6"
-            style={{ color: colors.textPrimary }}
-          >
-            Blog
-          </h2>
-          <div 
-            className="w-24 h-1 mx-auto mb-10 rounded-full"
-            style={{ 
-              background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`
-            }}
-          />
-          
-          <div className="max-w-md mx-auto">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search posts..."
-              className="w-full px-5 py-3.5 backdrop-blur-lg border rounded-xl text-sm focus:outline-none focus:ring-2 transition-all"
-              style={{
-                backgroundColor: colors.cardBg,
-                borderColor: colors.cardBorder,
-                color: colors.textPrimary,
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.borderColor = colors.gradientFrom;
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.borderColor = colors.cardBorder;
-              }}
-            />
-          </div>
-        </motion.div>
-
-        {filteredPosts.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            className="text-center py-12 min-h-[300px] flex items-center justify-center"
-            style={{ color: colors.textSecondary }}
-          >
-            <div>
-              <div className="text-6xl mb-4">📝</div>
-              <p className="text-lg">
-                {searchTerm
-                  ? `No posts found matching "${searchTerm}".`
-                  : 'No blog posts yet. Check back soon!'}
-              </p>
-            </div>
-          </motion.div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {filteredPosts.map((post, i) => (
-              <motion.div
-                key={post._id?.toString() || i}
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: i * 0.1, duration: 0.8 }}
-                className="group backdrop-blur-lg rounded-2xl overflow-hidden border transition-all"
-                style={{
-                  backgroundColor: colors.cardBg,
-                  borderColor: colors.cardBorder,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = colors.gradientFrom;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = colors.cardBorder;
-                }}
-              >
-                <Link href={`/blog/${post.slug}`}>
-                  <div 
-                    className="relative h-48"
-                    style={{
-                      background: `linear-gradient(to bottom right, ${colors.gradientFrom}20, ${colors.gradientTo}20)`,
-                    }}
-                  >
-                    {post.coverImage ? (
-                      <Image
-                        src={post.coverImage}
-                        alt={post.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-4xl">
-                        📝
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {post.tags?.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-3 py-1.5 text-xs rounded-xl border font-medium"
-                          style={{
-                            backgroundColor: colors.cardBg,
-                            borderColor: colors.cardBorder,
-                            color: colors.textSecondary,
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <h3 
-                      className="text-xl font-bold mb-2 transition-colors"
-                      style={{ color: colors.textPrimary }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = colors.gradientFrom}
-                      onMouseLeave={(e) => e.currentTarget.style.color = colors.textPrimary}
-                    >
-                      {post.title}
-                    </h3>
-                    <p 
-                      className="text-sm mb-4 line-clamp-3 leading-relaxed"
-                      style={{ color: colors.textSecondary }}
-                    >
-                      {post.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between text-sm">
-                      <span style={{ color: colors.textSecondary }}>
-                        {post.publishedAt
-                          ? format(new Date(post.publishedAt), 'MMM dd, yyyy')
-                          : 'Draft'}
-                      </span>
-                      <span 
-                        className="transition-colors font-medium"
-                        style={{ color: colors.textSecondary }}
-                        onMouseEnter={(e) => e.currentTarget.style.color = colors.gradientFrom}
-                        onMouseLeave={(e) => e.currentTarget.style.color = colors.textSecondary}
-                      >
-                        Read more →
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        )}
-
-        {hasMorePosts && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-center mt-12"
-          >
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all border"
-              style={{
-                background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`,
-                borderColor: 'transparent',
-                color: '#fff',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-            >
-              View All Posts
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </motion.div>
-        )}
+    <Section id="blog" className="bg-transparent pb-40">
+      <div className="flex justify-between items-end mb-20">
+        <div>
+          <span className="label">The Journal</span>
+          <h2 className="mt-4">Thoughts & <span className="text-accent italic">Research</span></h2>
+        </div>
+        <Link href="/blog" className="label hover:text-accent transition-colors underline decoration-accent/30 underline-offset-8">
+          View All Posts
+        </Link>
       </div>
-    </section>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        {displayPosts.slice(0, 3).map((post: any, index: number) => (
+          <BlogCard key={post._id} post={post} index={index} />
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function BlogCard({ post, index }: { post: any; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.8 }}
+      className="flex flex-col gap-6 group"
+    >
+      <div className="aspect-[4/3] bg-foreground/5 overflow-hidden rounded-sm relative">
+        <div className="absolute inset-0 flex items-center justify-center opacity-10 group-hover:opacity-100 transition-opacity duration-700">
+           <span className="h2 italic">Post</span>
+        </div>
+        <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <div className="flex justify-between items-center">
+          <span className="text-[10px] font-mono opacity-40">{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+          <div className="h-[1px] w-12 bg-foreground/10 group-hover:w-full transition-all duration-700 group-hover:bg-accent/30" />
+        </div>
+        
+        <h3 className="text-xl font-semibold group-hover:text-accent transition-colors">{post.title}</h3>
+        
+        <p className="body text-xs opacity-50 line-clamp-2">
+          {post.excerpt || post.content?.substring(0, 100) || "Exploring deep technical insights and design philosophies for the modern web."}
+        </p>
+
+        <Link 
+          href={`/blog/${post.slug || post._id}`}
+          className="mt-4 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 group/btn"
+        >
+          Read Article 
+          <span className="w-6 h-[1px] bg-foreground/30 group-hover/btn:bg-accent group-hover/btn:w-10 transition-all duration-500" />
+        </Link>
+      </div>
+    </motion.div>
   );
 }
