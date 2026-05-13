@@ -2,12 +2,14 @@
 
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, MotionValue } from 'framer-motion';
-import { Home, Briefcase, User, Mail } from 'lucide-react';
+import { Home, Briefcase, User, Mail, Code2, History } from 'lucide-react';
 import { useExperienceStore, Section } from '@/lib/store/experience-store';
 
 const items: { icon: any; label: Section; id: Section }[] = [
   { icon: Home, label: 'home', id: 'home' },
   { icon: Briefcase, label: 'projects', id: 'projects' },
+  { icon: History, label: 'experience', id: 'experience' },
+  { icon: Code2, label: 'skills', id: 'skills' },
   { icon: User, label: 'about', id: 'about' },
   { icon: Mail, label: 'contact', id: 'contact' },
 ];

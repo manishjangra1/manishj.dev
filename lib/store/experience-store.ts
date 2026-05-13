@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type Section = 'home' | 'projects' | 'about' | 'contact';
+export type Section = 'home' | 'projects' | 'about' | 'experience' | 'skills' | 'contact';
 
 interface ExperienceState {
   activeSection: Section;
@@ -44,6 +44,14 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
       case 'about':
         position = [-5, -2, 7];
         rotation = [0, Math.PI / 6, 0];
+        break;
+      case 'experience':
+        position = [0, 5, 10];
+        rotation = [-Math.PI / 8, 0, 0];
+        break;
+      case 'skills':
+        position = [-8, 4, 6];
+        rotation = [0, Math.PI / 3, 0];
         break;
       case 'contact':
         position = [0, -8, 5];

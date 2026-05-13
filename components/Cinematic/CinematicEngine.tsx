@@ -13,6 +13,9 @@ import CommandPalette from './UI/CommandPalette';
 
 import ProjectsShowcase from './Sections/ProjectsShowcase';
 import AboutStory from './Sections/AboutStory';
+import SkillsGrid from './Sections/SkillsGrid';
+import ExperienceTimeline from './Sections/ExperienceTimeline';
+import ContactSection from './Sections/ContactSection';
 
 const CinematicEngine: React.FC = () => {
   const { isLoaded, setLoaded, activeSection } = useExperienceStore();
@@ -40,6 +43,9 @@ const CinematicEngine: React.FC = () => {
         <AnimatePresence mode="wait">
           {activeSection === 'projects' && <ProjectsShowcase key="projects" />}
           {activeSection === 'about' && <AboutStory key="about" />}
+          {activeSection === 'skills' && <SkillsGrid key="skills" />}
+          {activeSection === 'experience' && <ExperienceTimeline key="experience" />}
+          {activeSection === 'contact' && <ContactSection key="contact" />}
         </AnimatePresence>
       </div>
 

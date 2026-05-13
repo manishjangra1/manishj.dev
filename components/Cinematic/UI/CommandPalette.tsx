@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Command as CommandIcon, Home, Briefcase, User, Mail, Sparkles } from 'lucide-react';
+import { Search, Command as CommandIcon, Home, Briefcase, User, Mail, Sparkles, History, Code2 } from 'lucide-react';
 import { useExperienceStore, Section } from '@/lib/store/experience-store';
 
 const CommandPalette: React.FC = () => {
@@ -27,6 +27,8 @@ const CommandPalette: React.FC = () => {
   const actions: { icon: any; label: string; id: Section | 'special' }[] = [
     { icon: Home, label: 'Go to Home', id: 'home' },
     { icon: Briefcase, label: 'View Projects', id: 'projects' },
+    { icon: History, label: 'Experience History', id: 'experience' },
+    { icon: Code2, label: 'Technical Skills', id: 'skills' },
     { icon: User, label: 'Read Story', id: 'about' },
     { icon: Mail, label: 'Get in Touch', id: 'contact' },
     { icon: Sparkles, label: 'Toggle Atmosphere', id: 'special' },
