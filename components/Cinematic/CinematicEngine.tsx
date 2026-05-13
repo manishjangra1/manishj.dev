@@ -10,6 +10,7 @@ import NavigationDock from './UI/NavigationDock';
 import CustomCursor from './Effects/CustomCursor';
 import LoadingScreen from './UI/LoadingScreen';
 import CommandPalette from './UI/CommandPalette';
+import TopSearchBar from './UI/TopSearchBar';
 
 import ProjectsShowcase from './Sections/ProjectsShowcase';
 import AboutStory from './Sections/AboutStory';
@@ -91,6 +92,7 @@ const CinematicEngine: React.FC = () => {
 
       {/* Command Palette */}
       <CommandPalette />
+      <TopSearchBar />
       <ProjectDetails />
     </div>
   );
