@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export default function Contact() {
   return (
-    <section id="contact" className="flex flex-col gap-12 py-20">
+    <section id="contact" className="flex flex-col gap-12 pt-20 pb-0">
       <div className="flex flex-col mb-[48px]">
         <h2 className="flex flex-col">
           <span>Let's Work</span>

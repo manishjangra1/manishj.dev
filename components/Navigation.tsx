@@ -18,13 +18,13 @@ export default function Navigation() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="z-5000 flex items-center gap-4 px-5 rounded-2xl bg-[#FFFFFF08] backdrop-blur-2xl border border-white/10 w-[292px] h-[48px]"
+      className="z-[5000] flex items-center gap-4 px-5 rounded-2xl bg-[#FFFFFF08] backdrop-blur-2xl border border-transparent w-[292px] h-[48px]"
     >
       {navItems.map((item, index) => (
         <Link
           key={index}
           href={item.href}
-          className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors text-white/50 hover:text-white"
+          className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors text-white"
         >
           {item.icon}
         </Link>

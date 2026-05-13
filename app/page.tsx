@@ -81,13 +81,13 @@ export default async function Home() {
               <Tools />
               <Blog />
               <Contact />
-              
-              <footer className="py-20 border-t border-white/5 flex justify-between items-center opacity-30 text-[10px] uppercase tracking-widest font-bold">
-                 <span>© 2026 Manish</span>
-                 <span>Made in Framer</span>
-              </footer>
             </div>
           </div>
+
+          <footer className="py-12 flex justify-between items-center opacity-30 text-[10px] uppercase tracking-widest font-bold">
+             <span>© 2026 Manish</span>
+             <span>Made in Framer</span>
+          </footer>
         </div>
 
         {/* Floating Action Buttons */}
