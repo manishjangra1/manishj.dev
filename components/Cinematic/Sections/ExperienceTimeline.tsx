@@ -29,7 +29,7 @@ const ExperienceTimeline: React.FC = () => {
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div className="flex flex-col">
                   <span className="text-[10px] uppercase tracking-[0.3em] text-accent-purple font-mono mb-1">
-                    {exp.startDate} — {exp.isCurrent ? 'Present' : exp.endDate}
+                    {new Date(exp.startDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()} — {exp.isCurrent ? 'PRESENT' : exp.endDate ? new Date(exp.endDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase() : 'PRESENT'}
                   </span>
                   <h3 className="text-4xl font-bold text-white tracking-tight">
                     {exp.role.toUpperCase()}
@@ -40,8 +40,8 @@ const ExperienceTimeline: React.FC = () => {
                 </div>
                 
                 {exp.location && (
-                  <span className="text-[10px] uppercase tracking-widest text-white/20 font-mono">
-                    {exp.location}
+                  <span className="text-[10px] uppercase tracking-widest text-white/60 font-mono">
+                    {exp.location.toUpperCase()}
                   </span>
                 )}
               </div>

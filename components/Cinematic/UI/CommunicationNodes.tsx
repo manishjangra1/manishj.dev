@@ -1,25 +1,36 @@
-'use client';
-
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Twitter, Linkedin, Mail, FileText, Search } from 'lucide-react';
-import { useExperienceStore } from '@/lib/store/experience-store';
-
-const socialLinks = [
-  { icon: Github, label: 'GitHub', href: 'https://github.com/manish' },
-  { icon: Twitter, label: 'Twitter', href: 'https://twitter.com/manish' },
-  { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/in/manish' },
-  { icon: Mail, label: 'Email', href: 'mailto:manish@example.com' },
-  { icon: FileText, label: 'Resume', href: '/resume.pdf' },
-];
+import { Github, Twitter, Linkedin, Mail, FileText } from 'lucide-react';
+import { useData } from '@/contexts/DataContext';
 
 const CommunicationNodes: React.FC = () => {
+  const { settings } = useData();
+
+  const links = useMemo(() => {
+    if (!settings) return [];
+    
+    const { socialLinks, resumeUrl } = settings;
+    
+    const items = [
+      { icon: Github, label: 'GitHub', href: socialLinks?.github },
+      { icon: Twitter, label: 'Twitter', href: socialLinks?.twitter },
+      { icon: Linkedin, label: 'LinkedIn', href: socialLinks?.linkedin },
+      { icon: Mail, label: 'Email', href: socialLinks?.email ? `mailto:${socialLinks.email}` : null },
+      { icon: FileText, label: 'Resume', href: resumeUrl },
+    ];
+
+    // Filter out items without URLs
+    return items.filter(item => item.href);
+  }, [settings]);
+
+  if (!links.length) return null;
+
   return (
     <div className="flex flex-col gap-6 items-end">
-      {socialLinks.map((link, index) => (
+      {links.map((link, index) => (
         <motion.a
           key={link.label}
-          href={link.href}
+          href={link.href!}
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, x: 20 }}
