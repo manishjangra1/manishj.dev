@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useData } from '@/contexts/DataContext';
 import { ExternalLink, Github, ChevronRight, ChevronLeft } from 'lucide-react';
@@ -9,10 +9,20 @@ const ProjectsShowcase: React.FC = () => {
   const { projects } = useData();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  if (!projects || projects.length === 0) return null;
+  const next = useCallback(() => setCurrentIndex((prev) => (prev + 1) % projects.length), [projects.length]);
+  const prev = useCallback(() => setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length), [projects.length]);
 
-  const next = () => setCurrentIndex((prev) => (prev + 1) % projects.length);
-  const prev = () => setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [next, prev]);
+
+  if (!projects || projects.length === 0) return null;
 
   const currentProject = projects[currentIndex];
 
