@@ -6,13 +6,13 @@ import { Layers, Layout } from 'lucide-react';
 export default function Hero() {
   return (
     <section className="flex flex-col gap-16 pt-8">
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 className="flex flex-col mb-[40px]">
+          <h1 className="flex flex-col mb-0">
             <span>Software</span>
             <span className="h1-grey">Engineer</span>
           </h1>
@@ -22,7 +22,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="body max-w-lg"
+          className="body max-w-lg mt-4"
         >
           Passionate about creating intuitive and engaging user experiences. Specialize in transforming ideas into beautifully crafted products.
         </motion.p>
