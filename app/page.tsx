@@ -1,13 +1,10 @@
-import BackgroundSystem from '@/components/BackgroundSystem';
-import CustomCursor from '@/components/CustomCursor';
+import ProfileCard from '@/components/ProfileCard';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/sections/Hero';
 import Projects from '@/components/sections/Projects';
-import About from '@/components/sections/About';
 import Experience from '@/components/sections/Experience';
 import Tools from '@/components/sections/Tools';
 import Blog from '@/components/sections/Blog';
-import Contact from '@/components/sections/Contact';
 import { DataProvider } from '@/contexts/DataContext';
 import connectDB from '@/lib/db';
 import Settings from '@/lib/models/Settings';
@@ -16,10 +13,8 @@ import Skill from '@/lib/models/Skill';
 import ExperienceModel from '@/lib/models/Experience';
 import BlogPost from '@/lib/models/BlogPost';
 
-// Enable on-demand revalidation for this page
 export const dynamic = 'force-dynamic';
 
-// Helper function to serialize Mongoose documents to plain objects
 function serialize(data: any): any {
   return JSON.parse(JSON.stringify(data));
 }
@@ -64,24 +59,50 @@ export default async function Home() {
   const data = await getData();
 
   return (
-    <main className="relative min-h-screen w-full">
+    <main className="min-h-screen">
       <DataProvider initialData={data}>
-        <BackgroundSystem />
-        <CustomCursor />
         <Navigation />
         
-        <Hero />
-        <About />
-        <Projects />
-        <Experience />
-        <Tools />
-        <Blog />
-        <Contact />
-        
-        <footer className="section-padding py-20 flex flex-col items-center justify-center border-t border-white/5">
-          <p className="label mb-4">Manish Portfolio © 2026</p>
-          <p className="text-[10px] opacity-30 uppercase tracking-widest">Designed for precision & emotion</p>
-        </footer>
+        <div className="main-container">
+          <div className="main-grid">
+            {/* Left Column: Fixed Profile Card */}
+            <aside className="sticky top-[40px]">
+              <ProfileCard />
+            </aside>
+
+            {/* Right Column: Scrollable Content */}
+            <div className="flex flex-col gap-[100px]">
+              <Hero />
+              <Projects />
+              <Experience />
+              <Tools />
+              <Blog />
+              
+              <footer className="py-20 border-t border-white/5 flex justify-between items-center opacity-30 text-[10px] uppercase tracking-widest font-bold">
+                 <span>© 2026 Manish</span>
+                 <span>Made in Framer</span>
+              </footer>
+            </div>
+          </div>
+        </div>
+
+        {/* Floating Action Buttons */}
+        <div className="fixed bottom-8 right-8 flex flex-col gap-3 z-[6000] items-end">
+          <button className="bg-[#FF5F2E] text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-transform">
+            Use Template for Free
+          </button>
+          <button className="bg-[#C5FF41] text-black px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-transform">
+            More Templates
+          </button>
+          <div className="bg-white border border-black/5 px-3 py-2 rounded-lg flex items-center gap-2 shadow-xl">
+            <svg width="12" height="18" viewBox="0 0 12 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 0H12V6H6L0 0Z" fill="black"/>
+              <path d="M0 6H6L12 12H0V6Z" fill="black"/>
+              <path d="M0 12H6L12 18H0V12Z" fill="black"/>
+            </svg>
+            <span className="text-[10px] font-bold text-black uppercase tracking-tight">Made in Framer</span>
+          </div>
+        </div>
       </DataProvider>
     </main>
   );

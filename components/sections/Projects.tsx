@@ -1,102 +1,59 @@
 'use client';
 
 import { useData } from '@/contexts/DataContext';
-import Section from '../Section';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { ExternalLink, Github } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 export default function Projects() {
   const { projects } = useData();
 
   return (
-    <Section id="projects" className="bg-transparent">
-      <div className="mb-20">
-        <span className="label">Selected Works</span>
-        <h2 className="mt-4">Featured <span className="text-accent italic">Stories</span></h2>
+    <section id="projects" className="flex flex-col gap-12">
+      <div className="flex flex-col mb-[48px]">
+        <h2 className="flex flex-col">
+          <span>Recent</span>
+          <span className="h1-grey">Projects</span>
+        </h2>
       </div>
 
-      <div className="flex flex-col gap-40">
+      <div className="grid grid-cols-1 gap-6">
         {projects.map((project: any, index: number) => (
-          <ProjectItem key={project._id} project={project} index={index} />
+          <motion.div
+            key={project._id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            className="dark-card group cursor-pointer flex items-center justify-between hover:bg-[#262626] transition-colors"
+          >
+            <div className="flex items-center gap-6">
+              <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-white/5">
+                {project.image ? (
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-white/20 font-bold text-xl">
+                    {index + 1}
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-xl font-black uppercase tracking-tight">{project.title}</h3>
+                <p className="text-xs font-bold uppercase tracking-widest text-white/30">{project.technologies?.[0] || 'Web Design'}</p>
+              </div>
+            </div>
+
+            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-orange-600 group-hover:border-orange-600 transition-all">
+              <ArrowUpRight size={20} className="text-white/40 group-hover:text-white transition-colors" />
+            </div>
+          </motion.div>
         ))}
       </div>
-    </Section>
-  );
-}
-
-function ProjectItem({ project, index }: { project: any; index: number }) {
-  const isEven = index % 2 === 0;
-
-  return (
-    <div className={`asymmetrical-grid gap-12 items-center ${isEven ? '' : 'md:flex-row-reverse'}`}>
-      <div className={`col-span-12 md:col-span-7 ${isEven ? 'md:order-1' : 'md:order-2 md:col-start-6'}`}>
-        <motion.div 
-          whileHover={{ scale: 0.98 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative aspect-[16/10] overflow-hidden rounded-sm bg-foreground/5 group"
-        >
-          {project.image ? (
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover transition-transform duration-[1.5s] group-hover:scale-110"
-            />
-          ) : (
-             <div className="w-full h-full flex items-center justify-center opacity-20 h1">
-               0{index + 1}
-             </div>
-          )}
-          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        </motion.div>
-      </div>
-
-      <div className={`col-span-12 md:col-span-4 ${isEven ? 'md:order-2 md:col-start-9' : 'md:order-1 md:col-start-1'}`}>
-        <div className="flex flex-col gap-6">
-          <div className="flex items-center gap-4">
-            <span className="text-accent font-mono text-sm">0{index + 1}</span>
-            <div className="h-[1px] flex-1 bg-foreground/10" />
-          </div>
-          
-          <h3 className="h2">{project.title}</h3>
-          
-          <p className="body text-sm line-clamp-4">
-            {project.description}
-          </p>
-
-          <div className="flex flex-wrap gap-2 mt-2">
-            {project.technologies?.slice(0, 4).map((tech: string) => (
-              <span key={tech} className="text-[10px] px-2 py-1 rounded-full border border-foreground/10 uppercase tracking-tighter opacity-60">
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex gap-6 mt-4">
-            {project.liveUrl && (
-              <a 
-                href={project.liveUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors group"
-              >
-                View Project <ExternalLink size={12} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </a>
-            )}
-            {project.githubUrl && (
-              <a 
-                href={project.githubUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest hover:text-accent transition-colors"
-              >
-                Source <Github size={12} />
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }
