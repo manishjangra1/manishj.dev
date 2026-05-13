@@ -5,6 +5,7 @@ import Projects from '@/components/sections/Projects';
 import Experience from '@/components/sections/Experience';
 import Tools from '@/components/sections/Tools';
 import Blog from '@/components/sections/Blog';
+import Contact from '@/components/sections/Contact';
 import { DataProvider } from '@/contexts/DataContext';
 import connectDB from '@/lib/db';
 import Settings from '@/lib/models/Settings';
@@ -79,6 +80,7 @@ export default async function Home() {
               <Experience />
               <Tools />
               <Blog />
+              <Contact />
               
               <footer className="py-20 border-t border-white/5 flex justify-between items-center opacity-30 text-[10px] uppercase tracking-widest font-bold">
                  <span>© 2026 Manish</span>

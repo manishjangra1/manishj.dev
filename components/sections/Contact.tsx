@@ -1,64 +1,70 @@
 'use client';
 
-import Section from '../Section';
 import { motion } from 'framer-motion';
-import { Mail, ArrowUpRight } from 'lucide-react';
 
 export default function Contact() {
   return (
-    <Section id="contact" className="relative border-t border-foreground/5 py-40">
-      <div className="asymmetrical-grid gap-y-20">
-        <div className="col-span-12 md:col-span-7">
-          <span className="label">Get in Touch</span>
-          <h2 className="mt-6 mb-12">Let&apos;s build something <span className="text-accent italic">extraordinary</span> together.</h2>
-          
-          <div className="flex flex-col gap-12">
-            <a 
-              href="mailto:hello@manishj.dev" 
-              className="group flex items-center gap-6"
-            >
-              <div className="w-16 h-16 rounded-full border border-foreground/10 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-500">
-                <Mail className="group-hover:text-white transition-colors" />
-              </div>
-              <div className="flex flex-col">
-                <span className="label text-[10px]">Email Me</span>
-                <span className="text-2xl font-medium">hello@manishj.dev</span>
-              </div>
-            </a>
+    <section id="contact" className="flex flex-col gap-12 py-20">
+      <div className="flex flex-col mb-[48px]">
+        <h2 className="flex flex-col">
+          <span>Let's Work</span>
+          <span className="h1-grey">Together</span>
+        </h2>
+      </div>
 
-            <div className="flex flex-wrap gap-12 mt-12">
-              <SocialLink label="Twitter" href="https://twitter.com" />
-              <SocialLink label="LinkedIn" href="https://linkedin.com" />
-              <SocialLink label="GitHub" href="https://github.com" />
+      <form className="flex flex-col gap-8 max-w-2xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-2">Name</label>
+            <input 
+              type="text" 
+              placeholder="Your Name"
+              className="bg-[#1A1A1A] border border-white/5 rounded-2xl px-6 py-4 text-white placeholder:text-white/10 outline-none focus:border-[#FF5F2E] transition-colors"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-2">Email</label>
+            <input 
+              type="email" 
+              placeholder="Your@email.com"
+              className="bg-[#1A1A1A] border border-white/5 rounded-2xl px-6 py-4 text-white placeholder:text-white/10 outline-none focus:border-[#FF5F2E] transition-colors"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-2">Budget</label>
+          <div className="relative">
+            <select className="w-full bg-[#1A1A1A] border border-white/5 rounded-2xl px-6 py-4 text-white/50 outline-none appearance-none focus:border-[#FF5F2E] transition-colors">
+              <option>Select...</option>
+              <option>$1,000 - $5,000</option>
+              <option>$5,000 - $10,000</option>
+              <option>$10,000+</option>
+            </select>
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none opacity-30">
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L6 6L11 1" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
             </div>
           </div>
         </div>
 
-        <div className="col-span-12 md:col-span-4 md:col-start-9 flex flex-col justify-end">
-          <p className="body text-sm opacity-40 mb-8">
-            Currently available for select freelance opportunities and full-time creative roles. Based in India, working worldwide.
-          </p>
-          <div className="h-[1px] w-full bg-foreground/10 mb-8" />
-          <div className="flex justify-between items-center">
-            <span className="label">Local Time</span>
-            <span className="text-sm font-mono">{new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })} IST</span>
-          </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-2">Message</label>
+          <textarea 
+            placeholder="Message"
+            rows={4}
+            className="bg-[#1A1A1A] border border-white/5 rounded-2xl px-6 py-4 text-white placeholder:text-white/10 outline-none focus:border-[#FF5F2E] transition-colors resize-none"
+          />
         </div>
-      </div>
-    </Section>
-  );
-}
 
-function SocialLink({ label, href }: { label: string; href: string }) {
-  return (
-    <a 
-      href={href} 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className="group flex items-center gap-2"
-    >
-      <span className="label group-hover:text-foreground transition-colors">{label}</span>
-      <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
-    </a>
+        <button 
+          type="submit"
+          className="bg-[#FF5F2E] text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-orange-500/10"
+        >
+          Submit
+        </button>
+      </form>
+    </section>
   );
 }
