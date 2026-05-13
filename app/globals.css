@@ -1,94 +1,103 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --primary: #6366f1;
-  --primary-hover: #818cf8;
-  --secondary: #8b5cf6;
-  --secondary-hover: #a78bfa;
-  --accent: #ec4899;
-  --accent-hover: #f472b6;
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.8);
-  --gradient-from: #6366f1;
-  --gradient-to: #ec4899;
-  --nav-bg: rgba(0, 0, 0, 0.8);
-  --nav-border: rgba(255, 255, 255, 0.1);
+  --background: #030303;
+  --foreground: #ffffff;
+  
+  /* Graphite Theme */
+  --graphite-900: #0a0a0a;
+  --graphite-800: #121212;
+  --graphite-700: #1a1a1a;
+  --graphite-600: #262626;
+  
+  /* Accents */
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-cyan: #06b6d4;
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-glow: rgba(59, 130, 246, 0.15);
+  
+  --font-geist-sans: var(--font-geist-sans);
+  --font-geist-mono: var(--font-geist-mono);
 }
 
 @theme inline {
-  /* Colors */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-secondary: var(--secondary);
-  --color-secondary-hover: var(--secondary-hover);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-card-bg: var(--card-bg);
-  --color-card-border: var(--card-border);
-  --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-secondary);
-  --color-gradient-from: var(--gradient-from);
-  --color-gradient-to: var(--gradient-to);
-  --color-nav-bg: var(--nav-bg);
-  --color-nav-border: var(--nav-border);
+  --color-graphite-900: var(--graphite-900);
+  --color-graphite-800: var(--graphite-800);
+  --color-graphite-700: var(--graphite-700);
+  --color-graphite-600: var(--graphite-600);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-cyan: var(--accent-cyan);
   
-  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 * {
-  /* margin: 0; */
-  /* padding: 0 !important; */
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  scroll-behavior: smooth;
+html, body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  overscroll-behavior: none;
-}
-
-html::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari, Opera */
-}
-
-body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  margin: 0;
-  padding: 0;
+  overflow: hidden;
+  user-select: none;
+  cursor: none; /* We will use a custom cursor */
+}
+
+/* Cinematic Utilities */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  position: relative;
-  overflow: hidden;
-  overscroll-behavior: none;
+  content: "";
+  opacity: 0.03;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Hide scrollbar but keep scrolling functionality */
+.text-reveal {
+  overflow: hidden;
+  display: block;
+}
+
+.text-reveal-inner {
+  display: block;
+}
+
+.glow-mesh {
+  background: radial-gradient(circle at 50% 50%, var(--accent-blue), transparent 70%);
+  filter: blur(80px);
+  opacity: 0.15;
+}
+
+/* Typography Scale */
+h1 { font-size: clamp(3rem, 10vw, 8rem); line-height: 0.9; letter-spacing: -0.05em; font-weight: 800; }
+h2 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
+p { font-size: 1.125rem; line-height: 1.6; color: rgba(255, 255, 255, 0.6); }
+
+/* Remove standard scrollbars */
 ::-webkit-scrollbar {
   display: none;
-  width: 0;
 }
 
-/* Hide scrollbar for specific elements */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}

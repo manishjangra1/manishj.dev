@@ -1,4 +1,4 @@
-import DesktopEngine from '@/components/ManishOS/DesktopEngine';
+import CinematicEngine from '@/components/Cinematic/CinematicEngine';
 import connectDB from '@/lib/db';
 import Settings from '@/lib/models/Settings';
 import Project from '@/lib/models/Project';
@@ -57,7 +57,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen w-full bg-black overflow-hidden">
       <DataProvider initialData={data}>
-        <DesktopEngine />
+        <CinematicEngine />
       </DataProvider>
     </main>
   );
