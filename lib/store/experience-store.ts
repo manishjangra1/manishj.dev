@@ -12,6 +12,7 @@ interface ExperienceState {
   // Project Details State
   selectedProject: Project | null;
   isProjectDetailsOpen: boolean;
+  isCommandPaletteOpen: boolean;
   
   // Camera & Spatial State
   cameraPosition: [number, number, number];
@@ -24,6 +25,7 @@ interface ExperienceState {
   setProgress: (progress: number) => void;
   setSelectedProject: (project: Project | null) => void;
   setProjectDetailsOpen: (open: boolean) => void;
+  setIsCommandPaletteOpen: (open: boolean) => void;
   updateCamera: (position: [number, number, number], rotation: [number, number, number]) => void;
 }
 
@@ -33,11 +35,12 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
   isLoading: true,
   progress: 0,
   
-  cameraPosition: [0, 0, 5],
-  cameraRotation: [0, 0, 0],
-  
   selectedProject: null,
   isProjectDetailsOpen: false,
+  isCommandPaletteOpen: false,
+  
+  cameraPosition: [0, 0, 5],
+  cameraRotation: [0, 0, 0],
   
   setActiveSection: (section) => {
     let position: [number, number, number] = [0, 0, 5];
@@ -76,5 +79,6 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
   setProgress: (progress) => set({ progress }),
   setSelectedProject: (project) => set({ selectedProject: project }),
   setProjectDetailsOpen: (open) => set({ isProjectDetailsOpen: open }),
+  setIsCommandPaletteOpen: (open) => set({ isCommandPaletteOpen: open }),
   updateCamera: (position, rotation) => set({ cameraPosition: position, cameraRotation: rotation }),
 }));
