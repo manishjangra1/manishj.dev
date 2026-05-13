@@ -61,7 +61,9 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <DataProvider initialData={data}>
-        <Navigation />
+        <div className="top-nav-wrapper">
+          <Navigation />
+        </div>
         
         <div className="main-container">
           <div className="main-grid">
@@ -87,7 +89,7 @@ export default async function Home() {
         </div>
 
         {/* Floating Action Buttons */}
-        <div className="fixed bottom-8 right-8 flex flex-col gap-3 z-[6000] items-end">
+        {/* <div className="fixed bottom-8 right-8 flex flex-col gap-3 z-[6000] items-end">
           <button className="bg-[#FF5F2E] text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-transform">
             Use Template for Free
           </button>
@@ -102,7 +104,7 @@ export default async function Home() {
             </svg>
             <span className="text-[10px] font-bold text-black uppercase tracking-tight">Made in Framer</span>
           </div>
-        </div>
+        </div> */}
       </DataProvider>
     </main>
   );

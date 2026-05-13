@@ -15,10 +15,10 @@ export default function Navigation() {
 
   return (
     <motion.nav 
-      initial={{ y: -100, x: '-50%', opacity: 0 }}
-      animate={{ y: 0, x: '-50%', opacity: 1 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-8 left-1/2 z-[5000] flex items-center gap-4 px-4 py-2.5 rounded-2xl bg-white/5 backdrop-blur-2xl border border-white/10"
+      className="z-5000 flex items-center gap-4 px-5 rounded-2xl bg-[#FFFFFF08] backdrop-blur-2xl border border-white/10 w-[292px] h-[48px]"
     >
       {navItems.map((item, index) => (
         <Link
