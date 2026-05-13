@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValue } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import Image from 'next/image';
 import { useExperienceStore } from '@/lib/store/experience-store';
 import { X, Sparkles, Globe, Terminal, Copy, Check, Code2 } from 'lucide-react';
@@ -49,8 +49,13 @@ const ProjectDetails: React.FC = () => {
   const { isProjectDetailsOpen, setProjectDetailsOpen, selectedProject, setGuideMessage } = useExperienceStore();
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Use MotionValues for guaranteed scroll responsiveness
-  const scrollValue = useMotionValue(0);
+  // Use MotionValues with Spring physics for high-end smoothness
+  const rawScrollValue = useMotionValue(0);
+  const scrollValue = useSpring(rawScrollValue, {
+    damping: 25,
+    stiffness: 120,
+    mass: 0.5
+  });
 
   // Transform values for buttery-smooth header collapse
   const headerHeight = useTransform(scrollValue, [0, 300], [400, 80]);
@@ -59,11 +64,15 @@ const ProjectDetails: React.FC = () => {
   const stickyTitleOpacity = useTransform(scrollValue, [200, 300], [0, 1]);
   const heroContentOpacity = useTransform(scrollValue, [0, 150], [1, 0]);
   
+  // Dynamically position the close button to stay centered in both states
+  const closeButtonTop = useTransform(scrollValue, [0, 300], [32, 16]);
+  const closeButtonSize = useTransform(scrollValue, [0, 300], [48, 48]);
+  
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const currentScroll = e.currentTarget.scrollTop;
-    scrollValue.set(currentScroll);
+    rawScrollValue.set(currentScroll);
     setIsCollapsed(currentScroll > 200);
   };
 
@@ -74,10 +83,10 @@ const ProjectDetails: React.FC = () => {
     // Reset scroll when modal opens
     if (isProjectDetailsOpen && containerRef.current) {
       containerRef.current.scrollTop = 0;
-      scrollValue.set(0);
+      rawScrollValue.set(0);
       setIsCollapsed(false);
     }
-  }, [isProjectDetailsOpen, selectedProject, setGuideMessage, scrollValue]);
+  }, [isProjectDetailsOpen, selectedProject, setGuideMessage, rawScrollValue]);
 
   if (!selectedProject) return null;
 
@@ -100,12 +109,13 @@ const ProjectDetails: React.FC = () => {
             className="relative w-full max-w-7xl h-full max-h-[92vh] glass rounded-[2.5rem] overflow-hidden flex flex-col border-white/10 shadow-[0_0_120px_rgba(0,0,0,0.8)]"
           >
             {/* Top-Right Persistent Close Button */}
-            <button
+            <motion.button
+              style={{ top: closeButtonTop }}
               onClick={() => setProjectDetailsOpen(false)}
-              className="absolute top-8 right-8 w-12 h-12 rounded-full glass flex items-center justify-center text-white/40 hover:text-white transition-all hover:bg-white/10 group z-50 pointer-events-auto"
+              className="absolute right-8 w-12 h-12 rounded-full glass flex items-center justify-center text-white/40 hover:text-white transition-all hover:bg-white/10 group z-50 pointer-events-auto shadow-xl"
             >
               <X size={24} className="group-hover:rotate-90 transition-transform duration-500" />
-            </button>
+            </motion.button>
 
             {/* Dynamic Sticky Header */}
             <motion.div 
