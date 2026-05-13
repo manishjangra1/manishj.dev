@@ -16,6 +16,7 @@ import AboutStory from './Sections/AboutStory';
 import SkillsGrid from './Sections/SkillsGrid';
 import ExperienceTimeline from './Sections/ExperienceTimeline';
 import ContactSection from './Sections/ContactSection';
+import ProjectDetails from './Sections/ProjectDetails';
 
 const CinematicEngine: React.FC = () => {
   const { isLoaded, setLoaded, activeSection } = useExperienceStore();
@@ -90,6 +91,7 @@ const CinematicEngine: React.FC = () => {
 
       {/* Command Palette */}
       <CommandPalette />
+      <ProjectDetails />
     </div>
   );
 };

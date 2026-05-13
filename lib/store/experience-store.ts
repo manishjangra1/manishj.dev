@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { Project } from '@/contexts/DataContext';
 
 export type Section = 'home' | 'projects' | 'about' | 'experience' | 'skills' | 'contact';
 
@@ -7,6 +8,10 @@ interface ExperienceState {
   isLoaded: boolean;
   isLoading: boolean;
   progress: number;
+  
+  // Project Details State
+  selectedProject: Project | null;
+  isProjectDetailsOpen: boolean;
   
   // Camera & Spatial State
   cameraPosition: [number, number, number];
@@ -17,6 +22,8 @@ interface ExperienceState {
   setLoaded: (loaded: boolean) => void;
   setLoading: (loading: boolean) => void;
   setProgress: (progress: number) => void;
+  setSelectedProject: (project: Project | null) => void;
+  setProjectDetailsOpen: (open: boolean) => void;
   updateCamera: (position: [number, number, number], rotation: [number, number, number]) => void;
 }
 
@@ -28,6 +35,9 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
   
   cameraPosition: [0, 0, 5],
   cameraRotation: [0, 0, 0],
+  
+  selectedProject: null,
+  isProjectDetailsOpen: false,
   
   setActiveSection: (section) => {
     let position: [number, number, number] = [0, 0, 5];
@@ -64,5 +74,7 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
   setLoaded: (loaded) => set({ isLoaded: loaded }),
   setLoading: (loading) => set({ isLoading: loading }),
   setProgress: (progress) => set({ progress }),
+  setSelectedProject: (project) => set({ selectedProject: project }),
+  setProjectDetailsOpen: (open) => set({ isProjectDetailsOpen: open }),
   updateCamera: (position, rotation) => set({ cameraPosition: position, cameraRotation: rotation }),
 }));

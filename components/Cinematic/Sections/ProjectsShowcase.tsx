@@ -3,14 +3,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useData } from '@/contexts/DataContext';
-import { ExternalLink, Github, ChevronRight, ChevronLeft } from 'lucide-react';
+import { useExperienceStore } from '@/lib/store/experience-store';
+import { ExternalLink, Github, ChevronRight, ChevronLeft, Plus } from 'lucide-react';
 
 const ProjectsShowcase: React.FC = () => {
   const { projects } = useData();
+  const { setSelectedProject, setProjectDetailsOpen } = useExperienceStore();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const next = useCallback(() => setCurrentIndex((prev) => (prev + 1) % projects.length), [projects.length]);
   const prev = useCallback(() => setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length), [projects.length]);
+
+  const handleViewDetails = () => {
+    setSelectedProject(projects[currentIndex]);
+    setProjectDetailsOpen(true);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -75,19 +82,32 @@ const ProjectsShowcase: React.FC = () => {
                 ))}
               </div>
 
-              <div className="flex gap-6 mt-4">
-                {currentProject.liveUrl && (
-                  <a href={currentProject.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white hover:text-accent-blue transition-colors group">
-                    <span className="text-sm font-medium tracking-tight">Live Experience</span>
-                    <ExternalLink size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  </a>
-                )}
-                {currentProject.githubUrl && (
-                  <a href={currentProject.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/60 hover:text-white transition-colors">
-                    <span className="text-sm font-medium tracking-tight">Source Code</span>
-                    <Github size={16} />
-                  </a>
-                )}
+              <div className="flex flex-wrap items-center gap-8 mt-6">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleViewDetails}
+                  className="bg-white text-black px-8 py-4 rounded-2xl flex items-center gap-3 group overflow-hidden relative"
+                >
+                  <Plus size={18} className="group-hover:rotate-90 transition-transform duration-500" />
+                  <span className="text-sm font-bold uppercase tracking-tighter relative z-10">View Details</span>
+                  <div className="absolute inset-0 bg-accent-blue opacity-0 group-hover:opacity-10 transition-opacity" />
+                </motion.button>
+
+                <div className="flex gap-8">
+                  {currentProject.liveUrl && (
+                    <a href={currentProject.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/60 hover:text-white transition-all group">
+                      <ExternalLink size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      <span className="text-xs font-semibold uppercase tracking-widest">Live</span>
+                    </a>
+                  )}
+                  {currentProject.githubUrl && (
+                    <a href={currentProject.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/60 hover:text-white transition-all group">
+                      <Github size={16} />
+                      <span className="text-xs font-semibold uppercase tracking-widest">Code</span>
+                    </a>
+                  )}
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>
