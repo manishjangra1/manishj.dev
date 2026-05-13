@@ -24,7 +24,7 @@ export default function Navigation() {
         <Link
           key={index}
           href={item.href}
-          className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white/10 transition-colors text-white"
+          className="w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-white/10 transition-colors text-white"
         >
           {item.icon}
         </Link>

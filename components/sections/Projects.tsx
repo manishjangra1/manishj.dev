@@ -28,7 +28,7 @@ export default function Projects() {
             className="dark-card group cursor-pointer flex items-center justify-between hover:bg-[#262626] transition-colors"
           >
             <div className="flex items-center gap-6">
-              <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-white/5">
+              <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-white/5">
                 {project.image ? (
                   <Image
                     src={project.image}

@@ -92,21 +92,21 @@ p, .body {
 
 .accent-card-orange {
   background: #FF5F2E;
-  border-radius: 24px;
+  border-radius: 16px;
   padding: 2rem;
   color: white;
 }
 
 .accent-card-lime {
   background: var(--secondary);
-  border-radius: 24px;
+  border-radius: 16px;
   padding: 2rem;
   color: black;
 }
 
 .dark-card {
   background: var(--color-card-dark);
-  border-radius: 24px;
+  border-radius: 16px;
   padding: 1.5rem;
 }
 
