@@ -29,22 +29,24 @@ const SkillsGrid: React.FC = () => {
                 </h3>
               </div>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 {skills
                   .filter(s => s.category === category)
                   .map((skill) => (
                     <motion.div
                       key={skill._id}
                       whileHover={{ scale: 1.05, borderColor: 'rgba(6, 182, 212, 0.4)' }}
-                      className="glass px-4 py-2 rounded-xl flex items-center gap-3 group transition-all duration-300"
+                      className="glass px-4 py-3 rounded-xl flex items-center justify-between group transition-all duration-300 w-full"
                     >
-                      <span className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">
+                      <span className="text-sm font-medium text-white/60 group-hover:text-white transition-colors truncate">
                         {skill.name}
                       </span>
-                      <div className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-accent-cyan transition-colors" />
-                      <span className="text-[10px] font-mono text-white/20 group-hover:text-accent-cyan/60 transition-colors">
-                        {skill.proficiency}%
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-accent-cyan transition-colors" />
+                        <span className="text-[10px] font-mono text-white/20 group-hover:text-accent-cyan/60 transition-colors">
+                          {skill.proficiency}%
+                        </span>
+                      </div>
                     </motion.div>
                   ))}
               </div>

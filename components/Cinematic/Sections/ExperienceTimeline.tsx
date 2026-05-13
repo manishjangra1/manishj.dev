@@ -9,7 +9,7 @@ const ExperienceTimeline: React.FC = () => {
 
   return (
     <div className="absolute inset-0 flex items-center justify-center p-8 md:p-24 pointer-events-none">
-      <div className="w-full max-w-5xl h-full max-h-[85vh] pointer-events-auto overflow-y-auto scrollbar-hide px-8 pb-40 pt-12">
+      <div className="w-full max-w-6xl h-full max-h-[85vh] pointer-events-auto overflow-y-auto scrollbar-hide px-8 pb-40 pt-12">
         <div className="flex flex-col gap-24 relative">
           {/* Vertical Line */}
           <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent ml-[-20px]" />
