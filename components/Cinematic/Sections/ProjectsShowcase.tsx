@@ -39,14 +39,17 @@ const ProjectsShowcase: React.FC = () => {
         
         {/* Navigation Left */}
         <button 
-          onClick={prev}
-          className="glass w-12 h-12 rounded-full flex items-center justify-center text-white/40 hover:text-white transition-all hover:scale-110"
+          onClick={(e) => {
+            e.stopPropagation();
+            prev();
+          }}
+          className="glass w-14 h-14 rounded-full flex items-center justify-center text-white/40 hover:text-white transition-all hover:scale-110 relative z-[20] pointer-events-auto shrink-0"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={28} />
         </button>
 
         {/* Project Content */}
-        <div className="flex-1 px-12">
+        <div className="flex-1 px-12 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentProject._id}
@@ -65,12 +68,12 @@ const ProjectsShowcase: React.FC = () => {
                 >
                   Featured Project {currentIndex + 1}/{projects.length}
                 </motion.span>
-                <h2 className="text-6xl font-extrabold tracking-tighter text-white">
+                <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-white">
                   {currentProject.title.toUpperCase()}
                 </h2>
               </div>
 
-              <p className="text-white/60 text-lg max-w-xl leading-relaxed">
+              <p className="text-white/60 text-base md:text-lg max-w-xl leading-relaxed line-clamp-3">
                 {currentProject.description}
               </p>
 
@@ -115,10 +118,13 @@ const ProjectsShowcase: React.FC = () => {
 
         {/* Navigation Right */}
         <button 
-          onClick={next}
-          className="glass w-12 h-12 rounded-full flex items-center justify-center text-white/40 hover:text-white transition-all hover:scale-110"
+          onClick={(e) => {
+            e.stopPropagation();
+            next();
+          }}
+          className="glass w-14 h-14 rounded-full flex items-center justify-center text-white/40 hover:text-white transition-all hover:scale-110 relative z-[20] pointer-events-auto shrink-0"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={28} />
         </button>
       </div>
 

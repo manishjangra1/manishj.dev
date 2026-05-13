@@ -129,11 +129,11 @@ const CinematicEngine: React.FC = () => {
                 x: activeSection === 'home' ? 0 : -50,
                 filter: activeSection === 'home' ? 'blur(0px)' : 'blur(10px)'
               }}
-              className="pointer-events-auto"
+              className={activeSection === 'home' ? 'pointer-events-auto' : 'pointer-events-none'}
             >
               <IntroPanel />
             </motion.div>
-            <div className="pointer-events-auto self-end md:self-auto">
+            <div className={activeSection === 'home' ? 'pointer-events-auto self-end md:self-auto' : 'pointer-events-none self-end md:self-auto'}>
               <CommunicationNodes />
             </div>
           </div>
