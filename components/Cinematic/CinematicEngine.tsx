@@ -36,7 +36,7 @@ const CinematicEngine: React.FC = () => {
   useEffect(() => {
     if (isLoaded) {
       const timer = setTimeout(() => {
-        setGuideMessage("Hello. I am Iris, your digital assistant. How can I help you explore today?");
+        setGuideMessage("Explore the different sections to know more about me.");
       }, 3000);
       return () => clearTimeout(timer);
     }

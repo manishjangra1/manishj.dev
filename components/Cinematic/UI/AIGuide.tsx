@@ -80,7 +80,7 @@ const AIGuide: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9, y: 10, filter: 'blur(10px)' }}
             animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, scale: 0.9, y: 5, filter: 'blur(10px)' }}
-            className="glass p-4 rounded-xl max-w-[240px] border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden pointer-events-auto mb-1"
+            className="glass p-4 rounded-xl max-w-[320px] border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden pointer-events-auto mb-1"
           >
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-20 h-20 bg-accent-blue/10 blur-[30px] -mr-10 -mt-10" />

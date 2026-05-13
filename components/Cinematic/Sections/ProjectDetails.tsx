@@ -1,175 +1,264 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import Image from 'next/image';
 import { useExperienceStore } from '@/lib/store/experience-store';
-import { X, Sparkles, Globe, Terminal } from 'lucide-react';
+import { X, Sparkles, Globe, Terminal, Copy, Check, Code2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+const CodeBlock = ({ children, className }: { children: any, className?: string }) => {
+  const [copied, setCopied] = useState(false);
+  const language = className ? className.replace(/language-/, '') : 'code';
+
+  const onCopy = () => {
+    navigator.clipboard.writeText(String(children).replace(/\n$/, ''));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="group relative my-8 overflow-hidden rounded-xl bg-[#0a0a0a] border border-white/5 shadow-2xl">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-white/5 bg-white/5">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500/20" />
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20" />
+            <div className="w-2.5 h-2.5 rounded-full bg-green-500/20" />
+          </div>
+          <span className="text-[10px] uppercase tracking-widest text-white/30 font-mono ml-2">
+            {language}
+          </span>
+        </div>
+        <button 
+          onClick={onCopy}
+          className="p-1.5 hover:bg-white/10 rounded-md transition-colors text-white/30 hover:text-white"
+        >
+          {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
+        </button>
+      </div>
+      <div className="p-5 overflow-x-auto font-mono text-sm leading-relaxed text-white/80 scrollbar-hide">
+        <code className="block whitespace-pre">{children}</code>
+      </div>
+    </div>
+  );
+};
 
 const ProjectDetails: React.FC = () => {
   const { isProjectDetailsOpen, setProjectDetailsOpen, selectedProject, setGuideMessage } = useExperienceStore();
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Use MotionValues for guaranteed scroll responsiveness
+  const scrollValue = useMotionValue(0);
+
+  // Transform values for buttery-smooth header collapse
+  const headerHeight = useTransform(scrollValue, [0, 300], [400, 80]);
+  const imageOpacity = useTransform(scrollValue, [0, 200], [1, 0]);
+  const titleScale = useTransform(scrollValue, [0, 300], [1, 0.8]);
+  const stickyTitleOpacity = useTransform(scrollValue, [200, 300], [0, 1]);
+  const heroContentOpacity = useTransform(scrollValue, [0, 150], [1, 0]);
+  
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const currentScroll = e.currentTarget.scrollTop;
+    scrollValue.set(currentScroll);
+    setIsCollapsed(currentScroll > 200);
+  };
 
   useEffect(() => {
     if (isProjectDetailsOpen && selectedProject) {
-      const timer = setTimeout(() => {
-        setGuideMessage(`Viewing project: ${selectedProject.title}. Explore the details and source code below.`);
-      }, 500);
-      return () => clearTimeout(timer);
+      setGuideMessage(`Viewing project: ${selectedProject.title}. Explore the technical specifications and architecture.`);
     }
-  }, [isProjectDetailsOpen, selectedProject, setGuideMessage]);
+    // Reset scroll when modal opens
+    if (isProjectDetailsOpen && containerRef.current) {
+      containerRef.current.scrollTop = 0;
+      scrollValue.set(0);
+      setIsCollapsed(false);
+    }
+  }, [isProjectDetailsOpen, selectedProject, setGuideMessage, scrollValue]);
 
   if (!selectedProject) return null;
 
   return (
     <AnimatePresence>
       {isProjectDetailsOpen && (
-        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-12 overflow-hidden">
-          {/* Backdrop Blur */}
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-8 overflow-hidden">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setProjectDetailsOpen(false)}
-            className="absolute inset-0 bg-black/80 backdrop-blur-xl"
+            className="absolute inset-0 bg-black/90 backdrop-blur-3xl"
           />
 
-          {/* Modal Container */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 50 }}
+            initial={{ opacity: 0, scale: 0.95, y: 40 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 50 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="relative w-full max-w-6xl h-full max-h-[90vh] glass rounded-[2.5rem] overflow-hidden flex flex-col border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.5)]"
+            exit={{ opacity: 0, scale: 0.98, y: 20 }}
+            className="relative w-full max-w-7xl h-full max-h-[92vh] glass rounded-[2.5rem] overflow-hidden flex flex-col border-white/10 shadow-[0_0_120px_rgba(0,0,0,0.8)]"
           >
-            {/* Header / Banner */}
-            <div className="relative h-[30vh] md:h-[40vh] w-full shrink-0 overflow-hidden">
-              {selectedProject.image && (
-                <Image 
-                  src={selectedProject.image} 
-                  alt={selectedProject.title} 
-                  fill
-                  className="object-cover" 
-                />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/40 to-transparent" />
-              
-              {/* Close Button */}
-              <button
-                onClick={() => setProjectDetailsOpen(false)}
-                className="absolute top-8 right-8 w-12 h-12 rounded-full glass flex items-center justify-center text-white/40 hover:text-white transition-all hover:scale-110 z-10"
-              >
-                <X size={24} />
-              </button>
+            {/* Top-Right Persistent Close Button */}
+            <button
+              onClick={() => setProjectDetailsOpen(false)}
+              className="absolute top-8 right-8 w-12 h-12 rounded-full glass flex items-center justify-center text-white/40 hover:text-white transition-all hover:bg-white/10 group z-50 pointer-events-auto"
+            >
+              <X size={24} className="group-hover:rotate-90 transition-transform duration-500" />
+            </button>
 
-              {/* Title & Stats Overlay */}
-              <div className="absolute bottom-12 left-12 right-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            {/* Dynamic Sticky Header */}
+            <motion.div 
+              style={{ height: headerHeight }}
+              className="relative w-full shrink-0 z-20 overflow-hidden bg-[#030303] border-b border-white/5"
+            >
+              {/* Background Image with Parallax/Fade */}
+              <motion.div style={{ opacity: imageOpacity }} className="absolute inset-0">
+                {selectedProject.image && (
+                  <Image 
+                    src={selectedProject.image} 
+                    alt={selectedProject.title} 
+                    fill
+                    className="object-cover" 
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/60 to-transparent" />
+              </motion.div>
+              
+              {/* Sticky Bar Content (Visible when collapsed) */}
+              <div className="absolute inset-0 flex items-center justify-start px-8 md:px-12 pointer-events-none">
+                <motion.div 
+                  style={{ opacity: stickyTitleOpacity }}
+                  className="flex items-center gap-4"
+                >
+                  <div className="w-1 h-6 bg-accent-blue rounded-full" />
+                  <div className="flex flex-col">
+                    <span className="text-[9px] uppercase tracking-[0.4em] text-accent-blue font-mono">Registry v2.0</span>
+                    <h2 className="text-xl font-bold text-white tracking-tighter leading-none">{selectedProject.title}</h2>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Large Hero Content (Visible when expanded) */}
+              <motion.div 
+                style={{ 
+                  opacity: heroContentOpacity,
+                  scale: titleScale
+                }}
+                className="absolute bottom-12 left-12 right-12 flex flex-col gap-6"
+              >
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-3">
-                    <Sparkles className="text-accent-blue" size={16} />
-                    <span className="text-[10px] uppercase tracking-[0.4em] text-accent-blue font-mono">
-                      Project Showcase
-                    </span>
+                    <Sparkles className="text-accent-blue" size={14} />
+                    <span className="text-[10px] uppercase tracking-[0.5em] text-accent-blue font-mono">Architectural Deep-Dive</span>
                   </div>
-                  <h2 className="text-4xl md:text-7xl font-extrabold tracking-tighter text-white">
-                    {selectedProject.title.toUpperCase()}
+                  <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white uppercase leading-[0.85]">
+                    {selectedProject.title}
                   </h2>
                 </div>
 
                 <div className="flex gap-4">
                   {selectedProject.liveUrl && (
-                    <a 
-                      href={selectedProject.liveUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="glass px-6 py-3 rounded-2xl flex items-center gap-3 text-white hover:bg-white/10 transition-all group"
-                    >
-                      <Globe size={18} className="text-accent-blue" />
-                      <span className="text-sm font-semibold tracking-tight uppercase">Launch Live</span>
+                    <a href={selectedProject.liveUrl} target="_blank" className="glass px-8 py-3.5 rounded-2xl flex items-center gap-3 text-white hover:bg-white hover:text-black transition-all group pointer-events-auto">
+                      <Globe size={18} className="group-hover:rotate-12 transition-transform" />
+                      <span className="text-[11px] font-bold tracking-widest uppercase">Launch Production</span>
                     </a>
                   )}
                   {selectedProject.githubUrl && (
-                    <a 
-                      href={selectedProject.githubUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="glass px-6 py-3 rounded-2xl flex items-center gap-3 text-white hover:bg-white/10 transition-all group"
-                    >
-                      <Terminal size={18} className="text-white/60" />
-                      <span className="text-sm font-semibold tracking-tight uppercase">Source Code</span>
+                    <a href={selectedProject.githubUrl} target="_blank" className="glass px-8 py-3.5 rounded-2xl flex items-center gap-3 text-white hover:bg-accent-blue transition-all group pointer-events-auto">
+                      <Terminal size={18} />
+                      <span className="text-[11px] font-bold tracking-widest uppercase">View Repository</span>
                     </a>
                   )}
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-            {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto scrollbar-hide px-8 md:px-12 py-12">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            {/* Scrollable Content Engine */}
+            <div 
+              ref={containerRef}
+              onScroll={handleScroll}
+              className="flex-1 overflow-y-auto scrollbar-hide px-8 md:px-20 py-16"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-20">
                 
-                {/* Main Content (Markdown) */}
-                <div className="lg:col-span-2 space-y-12">
-                  <div className="prose prose-invert prose-lg max-w-none prose-p:text-white/60 prose-headings:text-white prose-strong:text-accent-blue prose-li:text-white/60">
-                    <ReactMarkdown>
+                {/* Main Content (Markdown Engine) */}
+                <div className="lg:col-span-3">
+                  <div className="prose prose-invert prose-lg max-w-none 
+                    prose-h1:text-4xl prose-h1:font-black prose-h1:tracking-tighter prose-h1:mb-8
+                    prose-h2:text-2xl prose-h2:font-bold prose-h2:tracking-tight prose-h2:mt-16 prose-h2:mb-6 prose-h2:text-white/90
+                    prose-p:text-white/60 prose-p:leading-relaxed prose-p:mb-6
+                    prose-li:text-white/60 prose-li:mb-2
+                    prose-strong:text-accent-blue prose-strong:font-bold
+                    prose-ul:list-disc prose-ul:ml-6
+                  ">
+                    <ReactMarkdown 
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        p: ({ children }) => <div className="mb-6 leading-relaxed text-white/60">{children}</div>,
+                        code({ node, inline, className, children, ...props }: any) {
+                          return !inline ? (
+                            <CodeBlock className={className}>{children}</CodeBlock>
+                          ) : (
+                            <code className="bg-white/10 px-1.5 py-0.5 rounded text-accent-blue font-mono text-sm" {...props}>
+                              {children}
+                            </code>
+                          )
+                        }
+                      }}
+                    >
                       {selectedProject.content || selectedProject.description}
                     </ReactMarkdown>
                   </div>
-                  
-                  {/* Additional section if content is short */}
-                  {!selectedProject.content && (
-                    <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5">
-                      <p className="text-white/40 italic text-sm">
-                        This project represents a synthesis of design and technology, pushing the boundaries of what is possible within a cinematic web environment.
-                      </p>
-                    </div>
-                  )}
                 </div>
 
-                {/* Sidebar / Specs */}
-                <div className="space-y-12">
-                  {/* Technologies */}
+                {/* Technical Specifications Sidebar */}
+                <div className="space-y-12 lg:sticky lg:top-0 h-fit">
                   <div className="space-y-6">
                     <div className="flex items-center gap-3">
-                      <div className="h-[1px] w-8 bg-white/20" />
-                      <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-mono">
-                        Tech Stack
-                      </span>
+                      <div className="h-[1px] w-6 bg-accent-blue/30" />
+                      <span className="text-[9px] uppercase tracking-[0.4em] text-white/30 font-mono">Frameworks</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.technologies.map(tech => (
-                        <span key={tech} className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] uppercase tracking-widest text-white/60">
+                        <span key={tech} className="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-[10px] font-bold tracking-widest text-white/40 uppercase hover:border-accent-blue/30 hover:text-white transition-all cursor-default">
                           {tech}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  {/* Date / Metadata */}
                   <div className="space-y-6">
                     <div className="flex items-center gap-3">
-                      <div className="h-[1px] w-8 bg-white/20" />
-                      <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-mono">
-                        Metadata
-                      </span>
+                      <div className="h-[1px] w-6 bg-accent-blue/30" />
+                      <span className="text-[9px] uppercase tracking-[0.4em] text-white/30 font-mono">Registry</span>
                     </div>
                     <div className="flex flex-col gap-4">
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-white/20">Status</span>
-                        <span className="text-accent-blue/60">{selectedProject.isCurrentlyWorking ? 'Active Development' : 'Production Ready'}</span>
+                      <div className="flex justify-between items-center text-[11px] uppercase tracking-wider">
+                        <span className="text-white/10">Status</span>
+                        <span className="text-accent-blue/80 font-bold">{selectedProject.isCurrentlyWorking ? 'Active' : 'Deployed'}</span>
                       </div>
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-white/20">Category</span>
-                        <span className="text-white/40">Full Stack Experience</span>
+                      <div className="flex justify-between items-center text-[11px] uppercase tracking-wider">
+                        <span className="text-white/10">System</span>
+                        <span className="text-white/40">v2.0 Stable</span>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Summary Callout */}
+                  <div className="p-6 rounded-2xl bg-accent-blue/5 border border-accent-blue/10">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Code2 size={14} className="text-accent-blue" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-accent-blue">Architect Note</span>
+                    </div>
+                    <p className="text-[11px] text-white/40 leading-relaxed italic">
+                      This project architecture prioritizes modular scalability and high-performance rendering within the cinematic ecosystem.
+                    </p>
                   </div>
                 </div>
 
               </div>
             </div>
-
-            {/* Footer / Gradient Bleed */}
-            <div className="h-12 bg-gradient-to-t from-[#030303]/40 to-transparent shrink-0 pointer-events-none" />
           </motion.div>
         </div>
       )}
