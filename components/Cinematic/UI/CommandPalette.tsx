@@ -104,23 +104,23 @@ const CommandPalette: React.FC = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[1000] flex items-start justify-center pt-[15vh] px-4 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[1000] flex items-start justify-center pt-[15vh] px-4 bg-background/80 backdrop-blur-xl">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
-            className="w-full max-w-xl glass rounded-3xl overflow-hidden shadow-2xl border-white/10"
+            className="w-full max-w-xl glass rounded-3xl overflow-hidden shadow-2xl border-white/[0.05]"
           >
-            <div className="p-5 border-b border-white/10 flex items-center gap-4">
-              <Search className="text-accent-blue" size={20} />
+            <div className="p-5 border-b border-white/[0.05] flex items-center gap-4">
+              <Search className="text-accent-amber" size={20} />
               <input
                 autoFocus
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search anything... (projects, skills, story)"
-                className="bg-transparent border-none outline-none text-white w-full text-lg placeholder:text-white/20"
+                className="bg-transparent border-none outline-none text-foreground w-full text-lg placeholder:text-foreground/20"
               />
-              <div className="flex items-center gap-1 px-2 py-1 glass rounded text-[10px] text-white/40 font-mono">
+              <div className="flex items-center gap-1 px-2 py-1 glass rounded text-[10px] text-foreground/30 font-mono">
                 <CommandIcon size={10} /> K
               </div>
             </div>
@@ -129,7 +129,7 @@ const CommandPalette: React.FC = () => {
               {/* Dynamic Results */}
               {query && filteredResults.length > 0 && (
                 <div className="mb-4">
-                  <div className="px-3 py-2 text-[10px] uppercase tracking-widest text-white/20 font-mono">Search Results</div>
+                  <div className="px-3 py-2 text-[10px] uppercase tracking-[0.3em] text-foreground/20 font-mono">Search Results</div>
                   {filteredResults.map((result: any, index: number) => {
                     const isSelected = index === selectedIndex;
                     return (
@@ -137,18 +137,18 @@ const CommandPalette: React.FC = () => {
                         key={`${result.type}-${result._id}`}
                         onClick={() => handleSelect(result)}
                         onMouseEnter={() => setSelectedIndex(index)}
-                        className={`w-full flex items-center justify-between p-3 rounded-2xl transition-colors group text-left ${isSelected ? 'bg-white/10' : 'hover:bg-white/5'}`}
+                        className={`w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-500 group text-left ${isSelected ? 'bg-white/[0.05]' : 'hover:bg-white/[0.02]'}`}
                       >
                         <div className="flex items-center gap-4">
-                          <div className={`w-10 h-10 rounded-xl glass flex items-center justify-center transition-colors ${isSelected ? 'text-accent-blue' : 'text-white/40 group-hover:text-accent-blue'}`}>
+                          <div className={`w-10 h-10 rounded-xl glass flex items-center justify-center transition-colors duration-500 ${isSelected ? 'text-accent-amber' : 'text-foreground/40 group-hover:text-accent-amber'}`}>
                             <result.icon size={18} />
                           </div>
                           <div className="flex flex-col">
-                            <span className={`font-medium transition-colors ${isSelected ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>{result.label}</span>
-                            <span className="text-[10px] text-white/20 uppercase tracking-widest">{result.type}</span>
+                            <span className={`font-medium transition-colors duration-500 ${isSelected ? 'text-foreground' : 'text-foreground/80 group-hover:text-foreground'}`}>{result.label}</span>
+                            <span className="text-[10px] text-foreground/20 uppercase tracking-widest">{result.type}</span>
                           </div>
                         </div>
-                        <Zap size={14} className={`transition-colors ${isSelected ? 'text-accent-blue/60' : 'text-white/0 group-hover:text-accent-blue/40'}`} />
+                        <Zap size={14} className={`transition-colors duration-500 ${isSelected ? 'text-accent-amber/60' : 'text-white/0 group-hover:text-accent-amber/40'}`} />
                       </button>
                     );
                   })}
@@ -157,7 +157,7 @@ const CommandPalette: React.FC = () => {
 
               {/* Static Navigation */}
               <div>
-                <div className="px-3 py-2 text-[10px] uppercase tracking-widest text-white/20 font-mono">
+                <div className="px-3 py-2 text-[10px] uppercase tracking-[0.3em] text-foreground/20 font-mono">
                   {query ? 'Navigation' : 'Quick Navigation'}
                 </div>
                 {staticActions.map((action, index) => {
@@ -168,12 +168,12 @@ const CommandPalette: React.FC = () => {
                       key={action.id}
                       onClick={() => handleSelect(action)}
                       onMouseEnter={() => setSelectedIndex(actualIndex)}
-                      className={`w-full flex items-center gap-4 p-3 rounded-2xl transition-colors group text-left ${isSelected ? 'bg-white/10' : 'hover:bg-white/5'}`}
+                      className={`w-full flex items-center gap-4 p-3 rounded-2xl transition-all duration-500 group text-left ${isSelected ? 'bg-white/[0.05]' : 'hover:bg-white/[0.02]'}`}
                     >
-                      <div className={`w-10 h-10 rounded-xl glass flex items-center justify-center transition-colors ${isSelected ? 'text-accent-blue' : 'text-white/40 group-hover:text-accent-blue'}`}>
+                      <div className={`w-10 h-10 rounded-xl glass flex items-center justify-center transition-colors duration-500 ${isSelected ? 'text-accent-amber' : 'text-foreground/40 group-hover:text-accent-amber'}`}>
                         <action.icon size={18} />
                       </div>
-                      <span className={`transition-colors ${isSelected ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
+                      <span className={`transition-colors duration-500 ${isSelected ? 'text-foreground' : 'text-foreground/80 group-hover:text-foreground'}`}>
                         {action.label}
                       </span>
                     </button>
@@ -183,12 +183,12 @@ const CommandPalette: React.FC = () => {
 
               {query && filteredResults.length === 0 && (
                 <div className="p-8 text-center">
-                  <p className="text-white/20 text-sm">No matches found for &quot;{query}&quot;</p>
+                  <p className="text-foreground/20 text-sm">No results for &quot;{query}&quot;</p>
                 </div>
               )}
             </div>
 
-            <div className="p-4 bg-white/[0.02] border-t border-white/10 flex justify-between items-center text-[10px] uppercase tracking-widest text-white/20 font-mono">
+            <div className="p-4 bg-white/[0.01] border-t border-white/[0.05] flex justify-between items-center text-[10px] uppercase tracking-[0.3em] text-foreground/20 font-mono">
               <span>Press ESC to close</span>
               <div className="flex items-center gap-4">
                 <span>↑↓ to navigate</span>

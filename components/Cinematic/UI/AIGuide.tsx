@@ -47,7 +47,7 @@ const AIGuide: React.FC = () => {
       setGuideMessage(null);
     } else {
       // Re-trigger last message or a default greeting
-      setGuideMessage(lastMessageRef.current || "I am Iris. How can I assist you today?");
+      setGuideMessage(lastMessageRef.current || "Architect system online. How can I assist you today?");
     }
   };
 
@@ -80,19 +80,19 @@ const AIGuide: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9, y: 10, filter: 'blur(10px)' }}
             animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, scale: 0.9, y: 5, filter: 'blur(10px)' }}
-            className="glass p-4 rounded-xl max-w-[320px] border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden pointer-events-auto mb-1"
+            className="glass p-4 rounded-xl max-w-[320px] border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.4)] relative overflow-hidden pointer-events-auto mb-1"
           >
             {/* Background Glow */}
-            <div className="absolute top-0 right-0 w-20 h-20 bg-accent-blue/10 blur-[30px] -mr-10 -mt-10" />
+            <div className="absolute top-0 right-0 w-20 h-20 bg-accent-amber/[0.05] blur-[30px] -mr-10 -mt-10" />
             
-            <div className="flex items-start gap-2.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-accent-blue mt-1.5 animate-pulse shrink-0" />
-              <p className="text-[10px] text-white/70 leading-relaxed font-medium tracking-wide selection:bg-accent-blue/30 pl-0.5">
+            <div className="flex items-start gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-accent-amber mt-1.5 shadow-[0_0_8px_rgba(214,168,106,0.6)] shrink-0" />
+              <p className="text-[10px] text-foreground/75 leading-relaxed font-medium tracking-wide selection:bg-accent-amber/20 pl-0.5">
                 {displayedText}
                 <motion.span
                   animate={{ opacity: [1, 0] }}
                   transition={{ repeat: Infinity, duration: 0.8 }}
-                  className="inline-block w-0.5 h-2.5 bg-accent-blue ml-1 align-middle"
+                  className="inline-block w-0.5 h-2.5 bg-accent-amber ml-1 align-middle"
                 />
               </p>
             </div>
@@ -119,18 +119,18 @@ const AIGuide: React.FC = () => {
         className="relative w-10 h-10 group pointer-events-auto"
       >
         {/* Core Glow */}
-        <div className="absolute inset-0 bg-accent-blue/20 blur-[30px] rounded-full animate-pulse" />
+        <div className="absolute inset-0 bg-accent-amber/[0.08] blur-[20px] rounded-full" />
         
         {/* Outer Rings */}
         <motion.div 
           animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-          className="absolute inset-0 border border-white/10 rounded-full"
+          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-0 border border-white/[0.05] rounded-full"
         />
         <motion.div 
           animate={{ rotate: -360 }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-          className="absolute inset-2 border border-accent-blue/10 rounded-full"
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-2 border border-accent-amber/[0.05] rounded-full"
         />
 
         {/* Main Orb Body */}
@@ -143,22 +143,22 @@ const AIGuide: React.FC = () => {
             x: { type: 'spring', damping: 15, stiffness: 150 },
             y: { type: 'spring', damping: 15, stiffness: 150 }
           }}
-          className="w-full h-full glass rounded-full flex items-center justify-center border-white/20 relative overflow-hidden group-hover:border-accent-blue/50 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+          className="w-full h-full glass rounded-full flex items-center justify-center border-white/[0.08] relative overflow-hidden group-hover:border-accent-amber/30 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
         >
           {/* Inner Personality Core */}
           <motion.div 
             animate={{ 
               scale: isHovered ? 1.2 : 1,
-              backgroundColor: isHovered ? '#3b82f6' : '#ffffff'
+              backgroundColor: isHovered ? '#D6A86A' : '#F5F1EA'
             }}
-            className="w-4 h-4 bg-white rounded-full shadow-[0_0_20px_rgba(255,255,255,0.5)] z-10"
+            className="w-3.5 h-3.5 rounded-full shadow-[0_0_15px_rgba(214,168,106,0.3)] z-10"
           />
           
           {/* Scanning Effect */}
           <motion.div
             animate={{ top: ['100%', '-100%'] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-            className="absolute left-0 right-0 h-[2px] bg-accent-blue/40 blur-[1px] z-0"
+            transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+            className="absolute left-0 right-0 h-[1.5px] bg-accent-amber/30 blur-[1px] z-0"
           />
 
           {/* Ambient Particles */}
@@ -166,16 +166,16 @@ const AIGuide: React.FC = () => {
             <motion.div
               key={i}
               animate={{ 
-                opacity: [0, 1, 0],
+                opacity: [0, 0.8, 0],
                 y: [-20, 20],
                 x: [-20, 20]
               }}
               transition={{ 
-                duration: 2 + i,
+                duration: 3 + i,
                 repeat: Infinity,
-                delay: i * 0.5
+                delay: i * 0.7
               }}
-              className="absolute w-1 h-1 bg-white rounded-full blur-[1px]"
+              className="absolute w-0.5 h-0.5 bg-foreground/40 rounded-full blur-[0.5px]"
             />
           ))}
         </motion.div>
@@ -189,10 +189,11 @@ const AIGuide: React.FC = () => {
               exit={{ opacity: 0, x: -20 }}
               className="absolute right-full top-1/2 -translate-y-1/2 mr-4 glass px-3 py-1.5 rounded-full border-white/10"
             >
-              <span className="text-[10px] uppercase tracking-widest text-white/40 whitespace-nowrap">Assistant Online</span>
+              <span className="text-[10px] uppercase tracking-widest text-foreground/40 whitespace-nowrap">Architect Online</span>
             </motion.div>
           )}
         </AnimatePresence>
+
       </motion.button>
     </div>
   );

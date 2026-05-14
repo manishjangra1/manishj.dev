@@ -19,16 +19,16 @@ const TopSearchBar: React.FC = () => {
     >
       <button
         onClick={() => setIsCommandPaletteOpen(true)}
-        className="w-full glass h-10 px-4 rounded-xl flex items-center justify-between group hover:border-accent-blue/50 transition-all duration-500 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+        className="w-full glass h-10 px-4 rounded-xl flex items-center justify-between group hover:border-accent-amber/30 transition-all duration-700 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
       >
         <div className="flex items-center gap-3">
-          <Search size={14} className="text-white/40 group-hover:text-accent-blue transition-colors" />
-          <span className="text-[11px] text-white/20 group-hover:text-white/40 transition-colors font-medium">
+          <Search size={14} className="text-foreground/30 group-hover:text-accent-amber transition-colors duration-500" />
+          <span className="text-[11px] text-foreground/20 group-hover:text-foreground/40 transition-colors duration-500 font-medium">
             Search everything...
           </span>
         </div>
         
-        <div className="flex items-center gap-1 px-1.5 py-0.5 glass rounded-md border-white/5 bg-white/5 text-[9px] text-white/20 font-mono">
+        <div className="flex items-center gap-1 px-1.5 py-0.5 glass rounded-md border-white/5 bg-white/[0.02] text-[9px] text-foreground/20 font-mono">
           <Command size={8} />
           <span>K</span>
         </div>

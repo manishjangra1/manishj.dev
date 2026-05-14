@@ -36,16 +36,17 @@ const CommunicationNodes: React.FC = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 1.5 + index * 0.1 }}
-          whileHover={{ x: -10, scale: 1.1 }}
-          className="group flex items-center gap-4 text-white/40 hover:text-white transition-colors"
+          whileHover={{ x: -12, scale: 1.05 }}
+          className="group flex items-center gap-4 text-foreground/40 hover:text-accent-amber transition-all duration-500"
         >
-          <span className="text-[10px] uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-all duration-300 font-mono">
+          <span className="text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-500 font-mono">
             {link.label}
           </span>
-          <div className="glass w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:border-accent-blue/50">
-            <link.icon size={16} />
+          <div className="glass w-11 h-11 flex items-center justify-center rounded-full transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(214,168,106,0.15)] group-hover:border-accent-amber/30">
+            <link.icon size={18} className="transition-transform duration-500 group-hover:scale-110" />
           </div>
         </motion.a>
+
       ))}
     </div>
   );

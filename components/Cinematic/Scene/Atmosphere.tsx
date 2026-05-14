@@ -7,57 +7,21 @@ import * as THREE from 'three';
 
 const Atmosphere: React.FC = () => {
   const groupRef = useRef<THREE.Group>(null);
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  React.useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
 
   useFrame((state) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.05;
-      groupRef.current.rotation.x = state.clock.getElapsedTime() * 0.02;
+      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.02;
     }
   });
 
   return (
     <group ref={groupRef}>
-      <Stars 
-        radius={100} 
-        depth={50} 
-        count={isMobile ? 1000 : 5000} 
-        factor={4} 
-        saturation={0} 
-        fade 
-        speed={1} 
-      />
-      <Sparkles 
-        count={isMobile ? 30 : 100} 
-        scale={10} 
-        size={2} 
-        speed={0.2} 
-        opacity={0.2} 
-        color="#3b82f6" 
-      />
-      <Sparkles 
-        count={isMobile ? 20 : 50} 
-        scale={15} 
-        size={4} 
-        speed={0.1} 
-        opacity={0.1} 
-        color="#8b5cf6" 
-      />
-      
-      {/* Volumetric glow background */}
-      <mesh scale={[100, 100, 100]} position={[0, 0, -50]}>
-        <sphereGeometry args={[1, 64, 64]} />
-        <meshBasicMaterial 
-          color="#00050a" 
-          side={THREE.BackSide} 
-        />
-      </mesh>
+      {/* Warm Ambient Glow (Far Field) */}
+      <pointLight position={[10, 10, -30]} intensity={0.3} color="#D6A86A" />
+      <pointLight position={[-15, -5, -25]} intensity={0.15} color="#8B6B4A" />
     </group>
   );
 };
+
 
 export default Atmosphere;

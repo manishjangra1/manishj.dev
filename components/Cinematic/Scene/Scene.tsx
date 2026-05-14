@@ -38,8 +38,8 @@ const Scene: React.FC = () => {
         
         {/* Lights */}
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} color="#3b82f6" />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#8b5cf6" />
+        <pointLight position={[10, 10, 10]} intensity={0.8} color="#D6A86A" />
+        <pointLight position={[-10, -10, -10]} intensity={0.4} color="#8B6B4A" />
         
         {/* Atmosphere */}
         <Atmosphere />

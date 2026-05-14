@@ -92,14 +92,22 @@ const CinematicEngine: React.FC = () => {
   }, [isLoaded, setGuideMessage]);
 
   return (
-    <div className="relative w-screen h-screen bg-black overflow-hidden font-sans selection:bg-accent-blue/30">
+    <div className="relative w-screen h-screen bg-background overflow-hidden font-sans selection:bg-accent-amber/20 selection:text-accent-amber">
       {/* Noise Overlay */}
       <div className="noise" />
       
-      {/* Background Atmosphere & 3D Scene */}
-      <div className="absolute inset-0 z-0">
-        <Scene />
-      </div>
+      {/* Architectural Grid */}
+      <div className="micro-grid" />
+      
+      {/* Background Atmosphere & 3D Scene — hidden during loading to prevent WebGL bleed-through */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoaded ? 1 : 0 }}
+        transition={{ duration: 1.5, ease: 'easeOut' }}
+      >
+        {isLoaded && <Scene />}
+      </motion.div>
 
       {/* Sections Layer (Spatial) */}
       <div className="absolute inset-0 z-5">
@@ -157,13 +165,13 @@ const CinematicEngine: React.FC = () => {
                 x: activeSection === 'home' ? 0 : -20 
               }}
               transition={{ duration: 0.8, delay: 2.2 }}
-              className="absolute bottom-12 left-12 flex items-center gap-3 px-5 py-3 glass rounded-2xl border-white/5 pointer-events-auto hover:bg-white/5 transition-all group overflow-hidden"
+              className="absolute bottom-12 left-12 flex items-center gap-3 px-5 py-3 glass rounded-2xl border-white/[0.05] pointer-events-auto hover:bg-white/[0.02] transition-all duration-700 group overflow-hidden"
             >
-              <div className="absolute inset-0 bg-accent-blue/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <History size={16} className="text-white/20 group-hover:text-accent-blue transition-colors relative z-10" />
+              <div className="absolute inset-0 bg-accent-amber/[0.03] opacity-0 group-hover:opacity-100 transition-opacity" />
+              <History size={16} className="text-foreground/20 group-hover:text-accent-amber transition-colors duration-500 relative z-10" />
               <div className="flex flex-col relative z-10">
-                <span className="text-[11px] font-bold tracking-tight text-white/60 group-hover:text-white transition-colors">V1 Portfolio</span>
-                <span className="text-[8px] font-mono tracking-widest text-white/20 uppercase">Archive</span>
+                <span className="text-[11px] font-bold tracking-tight text-foreground/60 group-hover:text-foreground transition-colors duration-500">V1 Portfolio</span>
+                <span className="text-[8px] font-mono tracking-[0.3em] text-foreground/20 uppercase">Archive</span>
               </div>
             </motion.a>
           </div>

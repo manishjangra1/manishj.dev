@@ -43,7 +43,7 @@ const CustomCursor: React.FC = () => {
     <>
       {/* Main Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-accent-amber rounded-full pointer-events-none z-9999"
         style={{
           x: cursorX,
           y: cursorY,
@@ -54,7 +54,7 @@ const CustomCursor: React.FC = () => {
       
       {/* Reactive Ring */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border border-white/30 rounded-full pointer-events-none z-[9998]"
+        className="fixed top-0 left-0 w-10 h-10 border border-white/10 rounded-full pointer-events-none z-[9998]"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -62,16 +62,15 @@ const CustomCursor: React.FC = () => {
           translateY: "-50%",
         }}
         animate={{
-          scale: isHovering ? 2 : 1,
-          opacity: isHovering ? 0.5 : 1,
-          borderWidth: isHovering ? '1px' : '1px',
-          borderColor: isHovering ? 'rgba(59, 130, 246, 0.5)' : 'rgba(255, 255, 255, 0.3)',
+          scale: isHovering ? 1.5 : 1,
+          opacity: isHovering ? 0.7 : 0.4,
+          borderColor: isHovering ? 'rgba(214, 168, 106, 0.3)' : 'rgba(255, 255, 255, 0.1)',
         }}
       />
 
-      {/* Subtle Lighting Influence */}
+      {/* Cinematic Lighting Influence */}
       <motion.div
-        className="fixed top-0 left-0 w-[400px] h-[400px] bg-accent-blue/5 rounded-full blur-[100px] pointer-events-none z-[1]"
+        className="fixed top-0 left-0 w-[300px] h-[300px] bg-accent-amber/[0.03] rounded-full blur-[80px] pointer-events-none z-[1]"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -79,6 +78,7 @@ const CustomCursor: React.FC = () => {
           translateY: "-50%",
         }}
       />
+
     </>
   );
 };

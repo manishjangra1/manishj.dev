@@ -34,7 +34,7 @@ const ProjectsShowcase: React.FC = () => {
   const currentProject = projects[currentIndex];
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center pl-12 md:pl-24 pr-24 md:pr-40 pointer-events-none">
+    <div className="absolute inset-0 flex items-center justify-center px-12 md:px-32 pointer-events-none">
       <div className="w-full max-w-6xl flex justify-between items-center pointer-events-auto">
         
         {/* Navigation Left */}
@@ -43,9 +43,9 @@ const ProjectsShowcase: React.FC = () => {
             e.stopPropagation();
             prev();
           }}
-          className="glass w-14 h-14 rounded-full flex items-center justify-center text-white/40 hover:text-white transition-all hover:scale-110 relative z-[20] pointer-events-auto shrink-0"
+          className="glass w-12 h-12 rounded-full flex items-center justify-center text-foreground/40 hover:text-accent-amber transition-all duration-500 hover:scale-105 relative z-[20] pointer-events-auto shrink-0"
         >
-          <ChevronLeft size={28} />
+          <ChevronLeft size={24} />
         </button>
 
         {/* Project Content */}
@@ -53,9 +53,9 @@ const ProjectsShowcase: React.FC = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={currentProject._id}
-              initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+              initial={{ opacity: 0, x: 20, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, x: -20, filter: 'blur(10px)' }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col gap-6"
             >
@@ -64,50 +64,51 @@ const ProjectsShowcase: React.FC = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-[10px] uppercase tracking-[0.4em] text-accent-blue font-mono mb-2"
+                  className="text-[9px] uppercase tracking-[0.5em] text-accent-amber font-mono mb-2"
                 >
-                  Featured Project {currentIndex + 1}/{projects.length}
+                  Project Sequence {currentIndex + 1}/{projects.length}
                 </motion.span>
-                <h2 className="text-4xl md:text-6xl font-extrabold tracking-tighter text-white">
+                <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
                   {currentProject.title.toUpperCase()}
                 </h2>
               </div>
 
-              <p className="text-white/60 text-base md:text-lg max-w-xl leading-relaxed line-clamp-3">
+              <p className="text-foreground/65 text-base md:text-lg max-w-xl leading-relaxed line-clamp-3 font-light">
                 {currentProject.description}
               </p>
 
               <div className="flex flex-wrap gap-2">
                 {currentProject.technologies?.map((tech: string) => (
-                  <span key={tech} className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] uppercase tracking-widest text-white/40">
+                  <span key={tech} className="px-3 py-1 rounded-md border border-white/[0.05] bg-white/[0.02] text-[9px] uppercase tracking-widest text-foreground/40 font-medium">
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div className="flex flex-wrap items-center gap-8 mt-6">
+              <div className="flex flex-wrap items-center gap-8 mt-8">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleViewDetails}
-                  className="bg-white text-black px-8 py-4 rounded-2xl flex items-center gap-3 group overflow-hidden relative"
+                  className="glass px-8 py-4 rounded-xl flex items-center gap-4 group relative overflow-hidden"
                 >
-                  <Plus size={18} className="group-hover:rotate-90 transition-transform duration-500" />
-                  <span className="text-sm font-bold uppercase tracking-tighter relative z-10">View Details</span>
-                  <div className="absolute inset-0 bg-accent-blue opacity-0 group-hover:opacity-10 transition-opacity" />
+                  <Plus size={16} className="text-accent-amber group-hover:rotate-90 transition-transform duration-500" />
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground relative z-10">Expand Sector</span>
+                  <div className="absolute inset-0 bg-accent-amber/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute bottom-0 left-0 w-full h-[1px] bg-accent-amber/20" />
                 </motion.button>
 
                 <div className="flex gap-8">
                   {currentProject.liveUrl && (
-                    <a href={currentProject.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/60 hover:text-white transition-all group">
-                      <ExternalLink size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                      <span className="text-xs font-semibold uppercase tracking-widest">Live</span>
+                    <a href={currentProject.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-foreground/50 hover:text-accent-amber transition-all duration-300 group">
+                      <ExternalLink size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Deploy</span>
                     </a>
                   )}
                   {currentProject.githubUrl && (
-                    <a href={currentProject.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/60 hover:text-white transition-all group">
-                      <Github size={16} />
-                      <span className="text-xs font-semibold uppercase tracking-widest">Code</span>
+                    <a href={currentProject.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-foreground/50 hover:text-accent-amber transition-all duration-300 group">
+                      <Github size={14} />
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Source</span>
                     </a>
                   )}
                 </div>
@@ -122,9 +123,9 @@ const ProjectsShowcase: React.FC = () => {
             e.stopPropagation();
             next();
           }}
-          className="glass w-14 h-14 rounded-full flex items-center justify-center text-white/40 hover:text-white transition-all hover:scale-110 relative z-[20] pointer-events-auto shrink-0"
+          className="glass w-12 h-12 rounded-full flex items-center justify-center text-foreground/40 hover:text-accent-amber transition-all duration-500 hover:scale-105 relative z-[20] pointer-events-auto shrink-0"
         >
-          <ChevronRight size={28} />
+          <ChevronRight size={24} />
         </button>
       </div>
 
@@ -133,21 +134,22 @@ const ProjectsShowcase: React.FC = () => {
         <motion.div
           key={currentProject._id + '-bg'}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.1 }}
+          animate={{ opacity: 0.05 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 1.5 }}
           className="absolute inset-0 z-[-1] overflow-hidden"
         >
           {currentProject.image && (
             <img 
               src={currentProject.image} 
               alt="" 
-              className="w-full h-full object-cover scale-110 blur-2xl opacity-50" 
+              className="w-full h-full object-cover scale-105 blur-3xl opacity-40" 
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />
         </motion.div>
       </AnimatePresence>
+
     </div>
   );
 };

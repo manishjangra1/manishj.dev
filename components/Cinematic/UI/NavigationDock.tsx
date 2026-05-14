@@ -40,10 +40,10 @@ const NavigationDock: React.FC = () => {
       
       {/* Active Indicator Glow */}
       <div 
-        className="absolute bottom-0 h-[2px] bg-accent-blue shadow-[0_0_10px_#3b82f6] transition-all duration-500 ease-out"
+        className="absolute bottom-1 h-[1.5px] bg-accent-amber shadow-[0_0_8px_rgba(214,168,106,0.4)] transition-all duration-500 ease-out"
         style={{
-          width: '20px',
-          left: `calc(${items.findIndex(i => i.id === activeSection) * 56 + 28}px - 10px)`
+          width: '16px',
+          left: `calc(${items.findIndex(i => i.id === activeSection) * 56 + 28}px - 8px)`
         }}
       />
     </motion.div>
@@ -72,22 +72,23 @@ const DockIcon = ({ mouseX, item, isActive, onClick }: {
       onClick={onClick}
       style={{ width }}
       className={`group relative aspect-square rounded-xl flex items-center justify-center cursor-pointer transition-colors ${
-        isActive ? 'bg-white/10' : 'hover:bg-white/5'
+        isActive ? 'bg-white/3' : 'hover:bg-white/2'
       }`}
     >
       <item.icon 
         size={20} 
         className={`transition-colors duration-300 ${
-          isActive ? 'text-accent-blue' : 'text-white/40 group-hover:text-white'
+          isActive ? 'text-accent-amber' : 'text-foreground/40 group-hover:text-foreground'
         }`} 
       />
       
       {/* Tooltip */}
-      <span className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1 rounded-md glass text-[10px] uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+      <span className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1 rounded-md glass text-[10px] uppercase tracking-widest text-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
         {item.label}
       </span>
     </motion.div>
   );
 };
+
 
 export default NavigationDock;
