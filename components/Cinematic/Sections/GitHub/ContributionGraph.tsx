@@ -15,12 +15,12 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
-          <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono mb-2">Activity Protocol</span>
+          <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono mb-2">Contribution Activity</span>
           <h3 className="text-xl font-bold text-foreground tracking-tight uppercase">Contribution Timeline</h3>
         </div>
         <div className="flex flex-col items-end">
-          <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono mb-2">Accumulated Data</span>
-          <span className="text-xl font-bold text-foreground tracking-tighter">{totalContributions} UNITS</span>
+          <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono mb-2">Total Contributions</span>
+          <span className="text-xl font-bold text-foreground tracking-tighter">{totalContributions} Contributions</span>
         </div>
       </div>
 
@@ -79,13 +79,13 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
 
         {/* Legend */}
         <div className="mt-8 pt-6 border-t border-white/[0.05] flex items-center justify-between text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono">
-          <span>LATENT STATE</span>
+          <span>Low Activity</span>
           <div className="flex gap-2 items-center">
             {[0.1, 0.3, 0.6, 0.9].map(op => (
               <div key={op} className="w-2.5 h-2.5 rounded-[1px]" style={{ backgroundColor: `rgba(214, 168, 106, ${op})` }} />
             ))}
           </div>
-          <span>PEAK ARCHITECTURE</span>
+          <span>Peak Activity</span>
         </div>
       </div>
     </div>

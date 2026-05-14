@@ -93,7 +93,7 @@ const ProjectsShowcase: React.FC = () => {
                   className="glass px-8 py-4 rounded-xl flex items-center gap-4 group relative overflow-hidden"
                 >
                   <Plus size={16} className="text-accent-amber group-hover:rotate-90 transition-transform duration-500" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground relative z-10">Expand Sector</span>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-foreground relative z-10">View Details</span>
                   <div className="absolute inset-0 bg-accent-amber/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute bottom-0 left-0 w-full h-[1px] bg-accent-amber/20" />
                 </motion.button>
@@ -102,7 +102,7 @@ const ProjectsShowcase: React.FC = () => {
                   {currentProject.liveUrl && (
                     <a href={currentProject.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-foreground/50 hover:text-accent-amber transition-all duration-300 group">
                       <ExternalLink size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest">Deploy</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Live</span>
                     </a>
                   )}
                   {currentProject.githubUrl && (

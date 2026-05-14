@@ -36,7 +36,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
         <div className="flex flex-col min-w-0">
           <div className="text-xl font-bold text-foreground tracking-tight uppercase truncate">{user.name}</div>
           <span className="text-foreground/20 font-mono text-[7px] uppercase tracking-[0.4em] mt-1.5">
-            Core // Developer
+            Full Stack Developer
           </span>
         </div>
       </div>
@@ -44,7 +44,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
       <div className="flex flex-col gap-8 mt-10">
         {/* Bio */}
         <p className="text-foreground/45 text-[11px] leading-relaxed line-clamp-2 italic font-light">
-          &quot;{user.bio}&quot;
+          &quot;Building scalable digital experiences.&quot;
         </p>
 
         {/* Stats Grid */}
@@ -89,9 +89,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
         <div className="mt-2 flex items-center justify-between px-5 py-2.5 bg-white/[0.01] rounded-xl border border-white/[0.05]">
           <div className="flex items-center gap-3">
             <Activity size={12} className="text-accent-amber/30 animate-pulse" />
-            <span className="text-[8px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Sync // Check</span>
+            <span className="text-[8px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Activity Status</span>
           </div>
-          <span className="text-[8px] uppercase tracking-[0.3em] text-accent-amber/60 font-mono font-bold">Synchronized</span>
+          <span className="text-[8px] uppercase tracking-[0.3em] text-accent-amber/60 font-mono font-bold">Active</span>
         </div>
       </div>
     </motion.div>

@@ -62,7 +62,7 @@ const LoadingScanner: React.FC = () => {
           transition={{ duration: 2, repeat: Infinity }}
           className="text-foreground/40 font-mono text-[10px] uppercase tracking-[0.6em]"
         >
-          Initializing Protocol
+          Loading Github Profile
         </motion.span>
         <div className="flex gap-1.5">
           {[...Array(3)].map((_, i) => (

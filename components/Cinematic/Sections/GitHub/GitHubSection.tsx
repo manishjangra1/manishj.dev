@@ -72,11 +72,11 @@ const GitHubSection: React.FC = () => {
           <div className="glass p-8 rounded-[2rem] border-white/[0.05] flex flex-col gap-6">
             <div className="flex items-center gap-3">
               <Cpu size={16} className="text-accent-amber" />
-              <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Development Unit</span>
+              <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Development Status</span>
             </div>
             <div className="space-y-5">
               <div className="flex justify-between items-end">
-                <span className="text-[9px] text-foreground/20 uppercase font-mono tracking-widest">Protocol State</span>
+                <span className="text-[9px] text-foreground/20 uppercase font-mono tracking-widest">Status</span>
                 <span className="text-[10px] font-bold text-accent-amber/70 uppercase tracking-tighter">Active</span>
               </div>
               <div className="h-[1px] bg-white/[0.05] rounded-full overflow-hidden">
@@ -90,9 +90,9 @@ const GitHubSection: React.FC = () => {
               <div className="flex justify-between items-center pt-2">
                 <div className="flex items-center gap-2">
                   <Zap size={12} className="text-accent-amber/60" />
-                  <span className="text-[9px] uppercase font-mono text-foreground/20 tracking-widest">Sync Frequency</span>
+                  <span className="text-[9px] uppercase font-mono text-foreground/20 tracking-widest">Contribution Frequency</span>
                 </div>
-                <span className="text-[10px] font-mono text-foreground/40 uppercase">Optimized</span>
+                <span className="text-[10px] font-mono text-foreground/40 uppercase">Consistent</span>
               </div>
             </div>
           </div>

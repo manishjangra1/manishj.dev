@@ -14,7 +14,7 @@ const LanguageConstellation: React.FC<LanguageConstellationProps> = ({ languages
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-4">
         <div className="h-[1px] w-8 bg-accent-amber/30" />
-        <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Language Composition</span>
+        <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Tech Stack</span>
       </div>
 
       <div className="glass p-8 rounded-[2rem] border-white/[0.05] relative overflow-hidden h-64 flex items-center justify-center group">

@@ -149,7 +149,7 @@ const ProjectDetails: React.FC = () => {
                   <div className="w-1 h-6 bg-accent-amber shadow-[0_0_10px_rgba(214,168,106,0.4)]" />
                   <div className="flex flex-col">
                     <h2 className="text-xl font-bold text-foreground tracking-tight leading-none">{selectedProject.title.toUpperCase()}</h2>
-                    <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mt-2">Architecture / Active</span>
+                    <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mt-2">Project Specifications</span>
                   </div>
                 </motion.div>
               </div>
@@ -165,7 +165,7 @@ const ProjectDetails: React.FC = () => {
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-4">
                     <Terminal className="text-accent-amber" size={14} />
-                    <span className="text-[10px] uppercase tracking-[0.6em] text-accent-amber font-mono">Project Specification // Deep-Dive</span>
+                    <span className="text-[10px] uppercase tracking-[0.6em] text-accent-amber font-mono">Project Details</span>
                   </div>
                   <h2 className="text-5xl md:text-8xl font-bold tracking-tight text-foreground uppercase leading-[0.85]">
                     {selectedProject.title}
@@ -176,14 +176,14 @@ const ProjectDetails: React.FC = () => {
                   {selectedProject.liveUrl && (
                     <a href={selectedProject.liveUrl} target="_blank" className="glass px-10 py-4 rounded-xl flex items-center gap-4 text-foreground hover:border-accent-amber/30 transition-all group pointer-events-auto overflow-hidden relative">
                       <Globe size={16} className="text-accent-amber group-hover:rotate-12 transition-transform" />
-                      <span className="text-[11px] font-bold tracking-[0.3em] uppercase">Launch Production</span>
+                      <span className="text-[11px] font-bold tracking-[0.3em] uppercase">View Live Site</span>
                       <div className="absolute inset-0 bg-accent-amber/[0.03] opacity-0 group-hover:opacity-100 transition-opacity" />
                     </a>
                   )}
                   {selectedProject.githubUrl && (
                     <a href={selectedProject.githubUrl} target="_blank" className="glass px-10 py-4 rounded-xl flex items-center gap-4 text-foreground hover:border-accent-amber/30 transition-all group pointer-events-auto overflow-hidden relative">
                       <Code2 size={16} className="text-accent-amber" />
-                      <span className="text-[11px] font-bold tracking-[0.3em] uppercase">Sector Codebase</span>
+                      <span className="text-[11px] font-bold tracking-[0.3em] uppercase">View Source Code</span>
                       <div className="absolute inset-0 bg-accent-amber/[0.03] opacity-0 group-hover:opacity-100 transition-opacity" />
                     </a>
                   )}
@@ -271,7 +271,7 @@ const ProjectDetails: React.FC = () => {
                   <div className="space-y-8">
                     <div className="flex items-center gap-4">
                       <div className="h-[1px] w-8 bg-accent-amber/30" />
-                      <span className="text-[9px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Specification</span>
+                      <span className="text-[9px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Technologies</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.technologies.map(tech => (

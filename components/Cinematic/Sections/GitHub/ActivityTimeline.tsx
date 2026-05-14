@@ -26,11 +26,11 @@ const ActivityTimeline: React.FC<ActivityTimelineProps> = ({ events }) => {
     switch (type) {
       case 'PushEvent': 
         const commits = event.payload.commits?.length || 0;
-        return `Committed ${commits} updates to ${repo}`;
+        return `Updated ${repo}`;
       case 'PullRequestEvent':
         return `${event.payload.action} PR in ${repo}`;
       case 'CreateEvent':
-        return `Initialized new node: ${repo}`;
+        return `Created ${repo}`;
       case 'WatchEvent':
         return `Starred ${repo}`;
       default:

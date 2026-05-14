@@ -189,7 +189,7 @@ const AIGuide: React.FC = () => {
               exit={{ opacity: 0, x: 20 }}
               className="absolute left-full top-1/2 -translate-y-1/2 ml-4 glass px-3 py-1.5 rounded-full border-white/10"
             >
-              <span className="text-[10px] uppercase tracking-widest text-foreground/40 whitespace-nowrap">Architect Online</span>
+              <span className="text-[9px] uppercase tracking-[0.3em] font-mono text-accent-amber/80 font-bold">Open to Collaborate</span>
             </motion.div>
           )}
         </AnimatePresence>

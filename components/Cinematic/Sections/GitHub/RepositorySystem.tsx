@@ -13,7 +13,7 @@ const RepositorySystem: React.FC<RepositorySystemProps> = ({ repositories }) => 
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-4">
         <div className="h-[1px] w-8 bg-accent-amber/30" />
-        <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Repository Architecture</span>
+        <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Featured Repositories</span>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
