@@ -64,9 +64,21 @@ html, body {
   position: relative;
 }
 
-/* Remove standard scrollbars only in cinematic mode */
-.cinematic-engine::-webkit-scrollbar {
+/* Remove standard scrollbars globally */
+::-webkit-scrollbar {
   display: none;
+}
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Cinematic Utilities */

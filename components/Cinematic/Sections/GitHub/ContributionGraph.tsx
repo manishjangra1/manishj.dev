@@ -24,13 +24,13 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
         </div>
       </div>
 
-      <div className="glass p-8 rounded-[2.5rem] border-white/[0.05] relative overflow-hidden group min-h-[160px]">
+      <div className="glass p-8 rounded-[2.5rem] border-white/[0.05] relative overflow-hidden group">
         {/* Subtly Animated Background Glow (Behind content) */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(214,168,106,0.03),transparent_70%)] pointer-events-none z-0" />
         
-        <div className="relative z-10 flex gap-2 h-32 md:h-40 overflow-x-auto scrollbar-hide">
+        <div className="relative z-10 flex gap-1 overflow-x-auto scrollbar-hide pb-2">
           {weeks.map((week: any, weekIndex: number) => (
-            <div key={weekIndex} className="flex flex-col gap-2 shrink-0">
+            <div key={weekIndex} className="flex flex-col gap-1 shrink-0">
               {week.contributionDays.map((day: any, dayIndex: number) => {
                 const intensity = Math.min(day.contributionCount / 10, 1);
                 return (
@@ -50,7 +50,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
                       backgroundColor: 'rgba(214, 168, 106, 0.4)',
                       boxShadow: '0 0 15px rgba(214, 168, 106, 0.2)'
                     }}
-                    className="w-3 h-3 md:w-3.5 md:h-3.5 rounded-[2px] transition-all relative group/day"
+                    className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-[2px] transition-all relative group/day shrink-0"
                     style={{ 
                       backgroundColor: day.contributionCount > 0 
                         ? `rgba(214, 168, 106, ${0.1 + intensity * 0.6})` 
@@ -78,7 +78,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
         </div>
 
         {/* Legend */}
-        <div className="mt-8 pt-6 border-t border-white/[0.05] flex items-center justify-between text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono">
+        <div className="mt-4 pt-4 border-t border-white/[0.05] flex items-center justify-between text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono">
           <span>Low Activity</span>
           <div className="flex gap-2 items-center">
             {[0.1, 0.3, 0.6, 0.9].map(op => (

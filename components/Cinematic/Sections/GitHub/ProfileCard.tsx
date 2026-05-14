@@ -17,7 +17,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
       className="glass p-8 rounded-[2rem] border-white/[0.05] shadow-xl relative group"
     >
       {/* Background Decorative Glow */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-accent-amber/[0.03] blur-3xl -mr-10 -mt-10 group-hover:bg-accent-amber/[0.06] transition-colors duration-700" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-accent-amber/[0.03] blur-3xl group-hover:bg-accent-amber/[0.06] transition-colors duration-700 pointer-events-none" />
       
       <div className="relative flex items-center gap-6">
         {/* Avatar Section */}
