@@ -29,7 +29,7 @@ const AboutStory: React.FC = () => {
                 transition={{ duration: 1.5, delay: index * 0.2, ease: [0.16, 1, 0.3, 1] }}
                 className="group"
               >
-                <h2 className="text-3xl md:text-5xl xl:text-6xl font-bold tracking-tight text-foreground/40 group-hover:text-accent-amber transition-all duration-700 cursor-default leading-[1.1]">
+                <h2 className="text-3xl md:text-5xl xl:text-6xl font-bold tracking-tight !text-foreground group-hover:!text-accent-amber transition-all duration-700 cursor-default leading-[1.1]">
                   {text}
                 </h2>
               </motion.div>
