@@ -143,7 +143,6 @@ const ProjectDetails: React.FC = () => {
                 >
                   <div className="w-1 h-6 bg-accent-blue rounded-full" />
                   <div className="flex flex-col">
-                    <span className="text-[9px] uppercase tracking-[0.4em] text-accent-blue font-mono">Registry v2.0</span>
                     <h2 className="text-xl font-bold text-white tracking-tighter leading-none">{selectedProject.title}</h2>
                   </div>
                 </motion.div>
@@ -237,34 +236,6 @@ const ProjectDetails: React.FC = () => {
                         </span>
                       ))}
                     </div>
-                  </div>
-
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-3">
-                      <div className="h-[1px] w-6 bg-accent-blue/30" />
-                      <span className="text-[9px] uppercase tracking-[0.4em] text-white/30 font-mono">Registry</span>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <div className="flex justify-between items-center text-[11px] uppercase tracking-wider">
-                        <span className="text-white/10">Status</span>
-                        <span className="text-accent-blue/80 font-bold">{selectedProject.isCurrentlyWorking ? 'Active' : 'Deployed'}</span>
-                      </div>
-                      <div className="flex justify-between items-center text-[11px] uppercase tracking-wider">
-                        <span className="text-white/10">System</span>
-                        <span className="text-white/40">v2.0 Stable</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Summary Callout */}
-                  <div className="p-6 rounded-2xl bg-accent-blue/5 border border-accent-blue/10">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Code2 size={14} className="text-accent-blue" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-accent-blue">Architect Note</span>
-                    </div>
-                    <p className="text-[11px] text-white/40 leading-relaxed italic">
-                      This project architecture prioritizes modular scalability and high-performance rendering within the cinematic ecosystem.
-                    </p>
                   </div>
                 </div>
 
