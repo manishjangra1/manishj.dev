@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { Project } from '@/contexts/DataContext';
 
-export type Section = 'home' | 'projects' | 'about' | 'experience' | 'skills' | 'contact';
+export type Section = 'home' | 'projects' | 'about' | 'experience' | 'skills' | 'contact' | 'github';
 
 interface ExperienceState {
   activeSection: Section;
@@ -78,6 +78,10 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
       case 'contact':
         position = [0, -8, 5];
         rotation = [Math.PI / 2, 0, 0];
+        break;
+      case 'github':
+        position = [0, 0, 12];
+        rotation = [-Math.PI / 12, 0, 0];
         break;
     }
     

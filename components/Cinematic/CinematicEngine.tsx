@@ -20,6 +20,7 @@ import SkillsGrid from './Sections/SkillsGrid';
 import ExperienceTimeline from './Sections/ExperienceTimeline';
 import ContactSection from './Sections/ContactSection';
 import ProjectDetails from './Sections/ProjectDetails';
+import GitHubSection from './Sections/GitHub/GitHubSection';
 
 const CinematicEngine: React.FC = () => {
   const { isLoaded, setLoaded, activeSection, setGuideMessage } = useExperienceStore();
@@ -52,6 +53,7 @@ const CinematicEngine: React.FC = () => {
       skills: "You are now viewing the Technical Skills section. These are my areas of expertise.",
       experience: "You are now viewing the Experience section. This is my professional career timeline.",
       contact: "You are now viewing the Contact section. Feel free to reach out to me here.",
+      github: "Synchronizing live development activity and repository data.",
       home: "Welcome back to the Home screen. I am ready to assist you."
     };
 
@@ -106,6 +108,7 @@ const CinematicEngine: React.FC = () => {
           {activeSection === 'skills' && <SkillsGrid key="skills" />}
           {activeSection === 'experience' && <ExperienceTimeline key="experience" />}
           {activeSection === 'contact' && <ContactSection key="contact" />}
+          {activeSection === 'github' && <GitHubSection key="github" />}
         </AnimatePresence>
       </div>
 
