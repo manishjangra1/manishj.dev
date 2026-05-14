@@ -107,9 +107,6 @@ const GitHubSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.015),transparent)]" />
-      </div>
     </motion.div>
   );
 };
