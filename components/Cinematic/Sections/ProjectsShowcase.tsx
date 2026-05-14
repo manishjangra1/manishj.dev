@@ -34,7 +34,7 @@ const ProjectsShowcase: React.FC = () => {
   const currentProject = projects[currentIndex];
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center p-24 pointer-events-none">
+    <div className="absolute inset-0 flex items-center justify-center pl-12 md:pl-24 pr-24 md:pr-40 pointer-events-none">
       <div className="w-full max-w-6xl flex justify-between items-center pointer-events-auto">
         
         {/* Navigation Left */}

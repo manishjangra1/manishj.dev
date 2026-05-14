@@ -15,7 +15,7 @@ const AboutStory: React.FC = () => {
   ];
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center p-6 md:p-12 lg:p-24 pointer-events-none overflow-hidden">
+    <div className="absolute inset-0 flex items-center justify-center pl-6 md:pl-24 pr-24 md:pr-40 pointer-events-none overflow-hidden">
       {/* Scrollable Container (Hidden Scrollbar) */}
       <div className="w-full max-w-6xl h-full max-h-[85vh] pointer-events-auto overflow-y-auto scrollbar-hide pb-32 pt-12 md:pb-40">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center lg:items-start">

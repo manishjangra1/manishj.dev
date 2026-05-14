@@ -1,22 +1,26 @@
 import Link from 'next/link';
-import Navigation from '@/components/Navigation';
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen bg-slate-900">
-      <Navigation />
-      <div className="flex items-center justify-center min-h-screen px-4">
-        <div className="text-center">
-          <h1 className="text-6xl font-bold text-white mb-4">404</h1>
-          <h2 className="text-2xl font-semibold text-slate-300 mb-4">Page Not Found</h2>
-          <p className="text-slate-400 mb-8">The page you're looking for doesn't exist.</p>
-          <Link
-            href="/"
-            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all inline-block"
-          >
-            Go Home
-          </Link>
+    <main className="min-h-screen bg-black flex items-center justify-center p-6">
+      <div className="text-center flex flex-col items-center gap-8">
+        <div className="relative">
+          <div className="text-9xl font-black text-white/5 tracking-tighter">404</div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <h1 className="text-2xl font-bold text-white uppercase tracking-[0.5em] ml-[0.5em]">Lost in Space</h1>
+          </div>
         </div>
+        
+        <p className="text-white/40 text-xs font-mono uppercase tracking-widest max-w-xs leading-relaxed">
+          The requested coordinate does not exist within the current workspace parameters.
+        </p>
+
+        <Link
+          href="/"
+          className="glass px-10 py-4 rounded-xl text-[10px] uppercase tracking-widest text-white/60 hover:text-white transition-all shadow-2xl"
+        >
+          Return to Base
+        </Link>
       </div>
     </main>
   );

@@ -11,7 +11,7 @@ const SkillsGrid: React.FC = () => {
   const categories = Array.from(new Set(skills.map(s => s.category)));
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center p-8 md:p-24 pointer-events-none">
+    <div className="absolute inset-0 flex items-center justify-center pl-8 md:pl-24 pr-24 md:pr-40 pointer-events-none">
       <div className="w-full max-w-6xl h-full max-h-[85vh] pointer-events-auto overflow-y-auto scrollbar-hide pb-40 pt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {categories.map((category, catIndex) => (
