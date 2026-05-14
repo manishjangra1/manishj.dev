@@ -67,6 +67,11 @@ const ProjectDetails: React.FC = () => {
   // Dynamically position the close button to stay centered in both states
   const closeButtonTop = useTransform(scrollValue, [0, 300], [32, 16]);
   const closeButtonSize = useTransform(scrollValue, [0, 300], [48, 48]);
+
+  // Sidebar transform values
+  const sidebarIconsY = useTransform(scrollValue, [200, 300], [20, 0]);
+  const sidebarIconsHeight = useTransform(scrollValue, [200, 300], [0, 48]);
+  const sidebarIconsMargin = useTransform(scrollValue, [200, 300], [0, 40]);
   
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -187,7 +192,7 @@ const ProjectDetails: React.FC = () => {
             <div 
               ref={containerRef}
               onScroll={handleScroll}
-              className="flex-1 overflow-y-auto scrollbar-hide px-8 md:px-20 py-16"
+              className="flex-1 overflow-y-auto scrollbar-hide px-8 md:px-20 pt-10 pb-20"
             >
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-20">
                 
@@ -223,7 +228,37 @@ const ProjectDetails: React.FC = () => {
                 </div>
 
                 {/* Technical Specifications Sidebar */}
-                <div className="space-y-12 lg:sticky lg:top-0 h-fit">
+                <div className="lg:sticky lg:top-2 h-fit">
+                  {/* Collapsed State Quick Actions */}
+                  <motion.div 
+                    style={{ 
+                      opacity: stickyTitleOpacity,
+                      y: sidebarIconsY,
+                      height: sidebarIconsHeight,
+                      marginBottom: sidebarIconsMargin
+                    }}
+                    className="flex gap-4 overflow-hidden"
+                  >
+                    {selectedProject.liveUrl && (
+                      <a 
+                        href={selectedProject.liveUrl} 
+                        target="_blank" 
+                        className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-accent-blue/50 hover:bg-accent-blue/5 transition-all group shadow-xl backdrop-blur-md"
+                      >
+                        <Globe size={20} className="group-hover:rotate-12 transition-transform" />
+                      </a>
+                    )}
+                    {selectedProject.githubUrl && (
+                      <a 
+                        href={selectedProject.githubUrl} 
+                        target="_blank" 
+                        className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-accent-blue/50 hover:bg-accent-blue/5 transition-all group shadow-xl backdrop-blur-md"
+                      >
+                        <Terminal size={20} />
+                      </a>
+                    )}
+                  </motion.div>
+
                   <div className="space-y-6">
                     <div className="flex items-center gap-3">
                       <div className="h-[1px] w-6 bg-accent-blue/30" />
