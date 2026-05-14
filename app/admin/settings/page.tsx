@@ -25,6 +25,7 @@ export default function SettingsPage() {
       twitter: '',
       email: '',
       portfolio: '',
+      whatsapp: '',
     },
   });
   const [techInput, setTechInput] = useState('');
@@ -64,6 +65,7 @@ export default function SettingsPage() {
           twitter: '',
           email: '',
           portfolio: '',
+          whatsapp: '',
         },
       });
     } catch (error) {
@@ -792,6 +794,21 @@ export default function SettingsPage() {
                   })
                 }
                 className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">WhatsApp Phone (with country code, e.g., 919999999999)</label>
+              <input
+                type="text"
+                value={formData.socialLinks.whatsapp}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    socialLinks: { ...formData.socialLinks, whatsapp: e.target.value },
+                  })
+                }
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                placeholder="919999999999"
               />
             </div>
           </div>

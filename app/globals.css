@@ -52,9 +52,21 @@ html, body {
   padding: 0;
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Cinematic Engine Environment */
+.cinematic-engine {
   overflow: hidden;
   user-select: none;
   cursor: none;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+/* Remove standard scrollbars only in cinematic mode */
+.cinematic-engine::-webkit-scrollbar {
+  display: none;
 }
 
 /* Cinematic Utilities */
@@ -106,8 +118,8 @@ html, body {
   opacity: 0.05; /* Reduced intensity by 70% */
 }
 
-/* Typography Scale */
-h1 { 
+/* Cinematic Typography Scale */
+.cinematic-theme h1 { 
   font-size: clamp(3rem, 10vw, 8rem); 
   line-height: 0.9; 
   letter-spacing: -0.05em; 
@@ -115,7 +127,7 @@ h1 {
   color: var(--foreground);
 }
 
-h2 { 
+.cinematic-theme h2 { 
   font-size: clamp(2rem, 5vw, 4rem); 
   line-height: 1.1; 
   letter-spacing: -0.02em; 
@@ -123,7 +135,7 @@ h2 {
   color: var(--accent-amber);
 }
 
-p { 
+.cinematic-theme p { 
   font-size: 1.125rem; 
   line-height: 1.6; 
   color: rgba(245, 241, 234, 0.65); 
@@ -135,11 +147,6 @@ p {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(245, 241, 234, 0.4);
-}
-
-/* Remove standard scrollbars */
-::-webkit-scrollbar {
-  display: none;
 }
 
 

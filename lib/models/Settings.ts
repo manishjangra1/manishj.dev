@@ -21,6 +21,7 @@ export interface ISettings extends Document {
     twitter?: string;
     email?: string;
     portfolio?: string;
+    whatsapp?: string;
   };
   createdAt: Date;
   updatedAt: Date;
@@ -90,6 +91,7 @@ const SettingsSchema: Schema = new Schema(
       twitter: String,
       email: String,
       portfolio: String,
+      whatsapp: String,
     },
   },
   {

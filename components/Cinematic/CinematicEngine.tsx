@@ -12,6 +12,7 @@ import LoadingScreen from './UI/LoadingScreen';
 import CommandPalette from './UI/CommandPalette';
 import TopSearchBar from './UI/TopSearchBar';
 import AIGuide from './UI/AIGuide';
+import WhatsAppNode from './UI/WhatsAppNode';
 import { History } from 'lucide-react';
 import { useData } from '@/contexts/DataContext';
 
@@ -148,32 +149,44 @@ const CinematicEngine: React.FC = () => {
             <div className={activeSection === 'home' ? 'pointer-events-auto self-end md:self-auto' : 'pointer-events-none self-end md:self-auto'}>
               <CommunicationNodes />
             </div>
+
+            {/* Archive Link (Top Right Corner) */}
+            <motion.a
+              href="https://v1.manishj.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ 
+                opacity: activeSection === 'home' ? 1 : 0, 
+                y: activeSection === 'home' ? 0 : -20 
+              }}
+              transition={{ duration: 0.8, delay: 2.2 }}
+              className="absolute top-0 right-0 flex items-center gap-2 px-4 py-2 glass rounded-bl-2xl border-t-0 border-r-0 border-white/[0.05] pointer-events-auto hover:bg-white/[0.02] transition-all duration-700 group z-[60]"
+            >
+              <div className="absolute inset-0 bg-accent-amber/[0.03] opacity-0 group-hover:opacity-100 transition-opacity rounded-bl-2xl" />
+              <History size={12} className="text-foreground/20 group-hover:text-accent-amber transition-colors duration-500 relative z-10" />
+              <span className="text-[9px] font-mono tracking-[0.2em] text-foreground/20 group-hover:text-foreground/60 uppercase transition-colors duration-500 relative z-10">Archive</span>
+            </motion.a>
           </div>
 
           {/* Bottom Section */}
           <div className="p-6 md:p-12 flex justify-center items-end pointer-events-auto">
             <NavigationDock />
             
-            {/* Archive Link (Bottom Left) */}
-            <motion.a
-              href="https://v1.manishj.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, x: -20 }}
+
+
+            {/* WhatsApp Contact (Bottom Right) */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
               animate={{ 
                 opacity: activeSection === 'home' ? 1 : 0, 
-                x: activeSection === 'home' ? 0 : -20 
+                x: activeSection === 'home' ? 0 : 20 
               }}
               transition={{ duration: 0.8, delay: 2.2 }}
-              className="absolute bottom-12 left-12 flex items-center gap-3 px-5 py-3 glass rounded-2xl border-white/[0.05] pointer-events-auto hover:bg-white/[0.02] transition-all duration-700 group overflow-hidden"
+              className="absolute bottom-12 right-12 flex items-center gap-3 pointer-events-auto"
             >
-              <div className="absolute inset-0 bg-accent-amber/[0.03] opacity-0 group-hover:opacity-100 transition-opacity" />
-              <History size={16} className="text-foreground/20 group-hover:text-accent-amber transition-colors duration-500 relative z-10" />
-              <div className="flex flex-col relative z-10">
-                <span className="text-[11px] font-bold tracking-tight text-foreground/60 group-hover:text-foreground transition-colors duration-500">V1 Portfolio</span>
-                <span className="text-[8px] font-mono tracking-[0.3em] text-foreground/20 uppercase">Archive</span>
-              </div>
-            </motion.a>
+              <WhatsAppNode />
+            </motion.div>
           </div>
         </motion.div>
       )}

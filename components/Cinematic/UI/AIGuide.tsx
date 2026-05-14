@@ -72,7 +72,7 @@ const AIGuide: React.FC = () => {
   return (
     <div 
       ref={containerRef}
-      className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-3 pointer-events-none"
+      className="fixed bottom-6 left-6 z-[100] flex flex-col items-start gap-3 pointer-events-none"
     >
       <AnimatePresence>
         {guideMessage && (
@@ -83,7 +83,7 @@ const AIGuide: React.FC = () => {
             className="glass p-4 rounded-xl max-w-[320px] border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.4)] relative overflow-hidden pointer-events-auto mb-1"
           >
             {/* Background Glow */}
-            <div className="absolute top-0 right-0 w-20 h-20 bg-accent-amber/[0.05] blur-[30px] -mr-10 -mt-10" />
+            <div className="absolute top-0 left-0 w-20 h-20 bg-accent-amber/[0.05] blur-[30px] -ml-10 -mt-10" />
             
             <div className="flex items-start gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-accent-amber mt-1.5 shadow-[0_0_8px_rgba(214,168,106,0.6)] shrink-0" />
@@ -184,10 +184,10 @@ const AIGuide: React.FC = () => {
         <AnimatePresence>
           {isHovered && !guideMessage && (
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: -10 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="absolute right-full top-1/2 -translate-y-1/2 mr-4 glass px-3 py-1.5 rounded-full border-white/10"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 10 }}
+              exit={{ opacity: 0, x: 20 }}
+              className="absolute left-full top-1/2 -translate-y-1/2 ml-4 glass px-3 py-1.5 rounded-full border-white/10"
             >
               <span className="text-[10px] uppercase tracking-widest text-foreground/40 whitespace-nowrap">Architect Online</span>
             </motion.div>

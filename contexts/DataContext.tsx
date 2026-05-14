@@ -70,6 +70,7 @@ export interface Settings {
     twitter?: string;
     email?: string;
     portfolio?: string;
+    whatsapp?: string;
   };
 }
 

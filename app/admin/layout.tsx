@@ -55,8 +55,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div 
-      className="min-h-screen"
-      style={{ backgroundColor: colors.background }}
+      className="h-screen flex flex-col lg:flex-row overflow-hidden"
+      style={{ backgroundColor: colors.background, cursor: 'auto', userSelect: 'auto' }}
     >
       {/* Mobile Header */}
       <div 
@@ -262,16 +262,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content */}
-      <main className="lg:ml-64 pt-20 lg:pt-8 p-4 sm:p-6 lg:p-8">
-        <DataProvider>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {children}
-          </motion.div>
-        </DataProvider>
+      <main className="flex-1 lg:ml-64 pt-20 lg:pt-0 overflow-y-auto">
+        <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+          <DataProvider>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {children}
+            </motion.div>
+          </DataProvider>
+        </div>
       </main>
     </div>
   );

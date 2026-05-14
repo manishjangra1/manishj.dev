@@ -55,7 +55,7 @@ export default async function Home() {
   const data = await getData();
 
   return (
-    <main className="min-h-screen w-full bg-black overflow-hidden">
+    <main className="min-h-screen w-full bg-black cinematic-theme cinematic-engine">
       <DataProvider initialData={data}>
         <CinematicEngine />
       </DataProvider>
