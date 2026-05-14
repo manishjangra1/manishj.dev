@@ -12,6 +12,7 @@ import LoadingScreen from './UI/LoadingScreen';
 import CommandPalette from './UI/CommandPalette';
 import TopSearchBar from './UI/TopSearchBar';
 import AIGuide from './UI/AIGuide';
+import { History } from 'lucide-react';
 import { useData } from '@/contexts/DataContext';
 
 import ProjectsShowcase from './Sections/ProjectsShowcase';
@@ -144,6 +145,27 @@ const CinematicEngine: React.FC = () => {
           {/* Bottom Section */}
           <div className="p-6 md:p-12 flex justify-center items-end pointer-events-auto">
             <NavigationDock />
+            
+            {/* Archive Link (Bottom Left) */}
+            <motion.a
+              href="https://v1.manishj.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ 
+                opacity: activeSection === 'home' ? 1 : 0, 
+                x: activeSection === 'home' ? 0 : -20 
+              }}
+              transition={{ duration: 0.8, delay: 2.2 }}
+              className="absolute bottom-12 left-12 flex items-center gap-3 px-5 py-3 glass rounded-2xl border-white/5 pointer-events-auto hover:bg-white/5 transition-all group overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-accent-blue/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <History size={16} className="text-white/20 group-hover:text-accent-blue transition-colors relative z-10" />
+              <div className="flex flex-col relative z-10">
+                <span className="text-[11px] font-bold tracking-tight text-white/60 group-hover:text-white transition-colors">V1 Portfolio</span>
+                <span className="text-[8px] font-mono tracking-widest text-white/20 uppercase">Archive</span>
+              </div>
+            </motion.a>
           </div>
         </motion.div>
       )}
