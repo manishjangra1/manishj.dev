@@ -62,6 +62,7 @@ export interface Settings {
   siteDescription: string;
   heroText: string;
   aboutText: string;
+  aboutText2?: string;
   aboutImage?: string;
   resumeUrl?: string;
   socialLinks: {

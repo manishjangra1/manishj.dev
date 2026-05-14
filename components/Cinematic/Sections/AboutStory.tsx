@@ -67,9 +67,15 @@ const AboutStory: React.FC = () => {
                 <p className="text-foreground/75 text-lg md:text-xl leading-relaxed font-light">
                   {settings?.aboutText || "I am an architectural digital developer who believes that the web should be an immersive environment, not just a surface. My work focuses on high-performance spatial systems, cinematic motion, and premium industrial design aesthetics."}
                 </p>
+
+                {settings?.aboutText2 && (
+                  <p className="text-foreground/50 text-base md:text-lg leading-relaxed font-light">
+                    {settings.aboutText2}
+                  </p>
+                )}
               </div>
               
-              <div className="flex flex-col gap-3 pt-6 border-t border-white/[0.05]">
+              {/* <div className="flex flex-col gap-3 pt-6 border-t border-white/[0.05]">
                 <div className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent-amber/50 shadow-[0_0_8px_rgba(214,168,106,0.4)]" />
                   <span className="text-[10px] uppercase tracking-[0.3em] text-foreground/30 font-mono">
@@ -82,7 +88,7 @@ const AboutStory: React.FC = () => {
                     Atmospheric Motion Engineering
                   </span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </motion.div>
 
