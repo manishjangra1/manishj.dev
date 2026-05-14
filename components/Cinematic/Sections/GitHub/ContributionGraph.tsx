@@ -24,11 +24,11 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
         </div>
       </div>
 
-      <div className="glass p-8 rounded-[2rem] border-white/10 relative overflow-hidden group">
-        {/* Animated Background Mesh */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.05),transparent)] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+      <div className="glass p-8 rounded-[2rem] border-white/10 relative overflow-hidden group min-h-[160px]">
+        {/* Persistent Background Glow */}
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-accent-blue/5 rounded-full blur-[100px] pointer-events-none z-0" />
         
-        <div className="relative flex gap-1.5 h-32 md:h-40 overflow-x-auto scrollbar-hide">
+        <div className="relative z-10 flex gap-1.5 h-32 md:h-40 overflow-x-auto scrollbar-hide">
           {weeks.map((week: any, weekIndex: number) => (
             <div key={weekIndex} className="flex flex-col gap-1.5 shrink-0">
               {week.contributionDays.map((day: any, dayIndex: number) => {

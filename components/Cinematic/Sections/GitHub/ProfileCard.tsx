@@ -13,37 +13,37 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
     <motion.div
       initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
-      className="glass p-8 rounded-[2.5rem] border-white/10 shadow-2xl relative overflow-hidden group"
+      className="glass p-6 rounded-[2rem] border-white/10 shadow-2xl relative group"
     >
       {/* Background Decorative Glow */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-accent-blue/5 blur-3xl -mr-10 -mt-10 group-hover:bg-accent-blue/10 transition-colors" />
       
-      <div className="relative flex flex-col gap-8">
+      <div className="relative flex items-center gap-6">
         {/* Avatar Section */}
-        <div className="flex flex-col items-center text-center gap-4">
-          <div className="relative">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-2 border border-white/10 rounded-full border-dashed"
-            />
-            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white/10 relative z-10 shadow-xl">
-              <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
-            </div>
-            <div className="absolute bottom-1 right-1 w-4 h-4 bg-accent-blue border-2 border-black rounded-full z-20 shadow-lg" />
+        <div className="relative shrink-0">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute -inset-1.5 border border-white/5 rounded-full border-dashed"
+          />
+          <div className="w-16 h-16 rounded-full overflow-hidden border border-white/10 relative z-10 shadow-lg">
+            <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
           </div>
-          
-          <div className="flex flex-col items-center">
-            <div className="text-xl font-bold text-white tracking-tighter uppercase leading-tight">{user.name}</div>
-            <span className="text-white/20 font-mono text-[9px] uppercase tracking-widest mt-1">
-              GitHub Contributor
-            </span>
-          </div>
+          <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-accent-blue border-2 border-black rounded-full z-20 shadow-md" />
         </div>
+        
+        <div className="flex flex-col min-w-0">
+          <div className="text-lg font-bold text-white tracking-tighter uppercase truncate">{user.name}</div>
+          <span className="text-white/20 font-mono text-[8px] uppercase tracking-[0.2em] mt-0.5">
+            GitHub Contributor
+          </span>
+        </div>
+      </div>
 
+      <div className="flex flex-col gap-6 mt-8">
         {/* Bio */}
-        <p className="text-white/50 text-sm leading-relaxed">
-          {user.bio}
+        <p className="text-white/40 text-[11px] leading-relaxed line-clamp-2 italic">
+          "{user.bio}"
         </p>
 
         {/* Stats Grid */}

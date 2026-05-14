@@ -59,9 +59,9 @@ const GitHubSection: React.FC = () => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="absolute inset-0 flex items-center justify-center p-6 md:p-12 pt-24 md:pt-32 overflow-hidden"
+      className="absolute inset-0 flex items-start justify-center p-6 md:p-12 pt-16 md:pt-20 overflow-hidden"
     >
-      <div className="w-full max-w-7xl h-fit max-h-full flex flex-col md:flex-row gap-8 relative z-10 overflow-visible">
+      <div className="w-full max-w-7xl h-full flex flex-col md:flex-row gap-8 relative z-10 overflow-hidden">
         
         {/* Left Sidebar */}
         <div className="w-full md:w-[320px] flex flex-col gap-6 shrink-0 overflow-y-auto scrollbar-hide">
