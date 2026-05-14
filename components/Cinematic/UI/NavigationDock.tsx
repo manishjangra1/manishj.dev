@@ -38,14 +38,6 @@ const NavigationDock: React.FC = () => {
         />
       ))}
       
-      {/* Active Indicator Glow */}
-      <div 
-        className="absolute bottom-1 h-[1.5px] bg-accent-amber shadow-[0_0_8px_rgba(214,168,106,0.4)] transition-all duration-500 ease-out"
-        style={{
-          width: '16px',
-          left: `calc(${items.findIndex(i => i.id === activeSection) * 56 + 28}px - 8px)`
-        }}
-      />
     </motion.div>
   );
 };
@@ -77,10 +69,18 @@ const DockIcon = ({ mouseX, item, isActive, onClick }: {
     >
       <item.icon 
         size={20} 
-        className={`transition-colors duration-300 ${
-          isActive ? 'text-accent-amber' : 'text-foreground/40 group-hover:text-foreground'
+        className={`transition-colors duration-300 relative z-10 ${
+          isActive ? 'text-accent-amber' : 'text-foreground/70 group-hover:text-foreground'
         }`} 
       />
+      
+      {/* Active Indicator Glow */}
+      {isActive && (
+        <motion.div 
+          layoutId="dockIndicator"
+          className="absolute -bottom-[10px] w-4 h-[1.5px] bg-accent-amber shadow-[0_0_8px_rgba(214,168,106,0.4)] rounded-full z-0"
+        />
+      )}
       
       {/* Tooltip */}
       <span className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1 rounded-md glass text-[10px] uppercase tracking-widest text-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
