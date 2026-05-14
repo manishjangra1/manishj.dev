@@ -83,7 +83,7 @@ const ContactSection: React.FC = () => {
                 <Mail size={20} className="text-foreground/30 group-hover:text-accent-amber transition-colors duration-500" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mb-1">Inquiries</span>
+                <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mb-1">Email</span>
                 <span className="text-lg text-foreground/50 group-hover:text-foreground transition-colors duration-500 font-medium">dev.jangramanish@gmail.com</span>
               </div>
             </a>
@@ -93,7 +93,7 @@ const ContactSection: React.FC = () => {
                 <MapPin size={20} className="text-foreground/30 group-hover:text-accent-amber transition-colors duration-500" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mb-1">Presence</span>
+                <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mb-1">Location</span>
                 <span className="text-lg text-foreground/50 group-hover:text-foreground transition-colors duration-500 font-medium">Chandigarh, India</span>
               </div>
             </div>
@@ -130,9 +130,9 @@ const ContactSection: React.FC = () => {
                     />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="text-base font-bold text-foreground tracking-tight">Transmission Received</h3>
+                    <h3 className="text-base font-bold text-foreground tracking-tight">Message Sent</h3>
                     <p className="text-foreground/40 text-[10px] leading-relaxed font-light">
-                      The Architect will respond shortly.
+                      Thank you for reaching out. I will get back to you shortly.
                     </p>
                   </div>
                 </motion.div>
@@ -140,7 +140,7 @@ const ContactSection: React.FC = () => {
                 <form key="form" onSubmit={handleSubmit} className="flex flex-col gap-6">
                   <div className="space-y-5">
                     <div className="group/input">
-                      <label className="text-[7px] uppercase tracking-[0.4em] text-foreground/20 font-mono ml-1 mb-2 block group-focus-within/input:text-accent-amber transition-colors">Sector // Identifier</label>
+                      <label className="text-[7px] uppercase tracking-[0.4em] text-foreground/20 font-mono ml-1 mb-2 block group-focus-within/input:text-accent-amber transition-colors">Your Name</label>
                       <input 
                         type="text"
                         required
@@ -152,7 +152,7 @@ const ContactSection: React.FC = () => {
                     </div>
                     
                     <div className="group/input">
-                      <label className="text-[7px] uppercase tracking-[0.4em] text-foreground/20 font-mono ml-1 mb-2 block group-focus-within/input:text-accent-amber transition-colors">Sector // Communication</label>
+                      <label className="text-[7px] uppercase tracking-[0.4em] text-foreground/20 font-mono ml-1 mb-2 block group-focus-within/input:text-accent-amber transition-colors">Email Address</label>
                       <input 
                         type="email"
                         required
@@ -164,7 +164,7 @@ const ContactSection: React.FC = () => {
                     </div>
 
                     <div className="group/input">
-                      <label className="text-[7px] uppercase tracking-[0.4em] text-foreground/20 font-mono ml-1 mb-2 block group-focus-within/input:text-accent-amber transition-colors">Sector // Message</label>
+                      <label className="text-[7px] uppercase tracking-[0.4em] text-foreground/20 font-mono ml-1 mb-2 block group-focus-within/input:text-accent-amber transition-colors">Your Message</label>
                       <textarea 
                         required
                         value={formData.message}
@@ -187,7 +187,7 @@ const ContactSection: React.FC = () => {
                       <Loader2 size={16} className="animate-spin text-accent-amber" />
                     ) : (
                       <>
-                        <span className="uppercase tracking-[0.3em] text-[8px] text-foreground relative z-10 group-hover/btn:text-accent-amber transition-colors">Initialize Message</span>
+                        <span className="uppercase tracking-[0.3em] text-[8px] text-foreground relative z-10 group-hover/btn:text-accent-amber transition-colors">Send Message</span>
                         <Send size={10} className="text-foreground/40 group-hover/btn:text-accent-amber transition-colors relative z-10" />
                         <div className="absolute inset-0 bg-accent-amber/[0.02] opacity-0 group-hover/btn:opacity-100 transition-opacity" />
                       </>

@@ -12,7 +12,7 @@ const items: { icon: any; label: Section; id: Section }[] = [
   { icon: Github, label: 'github', id: 'github' },
   { icon: Code2, label: 'skills', id: 'skills' },
   { icon: User, label: 'about', id: 'about' },
-  { icon: Mail, label: 'contact', id: 'contact' },
+  // { icon: Mail, label: 'contact', id: 'contact' },
 ];
 
 const NavigationDock: React.FC = () => {
