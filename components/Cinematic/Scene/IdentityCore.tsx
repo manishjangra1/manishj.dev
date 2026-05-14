@@ -5,11 +5,15 @@ import { useFrame } from '@react-three/fiber';
 import { MeshDistortMaterial, MeshWobbleMaterial, Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 
+import { useExperienceStore } from '@/lib/store/experience-store';
+
 const IdentityCore: React.FC = () => {
+  const activeSection = useExperienceStore((state) => state.activeSection);
+  const groupRef = useRef<THREE.Group>(null);
   const meshRef = useRef<THREE.Mesh>(null);
   const coreRef = useRef<THREE.Mesh>(null);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
     if (meshRef.current) {
       meshRef.current.rotation.y = time * 0.15;
@@ -20,10 +24,21 @@ const IdentityCore: React.FC = () => {
       const scale = 1 + Math.sin(time * 1.5) * 0.03;
       coreRef.current.scale.set(scale, scale, scale);
     }
+    
+    if (groupRef.current) {
+      const targetScale = activeSection === 'github' ? 0 : 1;
+      groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 4);
+      
+      if (activeSection === 'github' && groupRef.current.scale.x < 0.01) {
+        groupRef.current.visible = false;
+      } else {
+        groupRef.current.visible = true;
+      }
+    }
   });
 
   return (
-    <group>
+    <group ref={groupRef}>
       {/* Outer Luxury Glass Shell */}
       <mesh ref={meshRef}>
         <sphereGeometry args={[1.6, 64, 64]} />

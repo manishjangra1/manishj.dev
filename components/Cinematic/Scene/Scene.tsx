@@ -28,6 +28,7 @@ const CameraController = () => {
 };
 
 const Scene: React.FC = () => {
+  const activeSection = useExperienceStore((state) => state.activeSection);
   return (
     <Canvas
       gl={{ antialias: true, alpha: true }}
