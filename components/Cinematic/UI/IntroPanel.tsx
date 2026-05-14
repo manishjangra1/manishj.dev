@@ -2,8 +2,12 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+import { useExperienceStore } from '@/lib/store/experience-store';
 
 const IntroPanel: React.FC = () => {
+  const { setActiveSection } = useExperienceStore();
+
   return (
     <div className="flex flex-col gap-8 md:gap-10 max-w-2xl text-left relative">
       {/* Editorial Accent Line - Offset to the left to keep text flush */}
@@ -43,18 +47,21 @@ const IntroPanel: React.FC = () => {
           Building scalable web applications and high-performance digital products with modern technologies including React, Next.js, Node.js, and TypeScript. 
         </p>
         
-        <div className="flex items-center gap-5">
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => setActiveSection('projects')}
+          className="flex items-center gap-4 w-fit px-6 py-3.5 glass rounded-xl border border-white/5 hover:border-accent-amber/30 transition-all duration-500 group shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+        >
           <div className="flex items-center gap-2.5">
             <div className="w-1.5 h-1.5 rounded-full bg-accent-amber shadow-[0_0_12px_rgba(214,168,106,0.8)] animate-pulse" />
-            <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/40 font-mono">
-              System Online
+            <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/60 font-mono group-hover:text-foreground transition-colors">
+              View Projects
             </span>
           </div>
-          <div className="h-[1px] w-8 bg-white/[0.05]" />
-          <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/20 font-mono">
-            Available for Hire
-          </span>
-        </div>
+          <div className="h-[1px] w-6 bg-white/[0.1] group-hover:w-8 transition-all duration-500" />
+          <ArrowUpRight size={14} className="text-accent-amber opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-500" />
+        </motion.button>
 
       </motion.div>
     </div>
