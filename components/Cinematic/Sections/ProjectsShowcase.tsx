@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { useData } from '@/contexts/DataContext';
 import { useExperienceStore } from '@/lib/store/experience-store';
 import { ExternalLink, Github, ChevronRight, ChevronLeft, Plus } from 'lucide-react';
@@ -140,10 +141,14 @@ const ProjectsShowcase: React.FC = () => {
           className="absolute inset-0 z-[-1] overflow-hidden"
         >
           {currentProject.image && (
-            <img 
+            <Image 
               src={currentProject.image} 
               alt="" 
-              className="w-full h-full object-cover scale-105 blur-3xl opacity-40" 
+              fill
+              sizes="80px"
+              quality={10}
+              priority
+              className="object-cover scale-105 blur-3xl opacity-40" 
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />

@@ -144,8 +144,10 @@ export const DataProvider: React.FC<{
   }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (!initialData) {
+      fetchData();
+    }
+  }, [fetchData, initialData]);
 
   return (
     <DataContext.Provider

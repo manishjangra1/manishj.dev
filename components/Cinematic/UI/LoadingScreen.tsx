@@ -30,11 +30,8 @@ const LoadingScreen: React.FC = () => {
             transition={{ duration: 2.5, repeat: Infinity }}
             className="text-[9px] uppercase tracking-[0.5em] text-foreground/40 font-mono"
           >
-            Establishing Architectural Layer
+            KINDLY WAIT WHILE WE SET UP PORTFOLIO
           </motion.span>
-          <span className="text-[8px] uppercase tracking-[0.2em] text-foreground/20 font-mono">
-            System v2.0 // Premium
-          </span>
         </div>
       </div>
     </motion.div>

@@ -7,8 +7,6 @@ import ExperienceModel from '@/lib/models/Experience';
 import BlogPost from '@/lib/models/BlogPost';
 import { DataProvider } from '@/contexts/DataContext';
 
-// Enable on-demand revalidation for this page
-export const dynamic = 'force-dynamic';
 
 // Helper function to serialize Mongoose documents to plain objects
 function serialize(data: any): any {

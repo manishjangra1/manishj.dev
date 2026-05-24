@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useData } from '@/contexts/DataContext';
 
 const AboutStory: React.FC = () => {
@@ -45,10 +46,14 @@ const AboutStory: React.FC = () => {
           >
             {settings?.aboutImage && (
               <div className="relative aspect-[4/3] md:aspect-square w-full rounded-3xl overflow-hidden glass p-1 shadow-2xl">
-                <img 
+                <Image 
                   src={settings.aboutImage} 
                   alt="Manish" 
-                  className="w-full h-full object-cover rounded-[22px] grayscale contrast-125 hover:grayscale-0 transition-all duration-1000 ease-out" 
+                  fill
+                  sizes="(max-width: 768px) 100vw, 500px"
+                  priority
+                  unoptimized={settings.aboutImage.includes('blob.vercel-storage.com')}
+                  className="object-cover rounded-[22px] grayscale contrast-125 hover:grayscale-0 transition-all duration-1000 ease-out" 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute inset-0 bg-accent-amber/5 mix-blend-overlay pointer-events-none" />

@@ -96,11 +96,11 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  content: "";
-  opacity: 0.04;
+  opacity: 0.018; /* Highly optimized subtle static noise texture */
   z-index: 9999;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAvlSTcAAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB8aeGsAAAADnRSTlMAAQIDBAUGBwgJCgsMDQ0hN5EAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA9SURBVHjaY2DHAgwM2BkgAAYwDYQAw0BqGAlKIxZgZMAGiNEwEpRGIsDMgA0Qo2EkKI1EgJkBG8CoGekAAOasAH9YyPzWAAAAAElFTkSuQmCC");
+  background-repeat: repeat;
 }
 
 /* Architectural Micro-Grid */
@@ -159,6 +159,16 @@ html, body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(245, 241, 234, 0.4);
+}
+
+/* High-performance CSS keyframe animation for GitHub activity dots */
+@keyframes dynamic-subtle-pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.55; }
+}
+
+.activity-pulse {
+  animation: dynamic-subtle-pulse 3s infinite ease-in-out;
 }
 
 

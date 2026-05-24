@@ -2,8 +2,12 @@
 
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import { useExperienceStore } from '@/lib/store/experience-store';
-import Scene from './Scene/Scene';
+
+const Scene = dynamic(() => import('./Scene/Scene'), {
+  ssr: false,
+});
 import IntroPanel from './UI/IntroPanel';
 import CommunicationNodes from './UI/CommunicationNodes';
 import NavigationDock from './UI/NavigationDock';
@@ -146,7 +150,7 @@ const CinematicEngine: React.FC = () => {
             >
               <IntroPanel />
             </motion.div>
-            <div className={activeSection === 'home' ? 'pointer-events-auto self-end md:self-auto' : 'pointer-events-none self-end md:self-auto'}>
+            <div className="pointer-events-auto self-end md:self-auto">
               <CommunicationNodes />
             </div>
 

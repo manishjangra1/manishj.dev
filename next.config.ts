@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   // React Three Fiber components are loaded via dynamic imports with ssr: false
   // No additional webpack/turbopack configuration needed
   images: {
+    qualities: [10, 75],
     remotePatterns: [
       {
         protocol: 'https',
