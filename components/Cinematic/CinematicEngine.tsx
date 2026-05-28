@@ -116,14 +116,12 @@ const CinematicEngine: React.FC = () => {
 
       {/* Sections Layer (Spatial) */}
       <div className="absolute inset-0 z-5">
-        <AnimatePresence mode="wait">
-          {activeSection === 'projects' && <ProjectsShowcase key="projects" />}
-          {activeSection === 'about' && <AboutStory key="about" />}
-          {activeSection === 'skills' && <SkillsGrid key="skills" />}
-          {activeSection === 'experience' && <ExperienceTimeline key="experience" />}
-          {activeSection === 'contact' && <ContactSection key="contact" />}
-          {activeSection === 'github' && <GitHubSection key="github" />}
-        </AnimatePresence>
+        {activeSection === 'projects' && <ProjectsShowcase key="projects" />}
+        {activeSection === 'about' && <AboutStory key="about" />}
+        {activeSection === 'skills' && <SkillsGrid key="skills" />}
+        {activeSection === 'experience' && <ExperienceTimeline key="experience" />}
+        {activeSection === 'contact' && <ContactSection key="contact" />}
+        {activeSection === 'github' && <GitHubSection key="github" />}
       </div>
 
       {/* UI Overlay */}
