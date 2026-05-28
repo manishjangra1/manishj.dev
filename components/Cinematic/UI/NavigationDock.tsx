@@ -26,7 +26,7 @@ const NavigationDock: React.FC = () => {
       transition={{ duration: 1, delay: 2 }}
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
-      className="glass px-4 py-3 rounded-2xl flex items-center gap-4 relative shadow-2xl"
+      className="glass px-4 py-3 rounded-2xl flex items-center gap-4 relative shadow-2xl pointer-events-auto"
     >
       {items.map((item) => (
         <DockIcon

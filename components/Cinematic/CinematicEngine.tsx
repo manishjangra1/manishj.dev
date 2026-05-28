@@ -174,7 +174,7 @@ const CinematicEngine: React.FC = () => {
           </div>
 
           {/* Bottom Section */}
-          <div className="p-6 md:p-12 flex justify-center items-end pointer-events-auto">
+          <div className="p-6 md:p-12 flex justify-center items-end pointer-events-none">
             <NavigationDock />
             
 
