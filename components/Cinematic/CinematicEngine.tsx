@@ -198,7 +198,7 @@ const CinematicEngine: React.FC = () => {
 
               <button
                 onClick={() => handleScrollTo('skills')}
-                className="px-6 h-11 bg-transparent border border-border-standard hover:bg-white/5 text-foreground text-[10px] uppercase font-bold tracking-widest transition-colors duration-200 rounded-[16px] flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                className="px-6 h-11 bg-transparent border border-border-standard hover:bg-foreground/5 text-foreground text-[10px] uppercase font-bold tracking-widest transition-colors duration-200 rounded-[16px] flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
                 <Code2 size={12} />
                 <span>View Skills</span>
@@ -227,7 +227,7 @@ const CinematicEngine: React.FC = () => {
                   href={settings.resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 bg-transparent border border-border-standard hover:bg-white/5 text-foreground text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 rounded-[16px] flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                  className="w-full py-3 bg-transparent border border-border-standard hover:bg-foreground/5 text-foreground text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 rounded-[16px] flex items-center justify-center gap-2 cursor-pointer shadow-sm"
                 >
                   <Globe size={12} />
                   <span>View Resume</span>

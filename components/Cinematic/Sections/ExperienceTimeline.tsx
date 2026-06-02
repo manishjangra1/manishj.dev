@@ -13,7 +13,7 @@ export const ExperienceTimeline: React.FC = () => {
   return (
     <div className="w-full relative py-6">
       {/* Central Line for desktop, Left line for mobile */}
-      <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-linear-to-b from-white/10 via-white/5 to-transparent -translate-x-1/2" />
+      <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-linear-to-b from-foreground/10 via-foreground/5 to-transparent -translate-x-1/2" />
 
       <div className="space-y-12">
         {experience.map((exp, index) => {
@@ -65,7 +65,7 @@ export const ExperienceTimeline: React.FC = () => {
                       <span className="text-foreground/75 font-semibold">{exp.company}</span>
                       {exp.location && (
                         <>
-                          <span className="w-1 h-1 rounded-full bg-white/10 hidden md:block" />
+                          <span className="w-1 h-1 rounded-full bg-foreground/15 hidden md:block" />
                           <div className="flex items-center gap-1 text-foreground/30 font-mono text-[9px] uppercase">
                             <MapPin size={9} />
                             <span>{exp.location}</span>

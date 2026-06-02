@@ -33,7 +33,7 @@ const CodeBlock = ({ children, className }: { children: any, className?: string 
         </div>
         <button 
           onClick={onCopy}
-          className="p-1.5 hover:bg-white/5 rounded-md transition-all text-foreground/30 hover:text-accent-amber"
+          className="p-1.5 hover:bg-foreground/5 rounded-md transition-all text-foreground/30 hover:text-accent-amber"
         >
           {copied ? <Check size={14} className="text-accent-amber" /> : <Copy size={14} />}
         </button>

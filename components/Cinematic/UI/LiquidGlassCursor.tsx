@@ -169,7 +169,7 @@ export const LiquidGlassCursor: React.FC = () => {
                   ? 'url(#lens-zoom)' 
                   : 'none',
               }}
-              className="fixed top-0 left-0 pointer-events-none z-99998 -translate-x-1/2 -translate-y-1/2 border bg-white/1 shadow-[inset_0_0_12px_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.4)] transition-[backdrop-filter,webkit-backdrop-filter] duration-300 ease-out"
+              className="fixed top-0 left-0 pointer-events-none z-99998 -translate-x-1/2 -translate-y-1/2 border transition-[backdrop-filter,webkit-backdrop-filter] duration-300 ease-out"
               animate={{
                 // Magnified big circle ONLY on text hover, subtle expansions on other interactive states
                 width: isHovered 
@@ -190,28 +190,28 @@ export const LiquidGlassCursor: React.FC = () => {
                 
                 borderRadius: '9999px',
                 
-                // Colors & borders (using theme amber gold #E4B363 in all states)
+                // Colors & borders (using theme vintage gold #A36620 in all states)
                 borderColor: isHovered 
                   ? hoverType === 'text'
-                    ? 'rgba(228, 179, 99, 0.65)' // Bold theme gold for text magnifier
+                    ? 'rgba(163, 102, 32, 0.65)' // Bold vintage gold for text magnifier
                     : hoverType === 'button'
-                      ? 'rgba(228, 179, 99, 0.55)' // Medium theme gold for buttons
-                      : 'rgba(228, 179, 99, 0.4)' // Subtle theme gold for cards
-                  : 'rgba(228, 179, 99, 0.22)', // Faint theme gold when idle
+                      ? 'rgba(163, 102, 32, 0.55)' // Medium vintage gold for buttons
+                      : 'rgba(163, 102, 32, 0.4)' // Subtle vintage gold for cards
+                  : 'rgba(163, 102, 32, 0.25)', // Faint vintage gold when idle
                 
                 backgroundColor: isHovered 
                   ? hoverType === 'text'
-                    ? 'rgba(228, 179, 99, 0.02)' 
-                    : 'rgba(228, 179, 99, 0.03)'
-                  : 'rgba(228, 179, 99, 0.01)',
+                    ? 'rgba(163, 102, 32, 0.02)' 
+                    : 'rgba(163, 102, 32, 0.03)'
+                  : 'rgba(163, 102, 32, 0.01)',
 
                 boxShadow: isHovered 
                   ? hoverType === 'text'
-                    ? 'inset 0 0 20px rgba(228, 179, 99, 0.12), 0 12px 40px rgba(0, 0, 0, 0.5)'
+                    ? 'inset 0 0 20px rgba(163, 102, 32, 0.12), 0 12px 40px rgba(44, 37, 32, 0.25)'
                     : hoverType === 'button'
-                      ? 'inset 0 0 12px rgba(228, 179, 99, 0.08), 0 0 15px rgba(228, 179, 99, 0.12)'
-                      : 'inset 0 0 10px rgba(228, 179, 99, 0.06), 0 8px 24px rgba(0, 0, 0, 0.35)'
-                  : 'inset 0 0 8px rgba(228, 179, 99, 0.04), 0 8px 32px rgba(0, 0, 0, 0.4)',
+                      ? 'inset 0 0 12px rgba(163, 102, 32, 0.08), 0 0 15px rgba(163, 102, 32, 0.12)'
+                      : 'inset 0 0 10px rgba(163, 102, 32, 0.06), 0 8px 24px rgba(44, 37, 32, 0.15)'
+                  : 'inset 0 0 8px rgba(163, 102, 32, 0.04), 0 8px 32px rgba(44, 37, 32, 0.15)',
               }}
               transition={{
                 type: 'spring',

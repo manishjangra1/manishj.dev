@@ -1,47 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  --background: #121417; /* Warm premium dark base */
-  --foreground: #F5F5F5; /* Primary light grey */
+  --background: #F7F2EB; /* Classic warm vintage parchment */
+  --foreground: #2C2520; /* Deep archival warm ink charcoal */
   
-  /* Premium Dark Surfaces */
-  --surface-primary: #1A1D21;
-  --surface-secondary: #20242A;
-  --surface-elevated: #252A31;
-  --surface-interactive: #2B3139;
-  --surface-hover: #2B3139;
+  /* Premium Light/Classic Surfaces */
+  --surface-primary: #FFFFFF; /* Clean white card base */
+  --surface-secondary: #FAF6F0; /* Soft vintage linen card */
+  --surface-elevated: #F3ECE2; /* Elevated cream surface */
+  --surface-interactive: #ECE3D5; /* Interactive warm element */
+  --surface-hover: #E3D9CB; /* Hover state warm element */
   
-  /* Warm Premium Gold Accent */
-  --accent-amber: #E4B363;
-  --accent-bronze: #C7984E;
-  --accent-warm-white: #F5F5F5;
+  /* Antique Gold Accents (High contrast for light background) */
+  --accent-amber: #A36620; /* Vintage brass gold */
+  --accent-bronze: #855217; /* Vintage bronze */
+  --accent-warm-white: #2C2520; /* Primary ink color */
   
-  --accent-primary: #E4B363;
-  --accent-secondary: #F0C987;
-  --accent-hover: #FFD18C;
-  --accent-muted: #C7984E;
+  --accent-primary: #A36620;
+  --accent-secondary: #C88A3C;
+  --accent-hover: #E2A052;
+  --accent-muted: #855217;
 
   /* Typography Text System */
-  --text-primary: #F5F5F5;
-  --text-secondary: #B0B5BC;
-  --text-muted: #8B9199;
-  --text-disabled: #6D737C;
-  --text-link: #E4B363;
+  --text-primary: #2C2520; /* Ink black/charcoal */
+  --text-secondary: #6E6259; /* Muted sepia grey */
+  --text-muted: #8E8277; /* Soft archival grey */
+  --text-disabled: #B5AAA0; /* Faint paper grey */
+  --text-link: #A36620;
   
   /* Micro Architectural Borders */
-  --border-standard: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.15);
-  --border-active: rgba(228, 179, 99, 0.25);
+  --border-standard: rgba(44, 37, 32, 0.08);
+  --border-hover: rgba(44, 37, 32, 0.16);
+  --border-active: rgba(163, 102, 32, 0.25);
   
   /* Premium Liquid Glass Specs */
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(44, 37, 32, 0.08);
   
-  /* Shadow Systems (Pure Dark Elevations with negative spread to prevent sibling bleed) */
-  --shadow-sm: 0 4px 8px -2px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 10px 16px -6px rgba(0, 0, 0, 0.5), 0 4px 8px -4px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 20px 24px -10px rgba(0, 0, 0, 0.6), 0 8px 16px -8px rgba(0, 0, 0, 0.4);
-  
+  /* Shadow Systems (Pure soft warm shadow elevations) */
+  --shadow-sm: 0 2px 4px rgba(44, 37, 32, 0.03), 0 1px 2px rgba(44, 37, 32, 0.02);
+  --shadow-md: 0 6px 16px rgba(44, 37, 32, 0.05), 0 3px 6px rgba(44, 37, 32, 0.03);
+  --shadow-lg: 0 16px 28px rgba(44, 37, 32, 0.07), 0 8px 16px rgba(44, 37, 32, 0.04);
   --font-inter: var(--font-inter);
   --font-mono: var(--font-mono);
 }
@@ -112,12 +111,12 @@ html, body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(44, 37, 32, 0.08);
   border-radius: 9999px;
   transition: background 0.15s ease-out;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(44, 37, 32, 0.16);
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -130,10 +129,10 @@ html, body {
 
 /* Liquid Glass Bento Card */
 .bento-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)), var(--background);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.45)), var(--surface-primary);
   backdrop-filter: blur(10px) saturate(150%);
   -webkit-backdrop-filter: blur(10px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-standard);
   border-radius: 28px; /* Strict 28px */
   padding: 24px;
   position: relative;
@@ -149,7 +148,7 @@ html, body {
   inset: 0;
   border-radius: 28px;
   padding: 1px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 40%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent 40%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -167,10 +166,10 @@ html, body {
 
 /* Liquid Glass Element (Navbar capsules / tooltips) */
 .glass {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--glass-bg);
   backdrop-filter: blur(14px) saturate(180%);
   -webkit-backdrop-filter: blur(14px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-standard);
   box-shadow: var(--shadow-sm);
   transition: border-color 180ms ease-out, box-shadow 180ms ease-out;
 }
@@ -185,7 +184,7 @@ html, body {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 30%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent 30%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -217,7 +216,7 @@ html, body {
   inset: 0;
   z-index: 0;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(228, 179, 99, 0.05) 0%, transparent 70%);
+    radial-gradient(circle at 50% 0%, rgba(163, 102, 32, 0.04) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -227,7 +226,7 @@ html, body {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.25) 150%);
+  background: radial-gradient(circle, transparent 50%, rgba(44, 37, 32, 0.18) 150%);
   opacity: 0.08;
 }
 

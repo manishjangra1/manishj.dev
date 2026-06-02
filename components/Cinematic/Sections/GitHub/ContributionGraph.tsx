@@ -68,7 +68,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
                 style={{ 
                   backgroundColor: day.contributionCount > 0 
                     ? `rgba(214,168,106, ${0.12 + day.intensity * 0.58})` 
-                    : 'rgba(255, 255, 255, 0.04)' 
+                    : 'rgba(44, 37, 32, 0.04)' 
                 }}
               >
                 {/* Hover Tooltip */}

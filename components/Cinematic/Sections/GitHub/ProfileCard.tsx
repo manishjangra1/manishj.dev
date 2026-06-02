@@ -14,7 +14,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
       initial={{ opacity: 0, x: -30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 1 }}
-      className="glass p-8 rounded-4xl border-white/5 shadow-xl relative group"
+      className="glass p-8 rounded-[32px] border border-border-standard shadow-xl relative group"
     >
       
       <div className="relative flex items-center gap-6">
@@ -23,9 +23,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            className="absolute -inset-2 border border-white/5 rounded-full border-dashed"
+            className="absolute -inset-2 border border-border-standard rounded-full border-dashed"
           />
-          <div className="w-16 h-16 rounded-full overflow-hidden border border-white/10 relative z-10">
+          <div className="w-16 h-16 rounded-full overflow-hidden border border-border-standard relative z-10">
             <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-1000" />
           </div>
           <div className="absolute bottom-0 right-0 w-3 h-3 bg-accent-amber border-2 border-background rounded-full z-20 shadow-sm" />

@@ -51,7 +51,7 @@ export const Navbar: React.FC = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-100 w-full transition-all duration-300 border-b ${
       scrolled 
-        ? 'bg-[#121417]/85 backdrop-blur-md border-border-standard shadow-md' 
+        ? 'bg-[#F7F2EB]/85 backdrop-blur-md border-border-standard shadow-md' 
         : 'bg-transparent border-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -71,7 +71,7 @@ export const Navbar: React.FC = () => {
             Portfolio
           </span>
         </button>
-
+ 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-1.5 glass py-1.5 px-3 rounded-full">
           {navItems.map((item) => {
@@ -87,7 +87,7 @@ export const Navbar: React.FC = () => {
                 {isActive && (
                   <motion.div
                     layoutId="active-navbar-indicator"
-                    className="absolute inset-0 bg-white/5 border border-white/8 rounded-full z-[-1]"
+                    className="absolute inset-0 bg-accent-amber/5 border border-accent-amber/10 rounded-full z-[-1]"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
