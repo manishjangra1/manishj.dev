@@ -42,7 +42,7 @@ export const ProjectsShowcase: React.FC = () => {
               <div className="relative w-full aspect-video rounded-[18px] overflow-hidden border border-border-standard bg-surface-secondary">
                 {/* Fallback content behind image */}
                 <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_50%_50%,rgba(228,179,99,0.06),transparent_70%)]">
-                  <span className="text-foreground/[0.04] font-black text-6xl uppercase tracking-tight select-none">
+                  <span className="text-foreground/4 font-black text-6xl uppercase tracking-tight select-none">
                     {project.title?.slice(0, 3) || '—'}
                   </span>
                 </div>
@@ -52,11 +52,11 @@ export const ProjectsShowcase: React.FC = () => {
                     alt={project.title}
                     fill
                     sizes={isLarge ? '(max-width: 768px) 100vw, 800px' : '(max-width: 768px) 100vw, 400px'}
-                    className="object-cover group-hover:scale-102 transition-all duration-700 ease-out relative z-[1]"
+                    className="object-cover group-hover:scale-102 transition-all duration-700 ease-out relative z-1"
                   />
                 )}
                 {/* Live Node status overlay */}
-                <div className="absolute! top-3 left-3 w-fit px-2 py-1 glass border-border-standard rounded-md flex items-center gap-1.5 backdrop-blur-md z-[2]">
+                <div className="!absolute top-3 left-3 w-fit px-2 py-1 glass border-border-standard rounded-md flex items-center gap-1.5 backdrop-blur-md z-2">
                   <span className={`w-1.5 h-1.5 rounded-full ${project.isCurrentlyWorking ? 'bg-emerald-500 animate-pulse' : 'bg-accent-amber'}`} />
                   <span className="text-[7.5px] font-mono font-bold tracking-widest text-foreground/70 uppercase whitespace-nowrap">
                     {project.isCurrentlyWorking ? 'Active' : 'Completed'}

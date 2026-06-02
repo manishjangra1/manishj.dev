@@ -18,6 +18,7 @@ import GitHubSection from './Sections/GitHub/GitHubSection';
 import CommandPalette from './UI/CommandPalette';
 import ProjectDetails from './Sections/ProjectDetails';
 import WhatsAppNode from './UI/WhatsAppNode';
+import LiquidGlassCursor from './UI/LiquidGlassCursor';
 
 // Icons & Lucide
 import { ArrowDown, FileText, Briefcase, Zap, Terminal, Globe, Calendar, MapPin, Sparkles, Code2 } from 'lucide-react';
@@ -425,6 +426,7 @@ const CinematicEngine: React.FC = () => {
       {/* Global Command Palette search bar portal */}
       <CommandPalette />
       <ProjectDetails />
+      <LiquidGlassCursor />
 
       {/* Dynamic WhatsApp floating node */}
       <div className="fixed bottom-6 right-6 z-90 pointer-events-auto">

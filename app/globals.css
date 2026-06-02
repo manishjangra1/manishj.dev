@@ -281,3 +281,12 @@ html, body {
 .activity-pulse {
   animation: dynamic-subtle-pulse 3s infinite ease-out;
 }
+
+/* Custom cursor style rules */
+@media (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
