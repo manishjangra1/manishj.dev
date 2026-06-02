@@ -48,7 +48,17 @@ const CodeBlock = ({ children, className }: { children: any, className?: string 
 const ProjectDetails: React.FC = () => {
   const { isProjectDetailsOpen, setProjectDetailsOpen, selectedProject, setGuideMessage } = useExperienceStore();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
   
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Use MotionValues with Spring physics for high-end smoothness
   const rawScrollValue = useMotionValue(0);
   const scrollValue = useSpring(rawScrollValue, {
@@ -58,14 +68,14 @@ const ProjectDetails: React.FC = () => {
   });
 
   // Transform values for buttery-smooth header collapse
-  const headerHeight = useTransform(scrollValue, [0, 300], [400, 100]);
+  const headerHeight = useTransform(scrollValue, [0, 300], isMobile ? [240, 80] : [400, 100]);
   const imageOpacity = useTransform(scrollValue, [0, 200], [1, 0]);
-  const titleScale = useTransform(scrollValue, [0, 300], [1, 0.8]);
+  const titleScale = useTransform(scrollValue, [0, 300], isMobile ? [1, 0.95] : [1, 0.8]);
   const stickyTitleOpacity = useTransform(scrollValue, [200, 300], [0, 1]);
   const heroContentOpacity = useTransform(scrollValue, [0, 150], [1, 0]);
   
   // Dynamically position the close button to stay centered in both states
-  const closeButtonTop = useTransform(scrollValue, [0, 300], [40, 26]);
+  const closeButtonTop = useTransform(scrollValue, [0, 300], isMobile ? [16, 16] : [40, 26]);
   
   // Sidebar transform values
   const sidebarIconsY = useTransform(scrollValue, [200, 300], [20, 0]);
@@ -97,7 +107,7 @@ const ProjectDetails: React.FC = () => {
   return (
     <AnimatePresence>
       {isProjectDetailsOpen && (
-        <div className="fixed inset-0 z-2000 flex items-center justify-center p-4 md:p-12 overflow-hidden">
+        <div className={`fixed inset-0 z-2000 flex items-center justify-center ${isMobile ? 'p-0' : 'p-4 md:p-12'} overflow-hidden`}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -110,13 +120,13 @@ const ProjectDetails: React.FC = () => {
             initial={{ opacity: 0, scale: 0.98, y: 40 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 1, y: 20 }}
-            className="relative w-full max-w-7xl h-full max-h-[92vh] glass rounded-[3rem] overflow-hidden flex flex-col border-border-standard shadow-lg"
+            className={`relative w-full ${isMobile ? 'max-w-full h-full max-h-full rounded-none border-0' : 'max-w-7xl h-full max-h-[92vh] rounded-[3rem] border border-border-standard'} glass overflow-hidden flex flex-col shadow-lg`}
           >
             {/* Top-Right Persistent Close Button */}
             <motion.button
               style={{ top: closeButtonTop }}
               onClick={() => setProjectDetailsOpen(false)}
-              className="absolute right-10 w-12 h-12 rounded-full glass flex items-center justify-center text-foreground/30 hover:text-accent-amber transition-all hover:bg-surface-secondary group z-50 pointer-events-auto"
+              className={`absolute ${isMobile ? 'right-4 w-10 h-10' : 'right-10 w-12 h-12'} rounded-full glass flex items-center justify-center text-foreground/30 hover:text-accent-amber transition-all hover:bg-surface-secondary group z-50 pointer-events-auto`}
             >
               <X size={20} className="group-hover:rotate-90 transition-transform duration-700" />
             </motion.button>
@@ -141,15 +151,15 @@ const ProjectDetails: React.FC = () => {
               </motion.div>
               
               {/* Sticky Bar Content (Visible when collapsed) */}
-              <div className="absolute inset-0 flex items-center justify-start px-12 md:px-16 pointer-events-none">
+              <div className={`absolute inset-0 flex items-center justify-start ${isMobile ? 'px-6' : 'px-12 md:px-16'} pointer-events-none`}>
                 <motion.div 
                   style={{ opacity: stickyTitleOpacity }}
                   className="flex items-center gap-6"
                 >
                   <div className="w-1 h-6 bg-accent-amber shadow-[0_0_10px_rgba(214,168,106,0.4)]" />
                   <div className="flex flex-col">
-                    <h2 className="text-xl font-bold text-foreground tracking-tight leading-none">{selectedProject.title.toUpperCase()}</h2>
-                    <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mt-2">Project Specifications</span>
+                    <h2 className="text-sm md:text-xl font-bold text-foreground tracking-tight leading-none">{selectedProject.title.toUpperCase()}</h2>
+                    <span className="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mt-1 md:mt-2">Project Specifications</span>
                   </div>
                 </motion.div>
               </div>
@@ -160,28 +170,28 @@ const ProjectDetails: React.FC = () => {
                   opacity: heroContentOpacity,
                   scale: titleScale
                 }}
-                className="absolute bottom-12 left-12 right-12 flex flex-col gap-8"
+                className={`absolute ${isMobile ? 'bottom-6 left-6 right-6 gap-4' : 'bottom-12 left-12 right-12 gap-8'} flex flex-col`}
               >
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-4">
                     <Terminal className="text-accent-amber" size={14} />
                     <span className="text-[10px] uppercase tracking-[0.6em] text-accent-amber font-mono">Project Details</span>
                   </div>
-                  <h2 className="text-5xl md:text-8xl font-bold tracking-tight text-foreground uppercase leading-[0.85]">
+                  <h2 className="text-3xl sm:text-5xl md:text-8xl font-bold tracking-tight text-foreground uppercase leading-[0.85]">
                     {selectedProject.title}
                   </h2>
                 </div>
 
-                <div className="flex gap-6">
+                <div className={`flex flex-wrap ${isMobile ? 'gap-3' : 'gap-6'}`}>
                   {selectedProject.liveUrl && (
-                    <a href={selectedProject.liveUrl} target="_blank" className="glass px-10 py-4 rounded-xl flex items-center gap-4 text-foreground hover:border-accent-amber/30 transition-all group pointer-events-auto overflow-hidden relative">
+                    <a href={selectedProject.liveUrl} target="_blank" className={`glass ${isMobile ? 'px-6 py-3 rounded-lg gap-2.5' : 'px-10 py-4 rounded-xl gap-4'} flex items-center text-foreground hover:border-accent-amber/30 transition-all group pointer-events-auto overflow-hidden relative`}>
                       <Globe size={16} className="text-accent-amber group-hover:rotate-12 transition-transform" />
                       <span className="text-[11px] font-bold tracking-[0.3em] uppercase">View Live Site</span>
                       <div className="absolute inset-0 bg-accent-amber/3 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </a>
                   )}
                   {selectedProject.githubUrl && (
-                    <a href={selectedProject.githubUrl} target="_blank" className="glass px-10 py-4 rounded-xl flex items-center gap-4 text-foreground hover:border-accent-amber/30 transition-all group pointer-events-auto overflow-hidden relative">
+                    <a href={selectedProject.githubUrl} target="_blank" className={`glass ${isMobile ? 'px-6 py-3 rounded-lg gap-2.5' : 'px-10 py-4 rounded-xl gap-4'} flex items-center text-foreground hover:border-accent-amber/30 transition-all group pointer-events-auto overflow-hidden relative`}>
                       <Code2 size={16} className="text-accent-amber" />
                       <span className="text-[11px] font-bold tracking-[0.3em] uppercase">View Source Code</span>
                       <div className="absolute inset-0 bg-accent-amber/3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -195,18 +205,18 @@ const ProjectDetails: React.FC = () => {
             <div 
               ref={containerRef}
               onScroll={handleScroll}
-              className="flex-1 overflow-y-auto scrollbar-hide px-8 md:px-24 pt-12 pb-32"
+              className={`flex-1 overflow-y-auto scrollbar-hide ${isMobile ? 'px-6 pt-8 pb-24' : 'px-8 md:px-24 pt-12 pb-32'}`}
             >
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-24">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-24">
                 
                 {/* Main Content (Markdown Engine) */}
                 <div className="lg:col-span-3">
                   <div className="prose max-w-none 
-                    prose-h1:text-3xl prose-h1:font-bold prose-h1:tracking-tight prose-h1:mb-8 prose-h1:text-foreground
-                    prose-h2:text-2xl prose-h2:font-semibold prose-h2:tracking-tight prose-h2:mt-16 prose-h2:mb-6 prose-h2:text-foreground/90
-                    prose-h3:text-xl prose-h3:font-medium prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-foreground/80
-                    prose-p:text-foreground/75 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-[16px] prose-p:font-light
-                    prose-li:text-foreground/75 prose-li:mb-2 prose-li:text-[16px] prose-li:font-light
+                    prose-h1:text-2xl md:prose-h1:text-3xl prose-h1:font-bold prose-h1:tracking-tight prose-h1:mb-8 prose-h1:text-foreground
+                    prose-h2:text-xl md:prose-h2:text-2xl prose-h2:font-semibold prose-h2:tracking-tight prose-h2:mt-16 prose-h2:mb-6 prose-h2:text-foreground/90
+                    prose-h3:text-lg md:prose-h3:text-xl prose-h3:font-medium prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-foreground/80
+                    prose-p:text-foreground/75 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-[15px] md:prose-p:text-[16px] prose-p:font-light
+                    prose-li:text-foreground/75 prose-li:mb-2 prose-li:text-[15px] md:prose-li:text-[16px] prose-li:font-light
                     prose-strong:text-accent-amber prose-strong:font-semibold
                     prose-ul:list-none prose-ul:ml-0
                   ">
@@ -239,34 +249,36 @@ const ProjectDetails: React.FC = () => {
                 {/* Technical Specifications Sidebar */}
                 <div className="lg:sticky lg:top-4 h-fit">
                   {/* Collapsed State Quick Actions */}
-                  <motion.div 
-                    style={{ 
-                      opacity: stickyTitleOpacity,
-                      y: sidebarIconsY,
-                      height: sidebarIconsHeight,
-                      marginBottom: sidebarIconsMargin
-                    }}
-                    className="flex gap-4 overflow-hidden"
-                  >
-                    {selectedProject.liveUrl && (
-                      <a 
-                        href={selectedProject.liveUrl} 
-                        target="_blank" 
-                        className="w-12 h-12 rounded-full glass border border-border-standard flex items-center justify-center text-foreground/30 hover:text-accent-amber hover:border-accent-amber/30 transition-all duration-700 backdrop-blur-xl"
-                      >
-                        <Globe size={18} />
-                      </a>
-                    )}
-                    {selectedProject.githubUrl && (
-                      <a 
-                        href={selectedProject.githubUrl} 
-                        target="_blank" 
-                        className="w-12 h-12 rounded-full glass border border-border-standard flex items-center justify-center text-foreground/30 hover:text-accent-amber hover:border-accent-amber/30 transition-all duration-700 backdrop-blur-xl"
-                      >
-                        <Code2 size={18} />
-                      </a>
-                    )}
-                  </motion.div>
+                  {!isMobile && (
+                    <motion.div 
+                      style={{ 
+                        opacity: stickyTitleOpacity,
+                        y: sidebarIconsY,
+                        height: sidebarIconsHeight,
+                        marginBottom: sidebarIconsMargin
+                      }}
+                      className="flex gap-4 overflow-hidden"
+                    >
+                      {selectedProject.liveUrl && (
+                        <a 
+                          href={selectedProject.liveUrl} 
+                          target="_blank" 
+                          className="w-12 h-12 rounded-full glass border border-border-standard flex items-center justify-center text-foreground/30 hover:text-accent-amber hover:border-accent-amber/30 transition-all duration-700 backdrop-blur-xl"
+                        >
+                          <Globe size={18} />
+                        </a>
+                      )}
+                      {selectedProject.githubUrl && (
+                        <a 
+                          href={selectedProject.githubUrl} 
+                          target="_blank" 
+                          className="w-12 h-12 rounded-full glass border border-border-standard flex items-center justify-center text-foreground/30 hover:text-accent-amber hover:border-accent-amber/30 transition-all duration-700 backdrop-blur-xl"
+                        >
+                          <Code2 size={18} />
+                        </a>
+                      )}
+                    </motion.div>
+                  )}
 
                   <div className="space-y-8">
                     <div className="flex items-center gap-4">

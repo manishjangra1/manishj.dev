@@ -36,12 +36,21 @@
   /* Premium Liquid Glass Specs */
   --glass-bg: rgba(255, 255, 255, 0.65);
   --glass-border: rgba(44, 37, 32, 0.08);
+  --glass-blur: 14px;
+  --card-blur: 10px;
   
   /* Shadow Systems (Pure soft warm shadow elevations) */
   --shadow-sm: 0 2px 4px rgba(44, 37, 32, 0.03), 0 1px 2px rgba(44, 37, 32, 0.02);
   --shadow-md: 0 6px 16px rgba(44, 37, 32, 0.05), 0 3px 6px rgba(44, 37, 32, 0.03);
   --shadow-lg: 0 16px 28px rgba(44, 37, 32, 0.07), 0 8px 16px rgba(44, 37, 32, 0.04);
   
+  /* Fluid Typography Scale */
+  --font-size-hero: clamp(3rem, 8vw, 7rem);
+  --font-size-section: clamp(1.75rem, 3vw, 3rem);
+  --font-size-card-title: clamp(1rem, 1.5vw, 1.5rem);
+  --font-size-body: clamp(0.95rem, 1vw, 1.1rem);
+  --font-size-small: clamp(0.75rem, 0.8vw, 0.9rem);
+
   /* Bento Glow overlays */
   --card-glow-from: rgba(255, 255, 255, 0.7);
   --card-glow-to: rgba(255, 255, 255, 0.45);
@@ -86,6 +95,8 @@
   /* Premium Liquid Glass Specs */
   --glass-bg: rgba(34, 30, 26, 0.65);
   --glass-border: rgba(230, 223, 213, 0.08);
+  --glass-blur: 14px;
+  --card-blur: 10px;
   
   /* Shadow Systems (Pure soft dark shadow elevations) */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
@@ -95,6 +106,49 @@
   /* Bento Glow overlays */
   --card-glow-from: rgba(230, 223, 213, 0.04);
   --card-glow-to: rgba(230, 223, 213, 0.01);
+}
+
+@media (max-width: 768px) {
+  :root, :root.dark {
+    --glass-blur: 8px;
+    --card-blur: 6px;
+  }
+}
+
+/* Accessibility: Reduced motion media query */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Reusable Container Constraints */
+.responsive-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 4vw, 3rem);
+  padding-right: clamp(1rem, 4vw, 3rem);
+}
+
+@media (min-width: 1024px) {
+  .responsive-container {
+    max-width: 1200px;
+  }
+}
+@media (min-width: 1440px) {
+  .responsive-container {
+    max-width: 1400px;
+  }
+}
+@media (min-width: 1920px) {
+  .responsive-container {
+    max-width: 1600px;
+  }
 }
 
 @theme inline {
@@ -182,8 +236,8 @@ html, body {
 /* Liquid Glass Bento Card */
 .bento-card {
   background: linear-gradient(180deg, var(--card-glow-from), var(--card-glow-to)), var(--surface-primary);
-  backdrop-filter: blur(10px) saturate(150%);
-  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(var(--card-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--card-blur)) saturate(150%);
   border: 1px solid var(--border-standard);
   border-radius: 28px; /* Strict 28px */
   padding: 24px;
@@ -219,8 +273,8 @@ html, body {
 /* Liquid Glass Element (Navbar capsules / tooltips) */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(14px) saturate(180%);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
   border: 1px solid var(--border-standard);
   box-shadow: var(--shadow-sm);
   transition: border-color 180ms ease-out, box-shadow 180ms ease-out;
@@ -293,7 +347,7 @@ html, body {
 
 /* Redefined typography overrides */
 .cinematic-theme h1 { 
-  font-size: clamp(3rem, 10vw, 8rem); 
+  font-size: var(--font-size-hero); 
   line-height: 0.92; 
   letter-spacing: -0.05em; 
   font-weight: 800; 
@@ -301,7 +355,7 @@ html, body {
 }
 
 .cinematic-theme h2 { 
-  font-size: clamp(2rem, 5vw, 4rem); 
+  font-size: var(--font-size-section); 
   line-height: 1.1; 
   letter-spacing: -0.03em; 
   font-weight: 700; 
@@ -309,14 +363,14 @@ html, body {
 }
 
 .cinematic-theme p { 
-  font-size: 1.05rem; 
+  font-size: var(--font-size-body); 
   line-height: 1.7; 
   color: var(--text-secondary);
   font-weight: 400;
 }
 
 .label-small {
-  font-size: 0.7rem;
+  font-size: var(--font-size-small);
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;

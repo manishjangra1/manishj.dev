@@ -145,15 +145,15 @@ const CinematicEngine: React.FC = () => {
       <Navbar />
 
       {/* Scrollable Layout Container */}
-      <div className="max-w-7xl mx-auto px-6 pt-24 pb-12 flex flex-col gap-[72px] md:gap-[96px] lg:gap-[120px] relative z-10">
+      <div className="responsive-container pt-24 pb-12 flex flex-col gap-[72px] md:gap-[96px] lg:gap-[120px] relative z-10">
         
         {/* ========================================================================= */}
         {/* HERO BENTO GRID SECTION */}
         {/* ========================================================================= */}
-        <section id="home" className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+        <section id="home" className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
           
-          {/* Card 1: Name + Editorial Intro (col-span-2) */}
-          <div className="md:col-span-2 bento-card flex flex-col justify-between min-h-[380px] group relative overflow-hidden">
+          {/* Card 1: Name + Editorial Intro (md:col-span-2 lg:col-span-3) */}
+          <div className="md:col-span-2 lg:col-span-3 bento-card flex flex-col justify-between min-h-[380px] group relative overflow-hidden">
             
             <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2.5">
@@ -171,7 +171,7 @@ const CinematicEngine: React.FC = () => {
             </div>
 
             {/* Dynamic Statistics Block */}
-            <div className="relative z-10 grid grid-cols-3 gap-4 pt-6 border-t border-border-standard">
+            <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-border-standard">
               <div className="p-4 rounded-[20px] bg-surface-secondary border border-border-standard flex flex-col gap-1">
                 <span className="text-2xl font-bold text-accent-amber font-mono tracking-tight">{stats.years}+</span>
                 <span className="text-[8px] font-mono uppercase tracking-widest text-text-muted font-bold">Experience</span>
@@ -206,8 +206,8 @@ const CinematicEngine: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 2: Resume / Briefing Card (col-span-1) */}
-          <div className="md:col-span-1 bento-card flex flex-col justify-between min-h-[380px] relative overflow-hidden group">
+          {/* Card 2: Resume / Briefing Card (md:col-span-1 lg:col-span-1) */}
+          <div className="md:col-span-1 lg:col-span-1 bento-card flex flex-col justify-between min-h-[380px] relative overflow-hidden group">
             <div className="relative z-10 space-y-6">
               <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
                 <FileText size={12} className="text-accent-amber" />
@@ -236,8 +236,8 @@ const CinematicEngine: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 3: Featured Project Spot (col-span-1) */}
-          <div className="md:col-span-1 bento-card flex flex-col justify-between min-h-[280px] group relative overflow-hidden cursor-pointer" onClick={handleViewFeaturedDetails}>
+          {/* Card 3: Featured Project Spot (md:col-span-1 lg:col-span-2) */}
+          <div className="md:col-span-1 lg:col-span-2 bento-card flex flex-col justify-between min-h-[280px] group relative overflow-hidden cursor-pointer" onClick={handleViewFeaturedDetails}>
             <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2 text-accent-amber font-mono text-[9px] uppercase tracking-widest font-bold">
                 <Briefcase size={12} />
@@ -256,8 +256,8 @@ const CinematicEngine: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 4: Active Work Status Card (col-span-1) */}
-          <div className="md:col-span-1 bento-card flex flex-col justify-between min-h-[280px] relative overflow-hidden group">
+          {/* Card 4: Active Work Status Card (md:col-span-1 lg:col-span-1) */}
+          <div className="md:col-span-1 lg:col-span-1 bento-card flex flex-col justify-between min-h-[280px] relative overflow-hidden group">
             <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
                 <Calendar size={12} className="text-accent-amber" />
@@ -290,8 +290,8 @@ const CinematicEngine: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 5: High-Level Skills summary (col-span-1) */}
-          <div className="md:col-span-1 bento-card flex flex-col justify-between min-h-[280px] relative overflow-hidden group">
+          {/* Card 5: High-Level Skills summary (md:col-span-1 lg:col-span-1) */}
+          <div className="md:col-span-1 lg:col-span-1 bento-card flex flex-col justify-between min-h-[280px] relative overflow-hidden group">
             <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
                 <Zap size={12} className="text-accent-amber" />

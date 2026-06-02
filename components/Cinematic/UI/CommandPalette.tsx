@@ -10,7 +10,17 @@ const CommandPalette: React.FC = () => {
   const { isCommandPaletteOpen: isOpen, setIsCommandPaletteOpen: setIsOpen, setActiveSection, setSelectedProject, setProjectDetailsOpen } = useExperienceStore();
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const { projects, skills, experience } = useData();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const staticActions = useMemo(() => [
     { icon: Home, label: 'Go to Home', id: 'home', type: 'navigation' },
@@ -117,16 +127,35 @@ const CommandPalette: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, setIsOpen, combinedList, selectedIndex]);
 
+  const modalVariants = {
+    hidden: isMobile 
+      ? { y: '100%', opacity: 1, scale: 1 } 
+      : { y: -10, opacity: 0, scale: 0.98 },
+    visible: { 
+      y: 0, 
+      opacity: 1, 
+      scale: 1,
+      transition: { type: 'spring', damping: 30, stiffness: 300 }
+    },
+    exit: isMobile 
+      ? { y: '100%', opacity: 1, scale: 1 } 
+      : { y: -10, opacity: 0, scale: 0.98 }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-1000 flex items-start justify-center pt-[15vh] px-4 bg-black/15 backdrop-blur-md">
+        <div 
+          className={`fixed inset-0 z-1000 flex ${isMobile ? 'items-end' : 'items-start pt-[15vh] px-4'} justify-center bg-black/15 backdrop-blur-md`}
+          onClick={() => setIsOpen(false)}
+        >
           <motion.div
-            initial={{ opacity: 0, scale: 0.98, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: -10 }}
-            transition={{ duration: 0.15 }}
-            className="w-full max-w-xl bg-surface-primary/85 border border-border-standard rounded-2xl overflow-hidden shadow-lg backdrop-blur-xl"
+            onClick={(e) => e.stopPropagation()}
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className={`w-full ${isMobile ? 'max-w-full rounded-t-3xl border-t border-border-standard border-x-0 border-b-0 pb-8 bg-surface-primary' : 'max-w-xl rounded-2xl border border-border-standard backdrop-blur-xl bg-surface-primary/85'} overflow-hidden shadow-lg`}
           >
             {/* Input area */}
             <div className="p-4 border-b border-border-standard flex items-center gap-3.5 bg-surface-secondary/20">
@@ -136,11 +165,13 @@ const CommandPalette: React.FC = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Type a command or search details..."
-                className="bg-transparent border-none outline-none text-foreground w-full text-[14px] placeholder:text-text-muted/40 font-light"
+                className="bg-transparent border-none outline-none text-foreground w-full text-[16px] md:text-[14px] placeholder:text-text-muted/40 font-light"
               />
-              <div className="flex items-center gap-1.5 px-2 py-1 bg-surface-secondary border border-border-standard rounded-lg text-[9px] text-text-muted/70 font-mono">
-                <CommandIcon size={8} /> K
-              </div>
+              {!isMobile && (
+                <div className="flex items-center gap-1.5 px-2 py-1 bg-surface-secondary border border-border-standard rounded-lg text-[9px] text-text-muted/70 font-mono">
+                  <CommandIcon size={8} /> K
+                </div>
+              )}
             </div>
 
             {/* List items area */}
@@ -208,13 +239,15 @@ const CommandPalette: React.FC = () => {
             </div>
 
             {/* Sticky keybindings footer */}
-            <div className="p-3 bg-surface-secondary/30 border-t border-border-standard flex justify-between items-center text-[9px] uppercase tracking-[0.2em] text-text-muted/60 font-mono font-semibold">
-              <span>Esc to close</span>
-              <div className="flex items-center gap-4">
-                <span>↑↓ to navigate</span>
-                <span>Enter to execute</span>
+            {!isMobile && (
+              <div className="p-3 bg-surface-secondary/30 border-t border-border-standard flex justify-between items-center text-[9px] uppercase tracking-[0.2em] text-text-muted/60 font-mono font-semibold">
+                <span>Esc to close</span>
+                <div className="flex items-center gap-4">
+                  <span>↑↓ to navigate</span>
+                  <span>Enter to execute</span>
+                </div>
               </div>
-            </div>
+            )}
           </motion.div>
         </div>
       )}

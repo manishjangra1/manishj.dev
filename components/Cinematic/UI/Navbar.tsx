@@ -135,27 +135,27 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile Navigation Controls */}
-        <div className="flex md:hidden items-center gap-3">
+        <div className="flex md:hidden items-center gap-2.5">
           <button
             onClick={toggleTheme}
-            className="w-8 h-8 rounded-lg glass hover:bg-surface-secondary flex items-center justify-center text-foreground/45 hover:text-accent-secondary transition-colors cursor-pointer"
+            className="w-11 h-11 rounded-xl glass hover:bg-surface-secondary flex items-center justify-center text-foreground/45 hover:text-accent-secondary transition-colors cursor-pointer"
             title="Toggle theme"
           >
-            {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
           <button
             onClick={() => setIsCommandPaletteOpen(true)}
-            className="w-8 h-8 rounded-lg glass hover:bg-surface-secondary flex items-center justify-center text-foreground/45 hover:text-accent-secondary transition-colors cursor-pointer"
+            className="w-11 h-11 rounded-xl glass hover:bg-surface-secondary flex items-center justify-center text-foreground/45 hover:text-accent-secondary transition-colors cursor-pointer"
           >
-            <Search size={14} />
+            <Search size={18} />
           </button>
           
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="w-8 h-8 rounded-lg glass hover:bg-surface-secondary flex items-center justify-center text-foreground/50 hover:text-accent-secondary transition-colors cursor-pointer"
+            className="w-11 h-11 rounded-xl glass hover:bg-surface-secondary flex items-center justify-center text-foreground/50 hover:text-accent-secondary transition-colors cursor-pointer"
           >
-            {isOpen ? <X size={16} /> : <Menu size={16} />}
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
@@ -178,13 +178,13 @@ export const Navbar: React.FC = () => {
                     <button
                       key={item.id}
                       onClick={() => handleScrollTo(item.id)}
-                      className={`w-full flex items-center gap-4 p-3 rounded-2xl transition-all cursor-pointer ${
+                      className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all cursor-pointer ${
                         isActive 
                           ? 'bg-black/5 text-accent-amber border border-black/5' 
                           : 'hover:bg-surface-secondary text-foreground/60 border border-transparent'
                       }`}
                     >
-                      <item.icon size={16} className={isActive ? 'text-accent-amber' : 'text-foreground/40'} />
+                      <item.icon size={18} className={isActive ? 'text-accent-amber' : 'text-foreground/40'} />
                       <span className="text-[11px] uppercase tracking-widest font-bold">{item.label}</span>
                     </button>
                   );
@@ -196,9 +196,9 @@ export const Navbar: React.FC = () => {
                   href={settings.resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full h-11 bg-transparent border border-border-standard hover:bg-surface-secondary flex items-center justify-center gap-2.5 text-[10px] font-bold uppercase tracking-wider text-foreground hover:text-accent-secondary transition-colors duration-200 rounded-[14px] shadow-sm mt-2"
+                  className="w-full h-12 bg-transparent border border-border-standard hover:bg-surface-secondary flex items-center justify-center gap-2.5 text-[10px] font-bold uppercase tracking-wider text-foreground hover:text-accent-secondary transition-colors duration-200 rounded-2xl shadow-sm mt-2"
                 >
-                  <FileText size={14} />
+                  <FileText size={16} />
                   <span>Download Resume</span>
                 </a>
               )}
