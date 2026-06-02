@@ -45,7 +45,7 @@ const CommandPalette: React.FC = () => {
       }
     });
 
-    return results.slice(0, 8);
+    return results.slice(0, 6);
   }, [query, projects, skills, experience]);
 
   const combinedList = useMemo(() => {
@@ -58,15 +58,31 @@ const CommandPalette: React.FC = () => {
 
   const handleSelect = (item: any) => {
     if (item.type === 'navigation') {
-      setActiveSection(item.id as Section);
+      const element = document.getElementById(item.id);
+      if (element) {
+        const offset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        setActiveSection(item.id as Section);
+      }
     } else if (item.type === 'project') {
-      setActiveSection('projects');
+      const element = document.getElementById('projects');
+      if (element) {
+        window.scrollTo({ top: element.offsetTop - 80, behavior: 'smooth' });
+      }
       setSelectedProject(item);
-      setTimeout(() => setProjectDetailsOpen(true), 800);
+      setTimeout(() => setProjectDetailsOpen(true), 600);
     } else if (item.type === 'skill') {
-      setActiveSection('skills');
+      const element = document.getElementById('skills');
+      if (element) {
+        window.scrollTo({ top: element.offsetTop - 80, behavior: 'smooth' });
+      }
     } else if (item.type === 'experience') {
-      setActiveSection('experience');
+      const element = document.getElementById('experience');
+      if (element) {
+        window.scrollTo({ top: element.offsetTop - 80, behavior: 'smooth' });
+      }
     }
     
     setIsOpen(false);
@@ -104,32 +120,35 @@ const CommandPalette: React.FC = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[1000] flex items-start justify-center pt-[15vh] px-4 bg-background/80 backdrop-blur-xl">
+        <div className="fixed inset-0 z-1000 flex items-start justify-center pt-[15vh] px-4 bg-black/15 backdrop-blur-md">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -20 }}
+            initial={{ opacity: 0, scale: 0.98, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -20 }}
-            className="w-full max-w-xl glass rounded-3xl overflow-hidden shadow-2xl border-white/[0.05]"
+            exit={{ opacity: 0, scale: 0.98, y: -10 }}
+            transition={{ duration: 0.15 }}
+            className="w-full max-w-xl bg-surface-primary border border-border-standard rounded-2xl overflow-hidden shadow-lg"
           >
-            <div className="p-5 border-b border-white/[0.05] flex items-center gap-4">
-              <Search className="text-accent-amber" size={20} />
+            {/* Input area */}
+            <div className="p-4 border-b border-border-standard flex items-center gap-3.5 bg-surface-secondary/40">
+              <Search className="text-accent-amber shrink-0" size={18} />
               <input
                 autoFocus
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search anything... (projects, skills, story)"
-                className="bg-transparent border-none outline-none text-foreground w-full text-lg placeholder:text-foreground/20"
+                placeholder="Type a command or search details..."
+                className="bg-transparent border-none outline-none text-foreground w-full text-[14px] placeholder:text-text-muted/40 font-light"
               />
-              <div className="flex items-center gap-1 px-2 py-1 glass rounded text-[10px] text-foreground/30 font-mono">
-                <CommandIcon size={10} /> K
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-surface-secondary border border-border-standard rounded-lg text-[9px] text-text-muted/70 font-mono">
+                <CommandIcon size={8} /> K
               </div>
             </div>
 
-            <div className="p-3 max-h-[60vh] overflow-y-auto scrollbar-hide">
+            {/* List items area */}
+            <div className="p-2 max-h-[50vh] overflow-y-auto scrollbar-hide">
               {/* Dynamic Results */}
               {query && filteredResults.length > 0 && (
-                <div className="mb-4">
-                  <div className="px-3 py-2 text-[10px] uppercase tracking-[0.3em] text-foreground/20 font-mono">Search Results</div>
+                <div className="mb-2">
+                  <div className="px-3 py-1.5 text-[8.5px] uppercase tracking-[0.25em] text-text-muted/50 font-mono font-bold">Search Results</div>
                   {filteredResults.map((result: any, index: number) => {
                     const isSelected = index === selectedIndex;
                     return (
@@ -137,28 +156,28 @@ const CommandPalette: React.FC = () => {
                         key={`${result.type}-${result._id}`}
                         onClick={() => handleSelect(result)}
                         onMouseEnter={() => setSelectedIndex(index)}
-                        className={`w-full flex items-center justify-between p-3 rounded-2xl transition-all duration-500 group text-left ${isSelected ? 'bg-white/[0.05]' : 'hover:bg-white/[0.02]'}`}
+                        className={`w-full flex items-center justify-between p-2.5 rounded-xl transition-all duration-150 group text-left ${isSelected ? 'bg-surface-secondary border border-border-standard' : 'border border-transparent hover:bg-surface-secondary/30'}`}
                       >
-                        <div className="flex items-center gap-4">
-                          <div className={`w-10 h-10 rounded-xl glass flex items-center justify-center transition-colors duration-500 ${isSelected ? 'text-accent-amber' : 'text-foreground/40 group-hover:text-accent-amber'}`}>
-                            <result.icon size={18} />
+                        <div className="flex items-center gap-3">
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${isSelected ? 'bg-accent-amber/10 text-accent-amber' : 'bg-surface-secondary text-text-muted/65'}`}>
+                            <result.icon size={14} />
                           </div>
                           <div className="flex flex-col">
-                            <span className={`font-medium transition-colors duration-500 ${isSelected ? 'text-foreground' : 'text-foreground/80 group-hover:text-foreground'}`}>{result.label}</span>
-                            <span className="text-[10px] text-foreground/20 uppercase tracking-widest">{result.type}</span>
+                            <span className={`text-[12px] font-bold transition-colors ${isSelected ? 'text-text-primary' : 'text-text-secondary group-hover:text-text-primary'}`}>{result.label}</span>
+                            <span className="text-[7.5px] text-text-muted/55 font-mono uppercase tracking-widest">{result.type}</span>
                           </div>
                         </div>
-                        <Zap size={14} className={`transition-colors duration-500 ${isSelected ? 'text-accent-amber/60' : 'text-white/0 group-hover:text-accent-amber/40'}`} />
+                        <Zap size={10} className={`transition-colors duration-150 ${isSelected ? 'text-accent-amber/70' : 'text-white/0'}`} />
                       </button>
                     );
                   })}
                 </div>
               )}
 
-              {/* Static Navigation */}
+              {/* Static Navigation Actions */}
               <div>
-                <div className="px-3 py-2 text-[10px] uppercase tracking-[0.3em] text-foreground/20 font-mono">
-                  {query ? 'Navigation' : 'Quick Navigation'}
+                <div className="px-3 py-1.5 text-[8.5px] uppercase tracking-[0.25em] text-text-muted/50 font-mono font-bold">
+                  {query ? 'Navigation' : 'Quick Actions'}
                 </div>
                 {staticActions.map((action, index) => {
                   const actualIndex = query ? index + filteredResults.length : index;
@@ -168,12 +187,12 @@ const CommandPalette: React.FC = () => {
                       key={action.id}
                       onClick={() => handleSelect(action)}
                       onMouseEnter={() => setSelectedIndex(actualIndex)}
-                      className={`w-full flex items-center gap-4 p-3 rounded-2xl transition-all duration-500 group text-left ${isSelected ? 'bg-white/[0.05]' : 'hover:bg-white/[0.02]'}`}
+                      className={`w-full flex items-center gap-3 p-2.5 rounded-xl transition-all duration-150 group text-left ${isSelected ? 'bg-surface-secondary border border-border-standard' : 'border border-transparent hover:bg-surface-secondary/30'}`}
                     >
-                      <div className={`w-10 h-10 rounded-xl glass flex items-center justify-center transition-colors duration-500 ${isSelected ? 'text-accent-amber' : 'text-foreground/40 group-hover:text-accent-amber'}`}>
-                        <action.icon size={18} />
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${isSelected ? 'bg-accent-amber/10 text-accent-amber' : 'bg-surface-secondary text-text-muted/65'}`}>
+                        <action.icon size={14} />
                       </div>
-                      <span className={`transition-colors duration-500 ${isSelected ? 'text-foreground' : 'text-foreground/80 group-hover:text-foreground'}`}>
+                      <span className={`text-[12px] font-bold transition-colors ${isSelected ? 'text-text-primary' : 'text-text-secondary group-hover:text-text-primary'}`}>
                         {action.label}
                       </span>
                     </button>
@@ -183,16 +202,17 @@ const CommandPalette: React.FC = () => {
 
               {query && filteredResults.length === 0 && (
                 <div className="p-8 text-center">
-                  <p className="text-foreground/20 text-sm">No results for &quot;{query}&quot;</p>
+                  <p className="text-text-muted/40 text-xs font-mono">No matching records found.</p>
                 </div>
               )}
             </div>
 
-            <div className="p-4 bg-white/[0.01] border-t border-white/[0.05] flex justify-between items-center text-[10px] uppercase tracking-[0.3em] text-foreground/20 font-mono">
-              <span>Press ESC to close</span>
+            {/* Sticky keybindings footer */}
+            <div className="p-3 bg-surface-secondary/30 border-t border-border-standard flex justify-between items-center text-[9px] uppercase tracking-[0.2em] text-text-muted/60 font-mono font-semibold">
+              <span>Esc to close</span>
               <div className="flex items-center gap-4">
                 <span>↑↓ to navigate</span>
-                <span>ENTER to select</span>
+                <span>Enter to execute</span>
               </div>
             </div>
           </motion.div>

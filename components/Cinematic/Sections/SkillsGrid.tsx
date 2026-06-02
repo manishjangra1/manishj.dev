@@ -3,58 +3,82 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useData } from '@/contexts/DataContext';
+import { Code, Database, Smartphone, Cloud, Cpu, Server } from 'lucide-react';
 
-const SkillsGrid: React.FC = () => {
+const categoryIcons: Record<string, any> = {
+  'frontend': Code,
+  'backend': Database,
+  'mobile': Smartphone,
+  'cloud': Cloud,
+  'ai': Cpu,
+  'devops': Server,
+};
+
+export const SkillsGrid: React.FC = () => {
   const { skills } = useData();
+
+  if (!skills || skills.length === 0) return null;
 
   // Group skills by category
   const categories = Array.from(new Set(skills.map(s => s.category)));
 
+  const getIconForCategory = (category: string) => {
+    const key = category.toLowerCase();
+    for (const [iconKey, value] of Object.entries(categoryIcons)) {
+      if (key.includes(iconKey)) return value;
+    }
+    return Code; // Default fallback icon
+  };
+
   return (
-    <div className="absolute inset-0 flex items-center justify-center px-12 md:px-32 pointer-events-none">
-      <div className="w-full max-w-6xl h-full max-h-[85vh] pointer-events-auto overflow-y-auto overflow-x-visible scrollbar-hide pb-40 pt-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 px-2">
-          {categories.map((category, catIndex) => (
-            <motion.div
-              key={category}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: catIndex * 0.1 }}
-              className="flex flex-col gap-6"
-            >
-              <div className="flex items-center gap-4">
-                <div className="h-[1px] w-8 bg-accent-amber/40" />
-                <h3 className="text-[10px] uppercase tracking-[0.4em] text-accent-amber font-mono">
+    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {categories.map((category, catIndex) => {
+        const IconComponent = getIconForCategory(category);
+        const categorySkills = skills.filter(s => s.category === category);
+        
+        return (
+          <motion.div
+            key={category}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: catIndex * 0.05 }}
+            className="bento-card group flex flex-col justify-between min-h-[220px]"
+          >
+            <div className="space-y-6">
+              {/* Category Header */}
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg glass border-border-standard flex items-center justify-center text-accent-amber">
+                  <IconComponent size={14} />
+                </div>
+                <h3 className="text-xs uppercase tracking-[0.3em] text-accent-amber font-mono font-bold">
                   {category}
                 </h3>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                {skills
-                  .filter(s => s.category === category)
-                  .map((skill) => (
-                    <motion.div
-                      key={skill._id}
-                      whileHover={{ y: -2, scale: 1.02, borderColor: 'rgba(214, 168, 106, 0.2)' }}
-                      className="glass px-4 py-3.5 rounded-lg flex items-center justify-between group transition-all duration-500 w-full"
-                    >
-                      <span className="text-[13px] font-medium text-foreground/60 group-hover:text-foreground transition-colors truncate tracking-tight">
-                        {skill.name}
+              {/* Skills Tags inside Bento Card */}
+              <div className="grid grid-cols-2 gap-2">
+                {categorySkills.map((skill) => (
+                  <div
+                    key={skill._id}
+                    className="flex items-center justify-between p-2 rounded-lg bg-surface-secondary border border-border-standard group/skill hover:border-foreground/10 transition-colors duration-300"
+                  >
+                    <span className="text-xs font-light text-foreground/60 group-hover/skill:text-foreground transition-colors truncate">
+                      {skill.name}
+                    </span>
+                    <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent-amber/20 group-hover/skill:bg-accent-amber transition-colors" />
+                      <span className="text-[9px] font-mono text-text-muted/40 group-hover/skill:text-accent-amber/70 transition-colors">
+                        {skill.proficiency}%
                       </span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-1 h-1 rounded-full bg-foreground/10 group-hover:bg-accent-amber transition-colors" />
-                        <span className="text-[9px] font-mono text-foreground/20 group-hover:text-accent-amber/60 transition-colors">
-                          {skill.proficiency}%
-                        </span>
-                      </div>
-                    </motion.div>
-                  ))}
+                    </div>
+                  </div>
+                ))}
               </div>
-
-            </motion.div>
-          ))}
-        </div>
-      </div>
+            </div>
+          </motion.div>
+        );
+      })}
     </div>
   );
 };

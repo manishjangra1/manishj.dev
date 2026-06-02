@@ -19,8 +19,8 @@ const CodeBlock = ({ children, className }: { children: any, className?: string 
   };
 
   return (
-    <div className="group relative my-8 overflow-hidden rounded-xl bg-graphite-900 border border-white/[0.05] shadow-2xl">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-white/[0.05] bg-white/[0.02]">
+    <div className="group relative my-8 overflow-hidden rounded-xl bg-surface-secondary border border-border-standard shadow-2xl">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border-standard bg-surface-secondary">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
             <div className="w-2 h-2 rounded-full bg-accent-amber/20" />
@@ -33,7 +33,7 @@ const CodeBlock = ({ children, className }: { children: any, className?: string 
         </div>
         <button 
           onClick={onCopy}
-          className="p-1.5 hover:bg-white/[0.05] rounded-md transition-all text-foreground/30 hover:text-accent-amber"
+          className="p-1.5 hover:bg-white/5 rounded-md transition-all text-foreground/30 hover:text-accent-amber"
         >
           {copied ? <Check size={14} className="text-accent-amber" /> : <Copy size={14} />}
         </button>
@@ -97,7 +97,7 @@ const ProjectDetails: React.FC = () => {
   return (
     <AnimatePresence>
       {isProjectDetailsOpen && (
-        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-12 overflow-hidden">
+        <div className="fixed inset-0 z-2000 flex items-center justify-center p-4 md:p-12 overflow-hidden">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -110,13 +110,13 @@ const ProjectDetails: React.FC = () => {
             initial={{ opacity: 0, scale: 0.98, y: 40 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 1, y: 20 }}
-            className="relative w-full max-w-7xl h-full max-h-[92vh] glass rounded-[3rem] overflow-hidden flex flex-col border-white/[0.05] shadow-[0_0_120px_rgba(0,0,0,0.8)]"
+            className="relative w-full max-w-7xl h-full max-h-[92vh] glass rounded-[3rem] overflow-hidden flex flex-col border-border-standard shadow-lg"
           >
             {/* Top-Right Persistent Close Button */}
             <motion.button
               style={{ top: closeButtonTop }}
               onClick={() => setProjectDetailsOpen(false)}
-              className="absolute right-10 w-12 h-12 rounded-full glass flex items-center justify-center text-foreground/30 hover:text-accent-amber transition-all hover:bg-white/[0.02] group z-50 pointer-events-auto"
+              className="absolute right-10 w-12 h-12 rounded-full glass flex items-center justify-center text-foreground/30 hover:text-accent-amber transition-all hover:bg-surface-secondary group z-50 pointer-events-auto"
             >
               <X size={20} className="group-hover:rotate-90 transition-transform duration-700" />
             </motion.button>
@@ -124,7 +124,7 @@ const ProjectDetails: React.FC = () => {
             {/* Dynamic Sticky Header */}
             <motion.div 
               style={{ height: headerHeight }}
-              className="relative w-full shrink-0 z-20 overflow-hidden bg-background border-b border-white/[0.05]"
+              className="relative w-full shrink-0 z-20 overflow-hidden bg-background border-b border-border-standard"
             >
               {/* Background Image with Parallax/Fade */}
               <motion.div style={{ opacity: imageOpacity }} className="absolute inset-0">
@@ -136,8 +136,8 @@ const ProjectDetails: React.FC = () => {
                     className="object-cover scale-105" 
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-                <div className="absolute inset-0 bg-accent-amber/[0.02] mix-blend-overlay" />
+                <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-transparent" />
+                <div className="absolute inset-0 bg-accent-amber/2 mix-blend-overlay" />
               </motion.div>
               
               {/* Sticky Bar Content (Visible when collapsed) */}
@@ -177,14 +177,14 @@ const ProjectDetails: React.FC = () => {
                     <a href={selectedProject.liveUrl} target="_blank" className="glass px-10 py-4 rounded-xl flex items-center gap-4 text-foreground hover:border-accent-amber/30 transition-all group pointer-events-auto overflow-hidden relative">
                       <Globe size={16} className="text-accent-amber group-hover:rotate-12 transition-transform" />
                       <span className="text-[11px] font-bold tracking-[0.3em] uppercase">View Live Site</span>
-                      <div className="absolute inset-0 bg-accent-amber/[0.03] opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute inset-0 bg-accent-amber/3 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </a>
                   )}
                   {selectedProject.githubUrl && (
                     <a href={selectedProject.githubUrl} target="_blank" className="glass px-10 py-4 rounded-xl flex items-center gap-4 text-foreground hover:border-accent-amber/30 transition-all group pointer-events-auto overflow-hidden relative">
                       <Code2 size={16} className="text-accent-amber" />
                       <span className="text-[11px] font-bold tracking-[0.3em] uppercase">View Source Code</span>
-                      <div className="absolute inset-0 bg-accent-amber/[0.03] opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute inset-0 bg-accent-amber/3 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </a>
                   )}
                 </div>
@@ -201,21 +201,21 @@ const ProjectDetails: React.FC = () => {
                 
                 {/* Main Content (Markdown Engine) */}
                 <div className="lg:col-span-3">
-                  <div className="prose prose-invert max-w-none 
+                  <div className="prose max-w-none 
                     prose-h1:text-3xl prose-h1:font-bold prose-h1:tracking-tight prose-h1:mb-8 prose-h1:text-foreground
                     prose-h2:text-2xl prose-h2:font-semibold prose-h2:tracking-tight prose-h2:mt-16 prose-h2:mb-6 prose-h2:text-foreground/90
                     prose-h3:text-xl prose-h3:font-medium prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-foreground/80
-                    prose-p:text-foreground/60 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-[16px] prose-p:font-light
-                    prose-li:text-foreground/60 prose-li:mb-2 prose-li:text-[16px] prose-li:font-light
+                    prose-p:text-foreground/75 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-[16px] prose-p:font-light
+                    prose-li:text-foreground/75 prose-li:mb-2 prose-li:text-[16px] prose-li:font-light
                     prose-strong:text-accent-amber prose-strong:font-semibold
                     prose-ul:list-none prose-ul:ml-0
                   ">
                     <ReactMarkdown 
                       remarkPlugins={[remarkGfm]}
                       components={{
-                        p: ({ children }) => <div className="mb-8 leading-relaxed text-foreground/65 font-light">{children}</div>,
+                        p: ({ children }) => <div className="mb-8 leading-relaxed text-foreground/75 font-light">{children}</div>,
                         li: ({ children }) => (
-                          <div className="flex gap-4 mb-3 text-foreground/65 font-light">
+                          <div className="flex gap-4 mb-3 text-foreground/75 font-light">
                             <span className="text-accent-amber/30">/</span>
                             <span>{children}</span>
                           </div>
@@ -224,7 +224,7 @@ const ProjectDetails: React.FC = () => {
                           return !inline ? (
                             <CodeBlock className={className}>{children}</CodeBlock>
                           ) : (
-                            <code className="bg-white/[0.03] border border-white/[0.05] px-2 py-0.5 rounded text-accent-amber font-mono text-[13px]" {...props}>
+                            <code className="bg-surface-secondary border border-border-standard px-2 py-0.5 rounded text-accent-amber font-mono text-[13px]" {...props}>
                               {children}
                             </code>
                           )
@@ -252,7 +252,7 @@ const ProjectDetails: React.FC = () => {
                       <a 
                         href={selectedProject.liveUrl} 
                         target="_blank" 
-                        className="w-12 h-12 rounded-full glass border border-white/[0.05] flex items-center justify-center text-foreground/30 hover:text-accent-amber hover:border-accent-amber/30 transition-all duration-700 backdrop-blur-xl"
+                        className="w-12 h-12 rounded-full glass border border-border-standard flex items-center justify-center text-foreground/30 hover:text-accent-amber hover:border-accent-amber/30 transition-all duration-700 backdrop-blur-xl"
                       >
                         <Globe size={18} />
                       </a>
@@ -261,7 +261,7 @@ const ProjectDetails: React.FC = () => {
                       <a 
                         href={selectedProject.githubUrl} 
                         target="_blank" 
-                        className="w-12 h-12 rounded-full glass border border-white/[0.05] flex items-center justify-center text-foreground/30 hover:text-accent-amber hover:border-accent-amber/30 transition-all duration-700 backdrop-blur-xl"
+                        className="w-12 h-12 rounded-full glass border border-border-standard flex items-center justify-center text-foreground/30 hover:text-accent-amber hover:border-accent-amber/30 transition-all duration-700 backdrop-blur-xl"
                       >
                         <Code2 size={18} />
                       </a>
@@ -270,12 +270,12 @@ const ProjectDetails: React.FC = () => {
 
                   <div className="space-y-8">
                     <div className="flex items-center gap-4">
-                      <div className="h-[1px] w-8 bg-accent-amber/30" />
+                      <div className="h-px w-8 bg-accent-amber/30" />
                       <span className="text-[9px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Technologies</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.technologies.map(tech => (
-                        <span key={tech} className="px-5 py-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05] text-[10px] font-bold tracking-widest text-foreground/40 uppercase hover:border-accent-amber/20 hover:text-foreground/70 transition-all duration-500 cursor-default">
+                        <span key={tech} className="px-5 py-2.5 rounded-lg bg-surface-secondary border border-border-standard text-[10px] font-bold tracking-widest text-foreground/40 uppercase hover:border-accent-amber/20 hover:text-foreground/70 transition-all duration-500 cursor-default">
                           {tech}
                         </span>
                       ))}

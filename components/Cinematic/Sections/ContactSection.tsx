@@ -1,205 +1,169 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Send, MapPin, CheckCircle2, Loader2 } from 'lucide-react';
+import React from 'react';
+import { Mail, MapPin, Share2, ArrowUpRight, Linkedin, Github } from 'lucide-react';
+import { useData } from '@/contexts/DataContext';
 
-const ContactSection: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+export const ContactSection: React.FC = () => {
+  const { settings } = useData();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-
-    setStatus('submitting');
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    console.log('Form Submitted:', {
-      ...formData,
-      read: false,
-      createdAt: new Date().toISOString()
-    });
-
-    setStatus('success');
-    setFormData({ name: '', email: '', message: '' });
-    
-    setTimeout(() => setStatus('idle'), 5000);
-  };
+  // Dynamic social links with fallback values
+  const linkedinUrl = settings?.socialLinks?.linkedin || "https://linkedin.com/in/manish-jangra";
+  const githubUrl = settings?.socialLinks?.github || "https://github.com/manishjangra1";
+  
+  // WhatsApp configuration matching the floating WhatsAppNode
+  const whatsappNum = settings?.socialLinks?.whatsapp || "919999999999";
+  const whatsappMsg = encodeURIComponent('Hi Manish, can we have a meeting regarding a project or collaboration?');
+  const whatsappUrl = `https://wa.me/${whatsappNum}?text=${whatsappMsg}`;
+  
+  const xUrl = settings?.socialLinks?.twitter || "https://x.com/manishjangra1";
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center px-12 md:px-32 pointer-events-none pb-32">
-      <div className="w-full max-w-5xl pointer-events-auto flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
+    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      {/* Card 1: Contact Brief & Info Details */}
+      <div className="bento-card flex flex-col justify-between min-h-[380px] group relative overflow-hidden">
         
-        {/* Left Side: Info */}
-        <div className="flex-1 flex flex-col gap-10">
-          <div className="flex flex-col gap-6">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-3"
-            >
-              <div className="w-8 h-[1px] bg-accent-amber/40" />
-              <span className="text-[10px] uppercase tracking-[0.4em] text-accent-amber font-mono">
-                Connect
-              </span>
-            </motion.div>
-            
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.8 }}
-              className="text-5xl md:text-7xl font-bold tracking-tight text-foreground leading-[0.9]"
-            >
-              LET&apos;S WORK <br /> 
-              <span className="text-foreground/10">TOGETHER</span> ON <br /> 
-              YOUR NEXT <br /> 
-              <span className="text-accent-amber inline-block relative">
-                PROJECT.
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: '100%' }}
-                  transition={{ delay: 1, duration: 1 }}
-                  className="absolute -bottom-2 left-0 h-[1px] bg-accent-amber/30 blur-[1px]" 
-                />
-              </span>
-            </motion.h2>
+        <div className="space-y-6">
+          <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
+            <Mail size={12} className="text-accent-amber" />
+            <span>Contact Details</span>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col gap-8"
-          >
-            <a href="mailto:dev.jangramanish@gmail.com" className="flex items-center gap-6 group">
-              <div className="w-14 h-14 rounded-2xl glass flex items-center justify-center group-hover:border-accent-amber/30 group-hover:shadow-[0_0_20px_rgba(214,168,106,0.1)] transition-all duration-700">
-                <Mail size={20} className="text-foreground/30 group-hover:text-accent-amber transition-colors duration-500" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mb-1">Email</span>
-                <span className="text-lg text-foreground/50 group-hover:text-foreground transition-colors duration-500 font-medium">dev.jangramanish@gmail.com</span>
-              </div>
-            </a>
-
-            <div className="flex items-center gap-6 group">
-              <div className="w-14 h-14 rounded-2xl glass flex items-center justify-center group-hover:border-accent-amber/30 transition-all duration-700">
-                <MapPin size={20} className="text-foreground/30 group-hover:text-accent-amber transition-colors duration-500" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono mb-1">Location</span>
-                <span className="text-lg text-foreground/50 group-hover:text-foreground transition-colors duration-500 font-medium">Chandigarh, India</span>
-              </div>
-            </div>
-          </motion.div>
+          <div className="space-y-3">
+            <h3 className="text-2xl font-bold text-foreground uppercase tracking-tight">Let&apos;s Build Together</h3>
+            <p className="text-xs text-foreground/50 leading-relaxed font-light">
+              Interested in collaborating, hiring, or discussing software engineering and projects? Reach out directly via email or connect through my social channels.
+            </p>
+          </div>
         </div>
 
-        {/* Right Side: Contact Form Card */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 1 }}
-          className="flex-1 w-full max-w-[380px] relative group/card"
-        >
-          {/* Ambient Card Glow */}
-          <div className="absolute -inset-1 bg-accent-amber/[0.03] rounded-[2rem] blur-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-1000" />
-          
-          <div className="relative glass p-6 md:p-10 rounded-[2rem] border-white/[0.05] overflow-hidden shadow-2xl">
-            <AnimatePresence mode="wait">
-              {status === 'success' ? (
-                <motion.div 
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="py-10 flex flex-col items-center text-center gap-4"
-                >
-                  <div className="w-14 h-14 rounded-full bg-accent-amber/10 flex items-center justify-center relative">
-                    <CheckCircle2 size={24} className="text-accent-amber z-10" />
-                    <motion.div 
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1.5, opacity: 0 }}
-                      transition={{ duration: 1, repeat: Infinity }}
-                      className="absolute inset-0 border border-accent-amber rounded-full"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="text-base font-bold text-foreground tracking-tight">Message Sent</h3>
-                    <p className="text-foreground/40 text-[10px] leading-relaxed font-light">
-                      Thank you for reaching out. I will get back to you shortly.
-                    </p>
-                  </div>
-                </motion.div>
-              ) : (
-                <form key="form" onSubmit={handleSubmit} className="flex flex-col gap-6">
-                  <div className="space-y-5">
-                    <div className="group/input">
-                      <label className="text-[7px] uppercase tracking-[0.4em] text-foreground/20 font-mono ml-1 mb-2 block group-focus-within/input:text-accent-amber transition-colors">Your Name</label>
-                      <input 
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="NAME"
-                        className="w-full bg-white/[0.01] border border-white/[0.05] rounded-lg px-4 py-3 text-[11px] text-foreground placeholder:text-foreground/10 focus:outline-none focus:border-accent-amber/20 focus:bg-white/[0.03] transition-all duration-500 tracking-wider"
-                      />
-                    </div>
-                    
-                    <div className="group/input">
-                      <label className="text-[7px] uppercase tracking-[0.4em] text-foreground/20 font-mono ml-1 mb-2 block group-focus-within/input:text-accent-amber transition-colors">Email Address</label>
-                      <input 
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="EMAIL"
-                        className="w-full bg-white/[0.01] border border-white/[0.05] rounded-lg px-4 py-3 text-[11px] text-foreground placeholder:text-foreground/10 focus:outline-none focus:border-accent-amber/20 focus:bg-white/[0.03] transition-all duration-500 tracking-wider"
-                      />
-                    </div>
+        <div className="space-y-4 pt-6 border-t border-border-standard">
+          <a 
+            href={settings?.socialLinks?.email ? `mailto:${settings.socialLinks.email}` : "mailto:dev.jangramanish@gmail.com"} 
+            className="flex items-center gap-4 p-3 rounded-xl border border-amber-100 bg-amber-50/40 hover:border-accent-amber/20 hover:bg-amber-50/70 transition-all duration-300 group/item"
+          >
+            <div className="w-9 h-9 rounded-lg bg-accent-amber/5 flex items-center justify-center text-foreground/30 group-hover/item:text-accent-amber transition-colors">
+              <Mail size={14} />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[8px] uppercase tracking-[0.25em] text-text-muted/45 font-mono">Email Address</span>
+              <span className="text-xs text-text-secondary group-hover/item:text-foreground transition-colors font-medium">
+                {settings?.socialLinks?.email || "dev.jangramanish@gmail.com"}
+              </span>
+            </div>
+          </a>
 
-                    <div className="group/input">
-                      <label className="text-[7px] uppercase tracking-[0.4em] text-foreground/20 font-mono ml-1 mb-2 block group-focus-within/input:text-accent-amber transition-colors">Your Message</label>
-                      <textarea 
-                        required
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        placeholder="MESSAGE"
-                        rows={2}
-                        className="w-full bg-white/[0.01] border border-white/[0.05] rounded-lg px-4 py-3 text-[11px] text-foreground placeholder:text-foreground/10 focus:outline-none focus:border-accent-amber/20 focus:bg-white/[0.03] transition-all duration-500 resize-none tracking-wider"
-                      />
-                    </div>
-                  </div>
-
-                  <motion.button
-                    disabled={status === 'submitting'}
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    type="submit"
-                    className="w-full h-12 glass rounded-lg font-bold flex items-center justify-center gap-3 group/btn hover:border-accent-amber/30 transition-all duration-700 disabled:opacity-50 relative overflow-hidden"
-                  >
-                    {status === 'submitting' ? (
-                      <Loader2 size={16} className="animate-spin text-accent-amber" />
-                    ) : (
-                      <>
-                        <span className="uppercase tracking-[0.3em] text-[8px] text-foreground relative z-10 group-hover/btn:text-accent-amber transition-colors">Send Message</span>
-                        <Send size={10} className="text-foreground/40 group-hover/btn:text-accent-amber transition-colors relative z-10" />
-                        <div className="absolute inset-0 bg-accent-amber/[0.02] opacity-0 group-hover/btn:opacity-100 transition-opacity" />
-                      </>
-                    )}
-                  </motion.button>
-                </form>
-              )}
-            </AnimatePresence>
+          <div className="flex items-center gap-4 p-3 rounded-xl border border-border-standard bg-surface-secondary/40 group/item">
+            <div className="w-9 h-9 rounded-lg bg-accent-amber/5 flex items-center justify-center text-foreground/30">
+              <MapPin size={14} className="text-accent-amber" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[8px] uppercase tracking-[0.25em] text-text-muted/45 font-mono">Location</span>
+              <span className="text-xs text-text-secondary font-medium">Chandigarh, India</span>
+            </div>
           </div>
-        </motion.div>
-
+        </div>
       </div>
+
+      {/* Card 2: Social Channels Bento Grid */}
+      <div className="bento-card flex flex-col justify-between min-h-[380px] group relative overflow-hidden">
+        
+        <div className="space-y-6">
+          <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
+            <Share2 size={12} className="text-accent-amber" />
+            <span>Digital Channels</span>
+          </div>
+          <div className="space-y-3">
+            <h3 className="text-2xl font-bold text-foreground uppercase tracking-tight">Social Networks</h3>
+            <p className="text-xs text-foreground/50 leading-relaxed font-light">
+              Feel free to connect, collaborate, or reach out across any of these professional networks and digital platforms.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-border-standard">
+          {/* LinkedIn */}
+          <a
+            href={linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/item flex flex-col justify-between p-4 rounded-2xl border border-blue-100 bg-blue-50/40 hover:border-[#0A66C2]/30 hover:bg-blue-50/70 transition-all duration-300 min-h-[110px]"
+          >
+            <div className="flex justify-between items-start">
+              <div className="w-8 h-8 rounded-lg bg-[#0A66C2]/10 flex items-center justify-center text-[#0A66C2] group-hover/item:scale-110 transition-transform duration-300">
+                <Linkedin size={16} />
+              </div>
+              <ArrowUpRight size={14} className="text-text-muted/40 group-hover/item:text-[#0A66C2] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all duration-300" />
+            </div>
+            <div className="mt-4">
+              <span className="text-[8px] uppercase tracking-[0.2em] text-text-muted/45 font-mono">LinkedIn</span>
+              <span className="block text-xs font-semibold text-text-secondary group-hover/item:text-foreground transition-colors mt-0.5">Manish Jangra</span>
+            </div>
+          </a>
+
+          {/* GitHub */}
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/item flex flex-col justify-between p-4 rounded-2xl border border-border-standard bg-surface-secondary/40 hover:border-foreground/20 hover:bg-surface-secondary transition-all duration-300 min-h-[110px]"
+          >
+            <div className="flex justify-between items-start">
+              <div className="w-8 h-8 rounded-lg bg-foreground/5 flex items-center justify-center text-foreground group-hover/item:scale-110 transition-transform duration-300">
+                <Github size={16} />
+              </div>
+              <ArrowUpRight size={14} className="text-text-muted/40 group-hover/item:text-foreground group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all duration-300" />
+            </div>
+            <div className="mt-4">
+              <span className="text-[8px] uppercase tracking-[0.2em] text-text-muted/45 font-mono">GitHub</span>
+              <span className="block text-xs font-semibold text-text-secondary group-hover/item:text-foreground transition-colors mt-0.5">manishjangra1</span>
+            </div>
+          </a>
+
+          {/* WhatsApp */}
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/item flex flex-col justify-between p-4 rounded-2xl border border-emerald-100 bg-emerald-50/40 hover:border-[#25D366]/30 hover:bg-emerald-50/70 transition-all duration-300 min-h-[110px]"
+          >
+            <div className="flex justify-between items-start">
+              <div className="w-8 h-8 rounded-lg bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover/item:scale-110 transition-transform duration-300">
+                <svg viewBox="0 0 24 24" className="w-4 h-4 fill-currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+              </div>
+              <ArrowUpRight size={14} className="text-text-muted/40 group-hover/item:text-[#25D366] group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all duration-300" />
+            </div>
+            <div className="mt-4">
+              <span className="text-[8px] uppercase tracking-[0.2em] text-text-muted/45 font-mono">WhatsApp</span>
+              <span className="block text-xs font-semibold text-text-secondary group-hover/item:text-foreground transition-colors mt-0.5">Start Chat</span>
+            </div>
+          </a>
+
+          {/* X / Twitter */}
+          <a
+            href={xUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/item flex flex-col justify-between p-4 rounded-2xl border border-border-standard bg-surface-secondary/40 hover:border-foreground/20 hover:bg-surface-secondary transition-all duration-300 min-h-[110px]"
+          >
+            <div className="flex justify-between items-start">
+              <div className="w-8 h-8 rounded-lg bg-foreground/5 flex items-center justify-center text-foreground group-hover/item:scale-110 transition-transform duration-300">
+                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </div>
+              <ArrowUpRight size={14} className="text-text-muted/40 group-hover/item:text-foreground group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all duration-300" />
+            </div>
+            <div className="mt-4">
+              <span className="text-[8px] uppercase tracking-[0.2em] text-text-muted/45 font-mono">X (Twitter)</span>
+              <span className="block text-xs font-semibold text-text-secondary group-hover/item:text-foreground transition-colors mt-0.5">manishjangra1</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
     </div>
   );
 };

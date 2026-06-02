@@ -14,10 +14,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
       initial={{ opacity: 0, x: -30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 1 }}
-      className="glass p-8 rounded-[2rem] border-white/[0.05] shadow-xl relative group"
+      className="glass p-8 rounded-4xl border-white/5 shadow-xl relative group"
     >
-      {/* Background Decorative Glow */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-accent-amber/[0.03] blur-3xl group-hover:bg-accent-amber/[0.06] transition-colors duration-700 pointer-events-none" />
       
       <div className="relative flex items-center gap-6">
         {/* Avatar Section */}
@@ -25,9 +23,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            className="absolute -inset-2 border border-white/[0.05] rounded-full border-dashed"
+            className="absolute -inset-2 border border-white/5 rounded-full border-dashed"
           />
-          <div className="w-16 h-16 rounded-full overflow-hidden border border-white/[0.1] relative z-10">
+          <div className="w-16 h-16 rounded-full overflow-hidden border border-white/10 relative z-10">
             <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-1000" />
           </div>
           <div className="absolute bottom-0 right-0 w-3 h-3 bg-accent-amber border-2 border-background rounded-full z-20 shadow-sm" />
@@ -49,14 +47,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="glass p-5 rounded-2xl border border-white/[0.03] flex flex-col gap-1 hover:border-accent-amber/20 transition-all duration-500">
+          <div className="glass p-5 rounded-2xl border border-border-standard bg-surface-secondary/40 flex flex-col gap-1 hover:border-accent-amber/20 transition-all duration-500">
             <div className="flex items-center gap-2 text-foreground/30">
               <Users size={12} />
               <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Followers</span>
             </div>
             <span className="text-2xl font-bold text-foreground tracking-tighter">{user.followers.totalCount}</span>
           </div>
-          <div className="glass p-5 rounded-2xl border border-white/[0.03] flex flex-col gap-1 hover:border-accent-amber/20 transition-all duration-500">
+          <div className="glass p-5 rounded-2xl border border-border-standard bg-surface-secondary/40 flex flex-col gap-1 hover:border-accent-amber/20 transition-all duration-500">
             <div className="flex items-center gap-2 text-foreground/30">
               <BookOpen size={12} />
               <span className="text-[9px] uppercase tracking-[0.2em] font-bold">Repos</span>
@@ -66,7 +64,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
         </div>
 
         {/* Location & Link */}
-        <div className="flex flex-col gap-4 pt-6 border-t border-white/[0.05]">
+        <div className="flex flex-col gap-4 pt-6 border-t border-border-standard">
           {user.location && (
             <div className="flex items-center gap-4 text-foreground/40 group/item cursor-default">
               <MapPin size={14} className="text-accent-amber/40 group-hover/item:text-accent-amber transition-colors" />
@@ -86,7 +84,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
         </div>
 
         {/* Activity Status Bar */}
-        <div className="mt-2 flex items-center justify-between px-5 py-2.5 bg-white/[0.01] rounded-xl border border-white/[0.05]">
+        <div className="mt-2 flex items-center justify-between px-5 py-2.5 bg-surface-secondary border border-border-standard rounded-xl">
           <div className="flex items-center gap-3">
             <Activity size={12} className="text-accent-amber/30 animate-pulse" />
             <span className="text-[8px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Activity Status</span>

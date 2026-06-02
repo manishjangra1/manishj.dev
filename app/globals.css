@@ -1,42 +1,82 @@
 @import "tailwindcss";
 
 :root {
-  --background: #141414;
-  --foreground: #F5F1EA;
+  --background: #FAFAF9; /* Pristine soft linen white */
+  --foreground: #1C1917; /* Stone 900 charcoal */
   
-  /* Graphite Theme */
-  --graphite-900: #0d0d0d;
-  --graphite-800: #141414;
-  --graphite-700: #1a1a1a;
-  --graphite-600: #222222;
+  /* Pristine Warm Light Surfaces */
+  --surface-primary: #FFFFFF; /* Pristine solid white */
+  --surface-secondary: #F5F5F4; /* Soft cream warm gray */
+  --surface-elevated: #EFECE9; /* Elevated warmth */
+  --surface-hover: #EAE6E2;
   
-  /* Warm Amber & Bronze Accents */
-  --accent-amber: #D6A86A;
-  --accent-bronze: #8B6B4A;
-  --accent-warm-white: #EAE4DA;
+  /* Elite Amber & Gold Accents (Warm Vibrant) */
+  --accent-amber: #D97706; /* Vibrant warm amber */
+  --accent-bronze: #B45309; /* Warm copper bronze */
+  --accent-warm-white: #1C1917; /* Inverted values */
   
-  /* Glassmorphism - Premium Architectural */
-  --glass-bg: rgba(245, 241, 234, 0.02);
-  --glass-border: rgba(245, 241, 234, 0.05);
-  --glass-glow: rgba(214, 168, 106, 0.08);
+  --accent-primary: #D97706;
+  --accent-secondary: #EA580C;
+  --accent-hover: #C2410C;
+  --accent-muted: #FDBA74;
+
+  /* Typography Text System */
+  --text-primary: #1C1917; /* Deep stone 900 */
+  --text-secondary: #44403C; /* Stone 700 */
+  --text-muted: #78716C; /* Stone 500 */
+  --text-disabled: #A8A29E; /* Stone 400 */
+  --text-link: #EA580C;
   
-  --font-geist-sans: var(--font-geist-sans);
-  --font-geist-mono: var(--font-geist-mono);
+  /* Delicate Light Architectural Borders */
+  --border-standard: rgba(0, 0, 0, 0.06);
+  --border-hover: rgba(0, 0, 0, 0.12);
+  --border-active: rgba(217, 119, 6, 0.25);
+  
+  /* Premium Glassmorphism - Bright Semi-Opaque (blur max 8px) */
+  --glass-bg: rgba(255, 255, 255, 0.70);
+  --glass-border: rgba(0, 0, 0, 0.05);
+  
+  /* Shadow Systems (Realistic soft dark depth) */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.08);
+  
+  --font-inter: var(--font-inter);
+  --font-mono: var(--font-mono);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-graphite-900: var(--graphite-900);
-  --color-graphite-800: var(--graphite-800);
-  --color-graphite-700: var(--graphite-700);
-  --color-graphite-600: var(--graphite-600);
-  --color-accent-amber: var(--accent-amber);
-  --color-accent-bronze: var(--accent-bronze);
-  --color-accent-warm-white: var(--accent-warm-white);
   
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface-primary: var(--surface-primary);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-hover: var(--surface-hover);
+  
+  --color-accent-amber: var(--accent-primary);
+  --color-accent-bronze: var(--accent-muted);
+  
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-muted: var(--accent-muted);
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-disabled: var(--text-disabled);
+  
+  --color-border-standard: var(--border-standard);
+  --color-border-hover: var(--border-hover);
+  --color-border-active: var(--border-active);
+  
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-mono);
+  
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
 }
 
 * {
@@ -52,25 +92,30 @@ html, body {
   padding: 0;
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
 /* Cinematic Engine Environment */
 .cinematic-engine {
-  overflow: hidden;
-  user-select: none;
-  cursor: none;
-  height: 100vh;
-  width: 100vw;
+  width: 100%;
   position: relative;
 }
 
-/* Remove standard scrollbars globally */
+/* Premium Dark Scrollbar for Light Mode */
 ::-webkit-scrollbar {
-  display: none;
+  width: 6px;
+  height: 6px;
 }
-* {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+  transition: background 0.15s ease-out;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.16);
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -81,13 +126,30 @@ html, body {
   scrollbar-width: none;
 }
 
-/* Cinematic Utilities */
+/* Tactical Premium Bento Card */
+.bento-card {
+  background: var(--surface-primary);
+  border: 1px solid var(--border-standard);
+  border-radius: 24px;
+  padding: 24px;
+  transition: transform 180ms ease-out, box-shadow 180ms ease-out, border-color 180ms ease-out;
+  box-shadow: var(--shadow-md);
+}
+
+.bento-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(217, 119, 6, 0.15);
+  box-shadow: 0 12px 30px rgba(217, 119, 6, 0.04), var(--shadow-lg);
+}
+
+/* Architectural Minimalist Glassmorphism (blur max 8px) */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 180ms ease-out, box-shadow 180ms ease-out;
 }
 
 .noise {
@@ -96,22 +158,24 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.018; /* Highly optimized subtle static noise texture */
+  opacity: 0.012; /* Subtle structural paper noise texture */
   z-index: 9999;
   pointer-events: none;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAvlSTcAAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB8aeGsAAAADnRSTlMAAQIDBAUGBwgJCgsMDQ0hN5EAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA9SURBVHjaY2DHAgwM2BkgAAYwDYQAw0BqGAlKIxZgZMAGiNEwEpRGIsDMgA0Qo2EkKI1EgJkBG8CoGekAAOasAH9YyPzWAAAAAElFTkSuQmCC");
   background-repeat: repeat;
 }
 
-/* Architectural Micro-Grid */
+/* Stunning Ambient Multi-Colored Gradient Mesh */
 .micro-grid {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-image: radial-gradient(rgba(245, 241, 234, 0.12) 1px, transparent 1px);
-  background-size: 24px 24px;
-  mask-image: radial-gradient(circle at center, black, transparent 80%);
-  -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+  background-image: 
+    radial-gradient(circle at 100% 0%, rgba(254, 243, 199, 0.70) 0%, transparent 60%), 
+    radial-gradient(circle at 0% 100%, rgba(219, 234, 254, 0.65) 0%, transparent 60%), 
+    radial-gradient(circle at 50% 50%, rgba(250, 232, 255, 0.40) 0%, transparent 80%);
+  mask-image: radial-gradient(circle at center, black, transparent 95%);
+  -webkit-mask-image: radial-gradient(circle at center, black, transparent 95%);
   pointer-events: none;
 }
 
@@ -124,51 +188,44 @@ html, body {
   display: block;
 }
 
-.glow-mesh {
-  background: radial-gradient(circle at 50% 50%, var(--accent-amber), transparent 70%);
-  filter: blur(100px);
-  opacity: 0.05; /* Reduced intensity by 70% */
-}
-
-/* Cinematic Typography Scale */
+/* Redefined typography overrides matching Inter and SF Pro scales */
 .cinematic-theme h1 { 
   font-size: clamp(3rem, 10vw, 8rem); 
   line-height: 0.9; 
-  letter-spacing: -0.05em; 
+  letter-spacing: -0.03em; 
   font-weight: 800; 
-  color: var(--foreground);
+  color: var(--text-primary);
 }
 
 .cinematic-theme h2 { 
   font-size: clamp(2rem, 5vw, 4rem); 
   line-height: 1.1; 
-  letter-spacing: -0.02em; 
+  letter-spacing: -0.03em; 
   font-weight: 700; 
   color: var(--accent-amber);
 }
 
 .cinematic-theme p { 
-  font-size: 1.125rem; 
+  font-size: 1.05rem; 
   line-height: 1.6; 
-  color: rgba(245, 241, 234, 0.65); 
+  color: var(--text-secondary);
+  font-weight: 400;
 }
 
 .label-small {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(245, 241, 234, 0.4);
+  color: var(--text-muted);
 }
 
-/* High-performance CSS keyframe animation for GitHub activity dots */
+/* Subtle non-bouncy commit activity animation */
 @keyframes dynamic-subtle-pulse {
   0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.55; }
+  50% { opacity: 0.4; }
 }
 
 .activity-pulse {
-  animation: dynamic-subtle-pulse 3s infinite ease-in-out;
+  animation: dynamic-subtle-pulse 3s infinite ease-out;
 }
-
-

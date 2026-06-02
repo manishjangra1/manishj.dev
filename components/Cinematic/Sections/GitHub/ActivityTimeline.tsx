@@ -41,12 +41,12 @@ const ActivityTimeline: React.FC<ActivityTimelineProps> = ({ events }) => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-4">
-        <div className="h-[1px] w-8 bg-accent-amber/30" />
+        <div className="h-px w-8 bg-accent-amber/30" />
         <span className="text-[10px] uppercase tracking-[0.4em] text-foreground/30 font-mono">Activity Stream</span>
       </div>
 
       <div className="space-y-3 relative">
-        <div className="absolute left-6 top-0 bottom-0 w-[1px] bg-white/[0.03]" />
+        <div className="absolute left-6 top-0 bottom-0 w-px bg-foreground/5" />
 
         {events.slice(0, 8).map((event, index) => {
           const Icon = getEventIcon(event.type);
@@ -58,7 +58,7 @@ const ActivityTimeline: React.FC<ActivityTimelineProps> = ({ events }) => {
               transition={{ delay: index * 0.05, duration: 0.8 }}
               className="flex items-center gap-6 group cursor-default"
             >
-              <div className="relative z-10 w-12 h-12 rounded-full glass border-white/[0.05] flex items-center justify-center shrink-0 group-hover:border-accent-amber/20 group-hover:shadow-[0_0_15px_rgba(214,168,106,0.1)] transition-all duration-500">
+              <div className="relative z-10 w-12 h-12 rounded-full glass border-border-standard flex items-center justify-center shrink-0 group-hover:border-accent-amber/20 group-hover:shadow-[0_0_15px_rgba(214,168,106,0.1)] transition-all duration-500">
                 <Icon size={16} className="text-foreground/30 group-hover:text-accent-amber transition-colors duration-500" />
                 
                 {index === 0 && (

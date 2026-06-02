@@ -15,7 +15,7 @@ const IntroPanel: React.FC = () => {
         initial={{ height: 0 }}
         animate={{ height: '100%' }}
         transition={{ duration: 1.5, delay: 0.2 }}
-        className="absolute left-[-32px] top-0 w-[1px] bg-gradient-to-b from-accent-amber/50 via-accent-amber/10 to-transparent hidden md:block"
+        className="absolute left-[-32px] top-0 w-px bg-linear-to-b from-accent-amber/50 via-accent-amber/10 to-transparent hidden md:block"
       />
 
       <div className="flex flex-col gap-2">
@@ -51,7 +51,7 @@ const IntroPanel: React.FC = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setActiveSection('projects')}
-          className="flex items-center gap-4 w-fit px-6 py-3.5 glass rounded-xl border border-white/5 hover:border-accent-amber/30 transition-all duration-500 group shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+          className="flex items-center gap-4 w-fit px-6 py-3.5 glass rounded-xl border border-border-standard hover:border-accent-amber/30 transition-all duration-500 group shadow-md hover:shadow-lg"
         >
           <div className="flex items-center gap-2.5">
             <div className="w-1.5 h-1.5 rounded-full bg-accent-amber shadow-[0_0_12px_rgba(214,168,106,0.8)] animate-pulse" />
@@ -59,7 +59,7 @@ const IntroPanel: React.FC = () => {
               View Projects
             </span>
           </div>
-          <div className="h-[1px] w-6 bg-white/[0.1] group-hover:w-8 transition-all duration-500" />
+          <div className="h-px w-6 bg-foreground/10 group-hover:w-8 transition-all duration-500" />
           <ArrowUpRight size={14} className="text-accent-amber opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-500" />
         </motion.button>
 

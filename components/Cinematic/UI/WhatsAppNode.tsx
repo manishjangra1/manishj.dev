@@ -55,11 +55,11 @@ const WhatsAppNode: React.FC = () => {
             exit={{ opacity: 0, y: 10, scale: 0.9, filter: 'blur(10px)' }}
             className="absolute -top-14 right-0 z-50"
           >
-            <div className="glass px-4 py-2 rounded-xl border border-white/[0.05] shadow-2xl backdrop-blur-xl">
+            <div className="glass px-4 py-2 rounded-xl border border-border-standard shadow-2xl backdrop-blur-xl">
               <span className="text-[10px] uppercase tracking-[0.2em] text-foreground/80 whitespace-nowrap font-medium">
                 Start a conversation
               </span>
-              <div className="absolute -bottom-1 right-7 translate-x-1/2 w-2 h-2 bg-white/[0.05] rotate-45 border-r border-b border-white/[0.05]" />
+              <div className="absolute -bottom-1 right-7 translate-x-1/2 w-2 h-2 bg-surface-primary rotate-45 border-r border-b border-border-standard" />
             </div>
           </motion.div>
         )}
@@ -101,9 +101,9 @@ const WhatsAppNode: React.FC = () => {
         )}
 
         {/* Main Glass Node */}
-        <div className="relative w-14 h-14 glass rounded-2xl flex items-center justify-center border border-white/[0.08] shadow-2xl overflow-hidden group-hover:border-accent-amber/30 transition-colors duration-500">
+        <div className="relative w-14 h-14 glass rounded-2xl flex items-center justify-center border border-border-standard shadow-2xl overflow-hidden group-hover:border-accent-amber/30 transition-colors duration-500">
           {/* Internal Reflection */}
-          <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/[0.05] to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-1/2 bg-linear-to-b from-white/5 to-transparent pointer-events-none" />
           
           {/* WhatsApp Icon */}
           <svg 

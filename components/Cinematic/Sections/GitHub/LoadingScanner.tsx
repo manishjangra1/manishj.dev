@@ -16,12 +16,12 @@ const LoadingScanner: React.FC = () => {
         <motion.div
           animate={{ rotate: -360 }}
           transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-4 border border-white/[0.03] rounded-full"
+          className="absolute inset-4 border border-border-standard rounded-full"
         >
           <motion.div 
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
             transition={{ duration: 3, repeat: Infinity }}
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-8 bg-accent-amber shadow-[0_0_15px_rgba(214,168,106,0.5)]"
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-8 bg-accent-amber shadow-[0_0_15px_rgba(214,168,106,0.5)]"
           />
         </motion.div>
 

@@ -62,40 +62,40 @@ interface ThemeColors {
 
 const themeColors: Record<Theme, ThemeColors> = {
   dark: {
-    background: '#0a0a0a',
-    foreground: '#ededed',
-    primary: '#6366f1',
-    primaryHover: '#818cf8',
-    secondary: '#8b5cf6',
-    secondaryHover: '#a78bfa',
-    accent: '#ec4899',
-    accentHover: '#f472b6',
-    cardBg: 'rgba(255, 255, 255, 0.2)',
-    cardBorder: 'rgba(255, 255, 255, 0.1)',
-    textPrimary: '#ffffff',
-    textSecondary: 'rgba(255, 255, 255, 0.8)',
-    gradientFrom: '#6366f1',
-    gradientTo: '#ec4899',
-    navBg: 'rgba(0, 0, 0, 0.8)',
-    navBorder: 'rgba(255, 255, 255, 0.1)',
+    background: '#FAFAF9',
+    foreground: '#1C1917',
+    primary: '#D97706',
+    primaryHover: '#EA580C',
+    secondary: '#EA580C',
+    secondaryHover: '#C2410C',
+    accent: '#D97706',
+    accentHover: '#EA580C',
+    cardBg: '#FFFFFF',
+    cardBorder: 'rgba(0, 0, 0, 0.06)',
+    textPrimary: '#1C1917',
+    textSecondary: '#44403C',
+    gradientFrom: '#D97706',
+    gradientTo: '#EA580C',
+    navBg: 'rgba(255, 255, 255, 0.70)',
+    navBorder: 'rgba(0, 0, 0, 0.05)',
   },
   light: {
-    background: '#ffffff',
-    foreground: '#0a0a0a',
-    primary: '#4f46e5',
-    primaryHover: '#6366f1',
-    secondary: '#7c3aed',
-    secondaryHover: '#8b5cf6',
-    accent: '#db2777',
-    accentHover: '#ec4899',
-    cardBg: 'rgba(0, 0, 0, 0.05)',
-    cardBorder: 'rgba(0, 0, 0, 0.1)',
-    textPrimary: '#0a0a0a',
-    textSecondary: 'rgba(0, 0, 0, 0.7)',
-    gradientFrom: '#4f46e5',
-    gradientTo: '#db2777',
-    navBg: 'rgba(255, 255, 255, 0.9)',
-    navBorder: 'rgba(0, 0, 0, 0.1)',
+    background: '#FAFAF9',
+    foreground: '#1C1917',
+    primary: '#D97706',
+    primaryHover: '#EA580C',
+    secondary: '#EA580C',
+    secondaryHover: '#C2410C',
+    accent: '#D97706',
+    accentHover: '#EA580C',
+    cardBg: '#FFFFFF',
+    cardBorder: 'rgba(0, 0, 0, 0.06)',
+    textPrimary: '#1C1917',
+    textSecondary: '#44403C',
+    gradientFrom: '#D97706',
+    gradientTo: '#EA580C',
+    navBg: 'rgba(255, 255, 255, 0.70)',
+    navBorder: 'rgba(0, 0, 0, 0.05)',
   },
   blue: {
     background: '#0f172a',
@@ -624,14 +624,21 @@ const themeColors: Record<Theme, ThemeColors> = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
+  const [theme, setThemeState] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const savedTheme = localStorage.getItem('theme') as Theme;
     if (savedTheme && themeColors[savedTheme]) {
-      setThemeState(savedTheme);
+      // Force 'light' theme if they had 'dark' to load the new premium Light & Colorful Bento system
+      if (savedTheme === 'dark') {
+        setThemeState('light');
+      } else {
+        setThemeState(savedTheme);
+      }
+    } else {
+      setThemeState('light');
     }
   }, []);
 
