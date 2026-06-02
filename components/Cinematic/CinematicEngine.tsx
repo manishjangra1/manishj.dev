@@ -134,6 +134,9 @@ const CinematicEngine: React.FC = () => {
       {/* Noise Texture */}
       <div className="noise" />
 
+      {/* Vignette Depth Overlay */}
+      <div className="vignette" />
+
       {/* Architectural Grid backdrop */}
       <div className="micro-grid z-0" />
 
@@ -151,7 +154,7 @@ const CinematicEngine: React.FC = () => {
           {/* Card 1: Name + Editorial Intro (col-span-2) */}
           <div className="md:col-span-2 bento-card flex flex-col justify-between min-h-[380px] group relative overflow-hidden">
             
-            <div className="space-y-4">
+            <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent-amber animate-pulse shadow-[0_0_8px_rgba(214,168,106,0.6)]" />
                 <span className="text-[9px] uppercase font-mono tracking-[0.4em] text-accent-amber font-bold">
@@ -167,26 +170,26 @@ const CinematicEngine: React.FC = () => {
             </div>
 
             {/* Dynamic Statistics Block */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border-standard">
-              <div className="p-4 rounded-2xl bg-surface-secondary border border-border-standard flex flex-col gap-1">
+            <div className="relative z-10 grid grid-cols-3 gap-4 pt-6 border-t border-border-standard">
+              <div className="p-4 rounded-[20px] bg-surface-secondary border border-border-standard flex flex-col gap-1">
                 <span className="text-2xl font-bold text-accent-amber font-mono tracking-tight">{stats.years}+</span>
-                <span className="text-[8px] font-mono uppercase tracking-widest text-foreground/35 font-bold">Experience</span>
+                <span className="text-[8px] font-mono uppercase tracking-widest text-text-muted font-bold">Experience</span>
               </div>
-              <div className="p-4 rounded-2xl bg-surface-secondary border border-border-standard flex flex-col gap-1">
-                <span className="text-2xl font-bold text-foreground/75 font-mono tracking-tight">{stats.projectsCount}</span>
-                <span className="text-[8px] font-mono uppercase tracking-widest text-foreground/35 font-bold">Projects</span>
+              <div className="p-4 rounded-[20px] bg-surface-secondary border border-border-standard flex flex-col gap-1">
+                <span className="text-2xl font-bold text-foreground font-mono tracking-tight">{stats.projectsCount}</span>
+                <span className="text-[8px] font-mono uppercase tracking-widest text-text-muted font-bold">Projects</span>
               </div>
-              <div className="p-4 rounded-2xl bg-surface-secondary border border-border-standard flex flex-col gap-1">
-                <span className="text-2xl font-bold text-foreground/75 font-mono tracking-tight">{stats.techsCount}</span>
-                <span className="text-[8px] font-mono uppercase tracking-widest text-foreground/35 font-bold">Tech Stack</span>
+              <div className="p-4 rounded-[20px] bg-surface-secondary border border-border-standard flex flex-col gap-1">
+                <span className="text-2xl font-bold text-foreground font-mono tracking-tight">{stats.techsCount}</span>
+                <span className="text-[8px] font-mono uppercase tracking-widest text-text-muted font-bold">Tech Stack</span>
               </div>
             </div>
 
             {/* Hero CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-6">
+            <div className="relative z-10 flex flex-wrap items-center gap-4 pt-6">
               <button
                 onClick={() => handleScrollTo('projects')}
-                className="px-6 h-11 bg-foreground hover:bg-foreground/90 text-background text-[10px] uppercase font-bold tracking-widest transition-colors duration-200 rounded-[14px] cursor-pointer flex items-center justify-center gap-2 shadow-md"
+                className="px-6 h-11 bg-accent-amber hover:bg-accent-secondary text-[#121417] text-[10px] uppercase font-bold tracking-widest transition-colors duration-200 rounded-[16px] cursor-pointer flex items-center justify-center gap-2 shadow-md"
               >
                 <span>View Projects</span>
                 <ArrowDown size={12} />
@@ -194,7 +197,7 @@ const CinematicEngine: React.FC = () => {
 
               <button
                 onClick={() => handleScrollTo('skills')}
-                className="px-6 h-11 bg-transparent border border-border-standard hover:bg-surface-secondary text-foreground text-[10px] uppercase font-bold tracking-widest transition-colors duration-200 rounded-[14px] flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                className="px-6 h-11 bg-transparent border border-border-standard hover:bg-white/5 text-foreground text-[10px] uppercase font-bold tracking-widest transition-colors duration-200 rounded-[16px] flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
                 <Code2 size={12} />
                 <span>View Skills</span>
@@ -204,7 +207,7 @@ const CinematicEngine: React.FC = () => {
 
           {/* Card 2: Resume / Briefing Card (col-span-1) */}
           <div className="md:col-span-1 bento-card flex flex-col justify-between min-h-[380px] relative overflow-hidden group">
-            <div className="space-y-6">
+            <div className="relative z-10 space-y-6">
               <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
                 <FileText size={12} className="text-accent-amber" />
                 <span>Professional Resume</span>
@@ -217,13 +220,13 @@ const CinematicEngine: React.FC = () => {
               </div>
             </div>
 
-            <div className="space-y-4 pt-6 border-t border-border-standard">
+            <div className="relative z-10 space-y-4 pt-6 border-t border-border-standard">
               {settings?.resumeUrl && (
                 <a
                   href={settings.resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 bg-transparent border border-border-standard hover:bg-surface-secondary text-foreground text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 rounded-[14px] flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  className="w-full py-3 bg-transparent border border-border-standard hover:bg-white/5 text-foreground text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 rounded-[16px] flex items-center justify-center gap-2 cursor-pointer shadow-sm"
                 >
                   <Globe size={12} />
                   <span>View Resume</span>
@@ -234,7 +237,7 @@ const CinematicEngine: React.FC = () => {
 
           {/* Card 3: Featured Project Spot (col-span-1) */}
           <div className="md:col-span-1 bento-card flex flex-col justify-between min-h-[280px] group relative overflow-hidden cursor-pointer" onClick={handleViewFeaturedDetails}>
-            <div className="space-y-4">
+            <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2 text-accent-amber font-mono text-[9px] uppercase tracking-widest font-bold">
                 <Briefcase size={12} />
                 <span>Featured Project</span>
@@ -246,7 +249,7 @@ const CinematicEngine: React.FC = () => {
                 {featuredProject?.description}
               </p>
             </div>
-            <div className="flex items-center justify-between pt-6 border-t border-border-standard">
+            <div className="relative z-10 flex items-center justify-between pt-6 border-t border-border-standard">
               <span className="text-[8px] font-mono text-foreground/20 uppercase tracking-widest">Technical Specs</span>
               <span className="text-[9px] font-mono uppercase tracking-widest text-accent-amber group-hover:translate-x-1 transition-transform">View Details →</span>
             </div>
@@ -254,7 +257,7 @@ const CinematicEngine: React.FC = () => {
 
           {/* Card 4: Active Work Status Card (col-span-1) */}
           <div className="md:col-span-1 bento-card flex flex-col justify-between min-h-[280px] relative overflow-hidden group">
-            <div className="space-y-4">
+            <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
                 <Calendar size={12} className="text-accent-amber" />
                 <span>Current Status</span>
@@ -276,7 +279,7 @@ const CinematicEngine: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="pt-6 border-t border-border-standard">
+            <div className="relative z-10 pt-6 border-t border-border-standard">
               <button 
                 onClick={() => handleScrollTo('experience')}
                 className="text-[9px] font-mono uppercase tracking-widest text-foreground/40 hover:text-accent-amber transition-colors cursor-pointer"
@@ -288,7 +291,7 @@ const CinematicEngine: React.FC = () => {
 
           {/* Card 5: High-Level Skills summary (col-span-1) */}
           <div className="md:col-span-1 bento-card flex flex-col justify-between min-h-[280px] relative overflow-hidden group">
-            <div className="space-y-4">
+            <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
                 <Zap size={12} className="text-accent-amber" />
                 <span>Key Skills</span>
@@ -302,7 +305,7 @@ const CinematicEngine: React.FC = () => {
                 ))}
               </div>
             </div>
-            <div className="pt-6 border-t border-border-standard">
+            <div className="relative z-10 pt-6 border-t border-border-standard">
               <button 
                 onClick={() => handleScrollTo('skills')}
                 className="text-[9px] font-mono uppercase tracking-widest text-foreground/40 hover:text-accent-amber transition-colors cursor-pointer"

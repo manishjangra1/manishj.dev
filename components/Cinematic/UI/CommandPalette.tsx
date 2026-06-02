@@ -126,10 +126,10 @@ const CommandPalette: React.FC = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: -10 }}
             transition={{ duration: 0.15 }}
-            className="w-full max-w-xl bg-surface-primary border border-border-standard rounded-2xl overflow-hidden shadow-lg"
+            className="w-full max-w-xl bg-surface-primary/85 border border-border-standard rounded-2xl overflow-hidden shadow-lg backdrop-blur-xl"
           >
             {/* Input area */}
-            <div className="p-4 border-b border-border-standard flex items-center gap-3.5 bg-surface-secondary/40">
+            <div className="p-4 border-b border-border-standard flex items-center gap-3.5 bg-surface-secondary/20">
               <Search className="text-accent-amber shrink-0" size={18} />
               <input
                 autoFocus

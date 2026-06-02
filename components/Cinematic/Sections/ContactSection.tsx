@@ -24,7 +24,7 @@ export const ContactSection: React.FC = () => {
       {/* Card 1: Contact Brief & Info Details */}
       <div className="bento-card flex flex-col justify-between min-h-[380px] group relative overflow-hidden">
         
-        <div className="space-y-6">
+        <div className="relative z-10 space-y-6">
           <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
             <Mail size={12} className="text-accent-amber" />
             <span>Contact Details</span>
@@ -37,10 +37,10 @@ export const ContactSection: React.FC = () => {
           </div>
         </div>
 
-        <div className="space-y-4 pt-6 border-t border-border-standard">
+        <div className="relative z-10 space-y-4 pt-6 border-t border-border-standard">
           <a 
             href={settings?.socialLinks?.email ? `mailto:${settings.socialLinks.email}` : "mailto:dev.jangramanish@gmail.com"} 
-            className="flex items-center gap-4 p-3 rounded-xl border border-amber-100 bg-amber-50/40 hover:border-accent-amber/20 hover:bg-amber-50/70 transition-all duration-300 group/item"
+            className="flex items-center gap-4 p-3 rounded-xl border border-border-standard bg-surface-secondary/40 hover:border-accent-amber/30 hover:bg-surface-secondary transition-all duration-300 group/item"
           >
             <div className="w-9 h-9 rounded-lg bg-accent-amber/5 flex items-center justify-center text-foreground/30 group-hover/item:text-accent-amber transition-colors">
               <Mail size={14} />
@@ -68,7 +68,7 @@ export const ContactSection: React.FC = () => {
       {/* Card 2: Social Channels Bento Grid */}
       <div className="bento-card flex flex-col justify-between min-h-[380px] group relative overflow-hidden">
         
-        <div className="space-y-6">
+        <div className="relative z-10 space-y-6">
           <div className="flex items-center gap-2 text-foreground/30 font-mono text-[9px] uppercase tracking-widest">
             <Share2 size={12} className="text-accent-amber" />
             <span>Digital Channels</span>
@@ -81,13 +81,13 @@ export const ContactSection: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-border-standard">
+        <div className="relative z-10 grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-border-standard">
           {/* LinkedIn */}
           <a
             href={linkedinUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/item flex flex-col justify-between p-4 rounded-2xl border border-blue-100 bg-blue-50/40 hover:border-[#0A66C2]/30 hover:bg-blue-50/70 transition-all duration-300 min-h-[110px]"
+            className="group/item flex flex-col justify-between p-4 rounded-2xl border border-border-standard bg-surface-secondary/40 hover:border-[#0A66C2]/30 hover:bg-surface-secondary transition-all duration-300 min-h-[110px]"
           >
             <div className="flex justify-between items-start">
               <div className="w-8 h-8 rounded-lg bg-[#0A66C2]/10 flex items-center justify-center text-[#0A66C2] group-hover/item:scale-110 transition-transform duration-300">
@@ -125,7 +125,7 @@ export const ContactSection: React.FC = () => {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/item flex flex-col justify-between p-4 rounded-2xl border border-emerald-100 bg-emerald-50/40 hover:border-[#25D366]/30 hover:bg-emerald-50/70 transition-all duration-300 min-h-[110px]"
+            className="group/item flex flex-col justify-between p-4 rounded-2xl border border-border-standard bg-surface-secondary/40 hover:border-[#25D366]/30 hover:bg-surface-secondary transition-all duration-300 min-h-[110px]"
           >
             <div className="flex justify-between items-start">
               <div className="w-8 h-8 rounded-lg bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover/item:scale-110 transition-transform duration-300">

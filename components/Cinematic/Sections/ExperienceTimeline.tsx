@@ -41,8 +41,9 @@ export const ExperienceTimeline: React.FC = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="bento-card group space-y-4"
+                  className="bento-card group relative"
                 >
+                 <div className="relative z-10 space-y-4">
                   {/* Meta tag */}
                   <div className={`flex items-center gap-2 text-[9px] font-mono tracking-widest text-accent-amber font-bold ${
                     isLeft ? 'md:justify-end' : 'md:justify-start'
@@ -100,6 +101,7 @@ export const ExperienceTimeline: React.FC = () => {
                         {tech}
                       </span>
                     ))}
+                  </div>
                   </div>
                 </motion.div>
               </div>

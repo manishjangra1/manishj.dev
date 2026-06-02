@@ -75,7 +75,7 @@ const ActivityTimeline: React.FC<ActivityTimelineProps> = ({ events }) => {
                   {formatEventMessage(event)}
                 </span>
                 <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono">
-                  {new Date(event.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} // Synchronized
+                  {new Date(event.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
             </motion.div>

@@ -1,45 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FAFAF9; /* Pristine soft linen white */
-  --foreground: #1C1917; /* Stone 900 charcoal */
+  --background: #121417; /* Warm premium dark base */
+  --foreground: #F5F5F5; /* Primary light grey */
   
-  /* Pristine Warm Light Surfaces */
-  --surface-primary: #FFFFFF; /* Pristine solid white */
-  --surface-secondary: #F5F5F4; /* Soft cream warm gray */
-  --surface-elevated: #EFECE9; /* Elevated warmth */
-  --surface-hover: #EAE6E2;
+  /* Premium Dark Surfaces */
+  --surface-primary: #1A1D21;
+  --surface-secondary: #20242A;
+  --surface-elevated: #252A31;
+  --surface-interactive: #2B3139;
+  --surface-hover: #2B3139;
   
-  /* Elite Amber & Gold Accents (Warm Vibrant) */
-  --accent-amber: #D97706; /* Vibrant warm amber */
-  --accent-bronze: #B45309; /* Warm copper bronze */
-  --accent-warm-white: #1C1917; /* Inverted values */
+  /* Warm Premium Gold Accent */
+  --accent-amber: #E4B363;
+  --accent-bronze: #C7984E;
+  --accent-warm-white: #F5F5F5;
   
-  --accent-primary: #D97706;
-  --accent-secondary: #EA580C;
-  --accent-hover: #C2410C;
-  --accent-muted: #FDBA74;
+  --accent-primary: #E4B363;
+  --accent-secondary: #F0C987;
+  --accent-hover: #FFD18C;
+  --accent-muted: #C7984E;
 
   /* Typography Text System */
-  --text-primary: #1C1917; /* Deep stone 900 */
-  --text-secondary: #44403C; /* Stone 700 */
-  --text-muted: #78716C; /* Stone 500 */
-  --text-disabled: #A8A29E; /* Stone 400 */
-  --text-link: #EA580C;
+  --text-primary: #F5F5F5;
+  --text-secondary: #B0B5BC;
+  --text-muted: #8B9199;
+  --text-disabled: #6D737C;
+  --text-link: #E4B363;
   
-  /* Delicate Light Architectural Borders */
-  --border-standard: rgba(0, 0, 0, 0.06);
-  --border-hover: rgba(0, 0, 0, 0.12);
-  --border-active: rgba(217, 119, 6, 0.25);
+  /* Micro Architectural Borders */
+  --border-standard: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --border-active: rgba(228, 179, 99, 0.25);
   
-  /* Premium Glassmorphism - Bright Semi-Opaque (blur max 8px) */
-  --glass-bg: rgba(255, 255, 255, 0.70);
-  --glass-border: rgba(0, 0, 0, 0.05);
+  /* Premium Liquid Glass Specs */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
   
-  /* Shadow Systems (Realistic soft dark depth) */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.08);
+  /* Shadow Systems (Pure Dark Elevations with negative spread to prevent sibling bleed) */
+  --shadow-sm: 0 4px 8px -2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 10px 16px -6px rgba(0, 0, 0, 0.5), 0 4px 8px -4px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 24px -10px rgba(0, 0, 0, 0.6), 0 8px 16px -8px rgba(0, 0, 0, 0.4);
   
   --font-inter: var(--font-inter);
   --font-mono: var(--font-mono);
@@ -52,6 +53,7 @@
   --color-surface-primary: var(--surface-primary);
   --color-surface-secondary: var(--surface-secondary);
   --color-surface-elevated: var(--surface-elevated);
+  --color-surface-interactive: var(--surface-interactive);
   --color-surface-hover: var(--surface-hover);
   
   --color-accent-amber: var(--accent-primary);
@@ -101,7 +103,7 @@ html, body {
   position: relative;
 }
 
-/* Premium Dark Scrollbar for Light Mode */
+/* Premium Dark Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -110,12 +112,12 @@ html, body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 9999px;
   transition: background 0.15s ease-out;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -126,30 +128,74 @@ html, body {
   scrollbar-width: none;
 }
 
-/* Tactical Premium Bento Card */
+/* Liquid Glass Bento Card */
 .bento-card {
-  background: var(--surface-primary);
-  border: 1px solid var(--border-standard);
-  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)), var(--background);
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px; /* Strict 28px */
   padding: 24px;
+  position: relative;
+  isolation: isolate;
   transition: transform 180ms ease-out, box-shadow 180ms ease-out, border-color 180ms ease-out;
   box-shadow: var(--shadow-md);
 }
 
-.bento-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(217, 119, 6, 0.15);
-  box-shadow: 0 12px 30px rgba(217, 119, 6, 0.04), var(--shadow-lg);
+/* Masked Liquid Reflection Stroke */
+.bento-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  padding: 1px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 40%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Architectural Minimalist Glassmorphism (blur max 8px) */
+.bento-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-lg);
+  z-index: 10;
+}
+
+/* Liquid Glass Element (Navbar capsules / tooltips) */
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: var(--shadow-sm);
   transition: border-color 180ms ease-out, box-shadow 180ms ease-out;
+}
+
+.glass:not(.absolute):not(.fixed):not(.sticky) {
+  position: relative;
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 30%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass:hover {
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 .noise {
@@ -158,25 +204,31 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.012; /* Subtle structural paper noise texture */
+  opacity: 0.02; /* Extremely subtle noise texture */
   z-index: 9999;
   pointer-events: none;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAvlSTcAAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB8aeGsAAAADnRSTlMAAQIDBAUGBwgJCgsMDQ0hN5EAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA9SURBVHjaY2DHAgwM2BkgAAYwDYQAw0BqGAlKIxZgZMAGiNEwEpRGIsDMgA0Qo2EkKI1EgJkBG8CoGekAAOasAH9YyPzWAAAAAElFTkSuQmCC");
   background-repeat: repeat;
 }
 
-/* Stunning Ambient Multi-Colored Gradient Mesh */
+/* Subtle gold top radial ambient glow */
 .micro-grid {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
   background-image: 
-    radial-gradient(circle at 100% 0%, rgba(254, 243, 199, 0.70) 0%, transparent 60%), 
-    radial-gradient(circle at 0% 100%, rgba(219, 234, 254, 0.65) 0%, transparent 60%), 
-    radial-gradient(circle at 50% 50%, rgba(250, 232, 255, 0.40) 0%, transparent 80%);
-  mask-image: radial-gradient(circle at center, black, transparent 95%);
-  -webkit-mask-image: radial-gradient(circle at center, black, transparent 95%);
+    radial-gradient(circle at 50% 0%, rgba(228, 179, 99, 0.05) 0%, transparent 70%);
   pointer-events: none;
+}
+
+/* Dark vignette border depth overlay */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.25) 150%);
+  opacity: 0.08;
 }
 
 .text-reveal {
@@ -188,11 +240,11 @@ html, body {
   display: block;
 }
 
-/* Redefined typography overrides matching Inter and SF Pro scales */
+/* Redefined typography overrides */
 .cinematic-theme h1 { 
   font-size: clamp(3rem, 10vw, 8rem); 
-  line-height: 0.9; 
-  letter-spacing: -0.03em; 
+  line-height: 0.92; 
+  letter-spacing: -0.05em; 
   font-weight: 800; 
   color: var(--text-primary);
 }
@@ -207,7 +259,7 @@ html, body {
 
 .cinematic-theme p { 
   font-size: 1.05rem; 
-  line-height: 1.6; 
+  line-height: 1.7; 
   color: var(--text-secondary);
   font-weight: 400;
 }

@@ -31,7 +31,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
   }, [calendar.weeks]);
 
   return (
-    <div className="bento-card relative overflow-hidden group w-full space-y-6">
+    <div className="bento-card relative group w-full space-y-6">
       {/* Subtly Animated Background Glow (Behind content) */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(214,168,106,0.03),transparent_70%)] pointer-events-none z-0" />
       
@@ -68,7 +68,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
                 style={{ 
                   backgroundColor: day.contributionCount > 0 
                     ? `rgba(214,168,106, ${0.12 + day.intensity * 0.58})` 
-                    : 'rgba(0, 0, 0, 0.04)' 
+                    : 'rgba(255, 255, 255, 0.04)' 
                 }}
               >
                 {/* Hover Tooltip */}

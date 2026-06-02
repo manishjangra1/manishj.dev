@@ -65,7 +65,7 @@ export const AboutStory: React.FC = () => {
           className="md:col-span-2 bento-card flex flex-col justify-between min-h-[360px] relative overflow-hidden group"
         >
           
-          <div className="space-y-6">
+          <div className="relative z-10 space-y-6">
             <div className="flex items-center gap-2.5">
               <div className="w-6 h-6 rounded-md bg-accent-amber/5 flex items-center justify-center text-accent-amber">
                 <User size={12} />
@@ -88,7 +88,7 @@ export const AboutStory: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-4 border-t border-border-standard text-[8px] font-mono text-foreground/20 uppercase tracking-widest flex justify-between">
+          <div className="relative z-10 pt-4 border-t border-border-standard text-[8px] font-mono text-foreground/20 uppercase tracking-widest flex justify-between">
             <span>Engineering Philosophy</span>
             <span className="text-accent-amber/50 font-bold">Biography</span>
           </div>
@@ -104,13 +104,13 @@ export const AboutStory: React.FC = () => {
         className="bento-card w-full space-y-8 relative overflow-hidden group"
       >
         
-        <div className="flex flex-col gap-1">
+        <div className="relative z-10 flex flex-col gap-1">
           <span className="text-[9px] uppercase tracking-[0.4em] text-accent-amber font-mono font-bold">Design & Engineering Principles</span>
           <h3 className="text-lg font-bold text-foreground uppercase tracking-tight">Core Values</h3>
         </div>
 
         {/* 4 columns list side-by-side */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {principles.map((p, idx) => {
             const PrincipleIcon = p.icon;
             return (

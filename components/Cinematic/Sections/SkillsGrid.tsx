@@ -45,7 +45,7 @@ export const SkillsGrid: React.FC = () => {
             transition={{ duration: 0.4, delay: catIndex * 0.05 }}
             className="bento-card group flex flex-col justify-between min-h-[220px]"
           >
-            <div className="space-y-6">
+            <div className="relative z-10 space-y-6">
               {/* Category Header */}
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg glass border-border-standard flex items-center justify-center text-accent-amber">
