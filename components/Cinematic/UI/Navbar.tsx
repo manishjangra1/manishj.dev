@@ -39,19 +39,19 @@ export const Navbar: React.FC = () => {
 
   const handleScrollTo = (id: string) => {
     setIsOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      // Offset scroll slightly for navbar height
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      setActiveSection(id as Section);
-    }
+    setActiveSection(id as Section);
+
+    const scrollToSection = () => {
+      const element = document.getElementById(id);
+      if (!element) return;
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.history.replaceState(null, '', `#${id}`);
+    };
+
+    // On mobile, wait for dropdown close animation before scrolling.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(scrollToSection);
+    });
   };
 
   return (

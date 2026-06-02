@@ -3,6 +3,7 @@
 import React from 'react';
 import { Mail, MapPin, Share2, ArrowUpRight, Linkedin, Github } from 'lucide-react';
 import { useData } from '@/contexts/DataContext';
+import { buildWhatsAppUrl } from '@/lib/utils/whatsapp';
 
 export const ContactSection: React.FC = () => {
   const { settings } = useData();
@@ -11,10 +12,8 @@ export const ContactSection: React.FC = () => {
   const linkedinUrl = settings?.socialLinks?.linkedin || "https://linkedin.com/in/manish-jangra";
   const githubUrl = settings?.socialLinks?.github || "https://github.com/manishjangra1";
   
-  // WhatsApp configuration matching the floating WhatsAppNode
-  const whatsappNum = settings?.socialLinks?.whatsapp || "919999999999";
-  const whatsappMsg = encodeURIComponent('Hi Manish, can we have a meeting regarding a project or collaboration?');
-  const whatsappUrl = `https://wa.me/${whatsappNum}?text=${whatsappMsg}`;
+  // WhatsApp URL generated from DB value (number or wa.me link)
+  const whatsappUrl = buildWhatsAppUrl(settings?.socialLinks?.whatsapp);
   
   const xUrl = settings?.socialLinks?.twitter || "https://x.com/manishjangra1";
 
@@ -122,10 +121,17 @@ export const ContactSection: React.FC = () => {
 
           {/* WhatsApp */}
           <a
-            href={whatsappUrl}
+            href={whatsappUrl || '#'}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/item flex flex-col justify-between p-4 rounded-2xl border border-border-standard bg-surface-secondary/40 hover:border-[#25D366]/30 hover:bg-surface-secondary transition-all duration-300 min-h-[110px]"
+            onClick={(e) => {
+              if (!whatsappUrl) e.preventDefault();
+            }}
+            className={`group/item flex flex-col justify-between p-4 rounded-2xl border bg-surface-secondary/40 transition-all duration-300 min-h-[110px ${
+              whatsappUrl
+                ? 'border-border-standard hover:border-[#25D366]/30 hover:bg-surface-secondary'
+                : 'border-border-standard/50 opacity-60 cursor-not-allowed'
+            }`}
           >
             <div className="flex justify-between items-start">
               <div className="w-8 h-8 rounded-lg bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover/item:scale-110 transition-transform duration-300">

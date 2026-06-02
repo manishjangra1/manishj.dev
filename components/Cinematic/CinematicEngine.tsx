@@ -150,7 +150,7 @@ const CinematicEngine: React.FC = () => {
         {/* ========================================================================= */}
         {/* HERO BENTO GRID SECTION */}
         {/* ========================================================================= */}
-        <section id="home" className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
+        <section id="home" className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 scroll-mt-24">
           
           {/* Card 1: Name + Editorial Intro (md:col-span-2 lg:col-span-3) */}
           <div className="md:col-span-2 lg:col-span-3 bento-card flex flex-col justify-between min-h-[380px] group relative overflow-hidden">

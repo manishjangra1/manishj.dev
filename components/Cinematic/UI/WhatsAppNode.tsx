@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { useData } from '@/contexts/DataContext';
+import { buildWhatsAppUrl } from '@/lib/utils/whatsapp';
 
 const WhatsAppNode: React.FC = () => {
   const { settings } = useData();
@@ -39,9 +40,8 @@ const WhatsAppNode: React.FC = () => {
   };
 
   const handleClick = () => {
-    const phoneNumber = settings?.socialLinks?.whatsapp || '919999999999';
-    const message = encodeURIComponent('Hi Manish, can we have a meeting regarding a project or collaboration?');
-    const url = `https://wa.me/${phoneNumber}?text=${message}`;
+    const url = buildWhatsAppUrl(settings?.socialLinks?.whatsapp);
+    if (!url) return;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
