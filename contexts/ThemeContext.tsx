@@ -62,22 +62,22 @@ interface ThemeColors {
 
 const themeColors: Record<Theme, ThemeColors> = {
   dark: {
-    background: '#F7F2EB',
-    foreground: '#2C2520',
-    primary: '#A36620',
-    primaryHover: '#855217',
-    secondary: '#C88A3C',
-    secondaryHover: '#A36620',
-    accent: '#A36620',
-    accentHover: '#855217',
-    cardBg: 'rgba(255, 255, 255, 0.7)',
-    cardBorder: 'rgba(44, 37, 32, 0.08)',
-    textPrimary: '#2C2520',
-    textSecondary: '#6E6259',
-    gradientFrom: '#A36620',
-    gradientTo: '#C88A3C',
-    navBg: 'rgba(255, 255, 255, 0.65)',
-    navBorder: 'rgba(44, 37, 32, 0.08)',
+    background: '#181512', // Rich vintage ebony ink
+    foreground: '#E6DFD5', // Warm ivory parchment text
+    primary: '#C88A3C', // Warm golden copper accent
+    primaryHover: '#A36620', // Antique brass-gold accent
+    secondary: '#D6A86A',
+    secondaryHover: '#C88A3C',
+    accent: '#C88A3C',
+    accentHover: '#A36620',
+    cardBg: 'rgba(34, 30, 26, 0.65)',
+    cardBorder: 'rgba(230, 223, 213, 0.08)',
+    textPrimary: '#E6DFD5',
+    textSecondary: '#BFAFA0',
+    gradientFrom: '#C88A3C',
+    gradientTo: '#A36620',
+    navBg: 'rgba(24, 21, 18, 0.65)',
+    navBorder: 'rgba(230, 223, 213, 0.08)',
   },
   light: {
     background: '#F7F2EB',
@@ -624,14 +624,17 @@ const themeColors: Record<Theme, ThemeColors> = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('light');
+  const [theme, setThemeState] = useState<Theme>('dark');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Force 'light' to keep the new premium classic light vintage parchment theme
-    setThemeState('light');
-    localStorage.setItem('theme', 'light');
+    const savedTheme = localStorage.getItem('theme') as Theme;
+    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+      setThemeState(savedTheme);
+    } else {
+      setThemeState('dark');
+    }
   }, []);
 
   useEffect(() => {
@@ -653,13 +656,21 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       document.documentElement.style.setProperty('--gradient-to', themeColors[theme].gradientTo);
       document.documentElement.style.setProperty('--nav-bg', themeColors[theme].navBg);
       document.documentElement.style.setProperty('--nav-border', themeColors[theme].navBorder);
+
+      // Add/remove dark class dynamically on root html node
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     }
   }, [theme, mounted]);
 
   const setTheme = (newTheme: Theme) => {
-    // Only allow 'light' theme to ensure the classic vintage theme is consistently loaded
-    setThemeState('light');
-    localStorage.setItem('theme', 'light');
+    if (newTheme === 'light' || newTheme === 'dark') {
+      setThemeState(newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
   };
 
   // Always provide the context, even before mounting

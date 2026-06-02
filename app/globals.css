@@ -41,8 +41,60 @@
   --shadow-sm: 0 2px 4px rgba(44, 37, 32, 0.03), 0 1px 2px rgba(44, 37, 32, 0.02);
   --shadow-md: 0 6px 16px rgba(44, 37, 32, 0.05), 0 3px 6px rgba(44, 37, 32, 0.03);
   --shadow-lg: 0 16px 28px rgba(44, 37, 32, 0.07), 0 8px 16px rgba(44, 37, 32, 0.04);
+  
+  /* Bento Glow overlays */
+  --card-glow-from: rgba(255, 255, 255, 0.7);
+  --card-glow-to: rgba(255, 255, 255, 0.45);
+  
   --font-inter: var(--font-inter);
   --font-mono: var(--font-mono);
+}
+
+:root.dark {
+  --background: #181512; /* Rich dark ebony ink background */
+  --foreground: #E6DFD5; /* Soft light vintage paper text */
+  
+  /* Premium Dark Surfaces */
+  --surface-primary: #221E1A; /* Dark warm cocoa card base */
+  --surface-secondary: #1F1B18; /* Dark sepia surface */
+  --surface-elevated: #2C2622;
+  --surface-interactive: #352E2A;
+  --surface-hover: #3E3631;
+  
+  /* Antique Copper/Bronze Accents */
+  --accent-amber: #C88A3C; /* Warm coppery gold */
+  --accent-bronze: #A36620; /* Darker bronze */
+  --accent-warm-white: #E6DFD5;
+  
+  --accent-primary: #C88A3C;
+  --accent-secondary: #A36620;
+  --accent-hover: #D6A86A;
+  --accent-muted: #A36620;
+
+  /* Typography Text System */
+  --text-primary: #E6DFD5;
+  --text-secondary: #BFAFA0;
+  --text-muted: #8F8173;
+  --text-disabled: #5E534B;
+  --text-link: #C88A3C;
+  
+  /* Micro Architectural Borders */
+  --border-standard: rgba(230, 223, 213, 0.08);
+  --border-hover: rgba(230, 223, 213, 0.16);
+  --border-active: rgba(200, 138, 60, 0.25);
+  
+  /* Premium Liquid Glass Specs */
+  --glass-bg: rgba(34, 30, 26, 0.65);
+  --glass-border: rgba(230, 223, 213, 0.08);
+  
+  /* Shadow Systems (Pure soft dark shadow elevations) */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.3), 0 3px 6px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 16px 28px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.25);
+  
+  /* Bento Glow overlays */
+  --card-glow-from: rgba(230, 223, 213, 0.04);
+  --card-glow-to: rgba(230, 223, 213, 0.01);
 }
 
 @theme inline {
@@ -129,7 +181,7 @@ html, body {
 
 /* Liquid Glass Bento Card */
 .bento-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.45)), var(--surface-primary);
+  background: linear-gradient(180deg, var(--card-glow-from), var(--card-glow-to)), var(--surface-primary);
   backdrop-filter: blur(10px) saturate(150%);
   -webkit-backdrop-filter: blur(10px) saturate(150%);
   border: 1px solid var(--border-standard);

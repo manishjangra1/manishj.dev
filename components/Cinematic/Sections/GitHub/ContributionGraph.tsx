@@ -48,50 +48,66 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ calendar }) => {
       </div>
 
       {/* Grid container */}
-      <div className="relative z-10 flex gap-1 overflow-x-auto scrollbar-hide pt-10 pb-2 w-full">
-        {formattedWeeks.map((week: any, weekIndex: number) => (
-          <motion.div 
-            key={weekIndex} 
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              delay: weekIndex * 0.005,
-              duration: 0.3,
-              ease: 'easeOut'
-            }}
-            className="flex flex-col gap-1 shrink-0"
-          >
-            {week.contributionDays.map((day: any) => (
-              <div
-                key={day.date}
-                className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-[2px] transition-all relative group/day shrink-0 hover:scale-125 hover:z-50 hover:bg-accent-amber/45 hover:shadow-[0_0_15px_rgba(214,168,106,0.3)] cursor-default"
-                style={{ 
-                  backgroundColor: day.contributionCount > 0 
-                    ? `rgba(214,168,106, ${0.12 + day.intensity * 0.58})` 
-                    : 'rgba(44, 37, 32, 0.04)' 
-                }}
-              >
-                {/* Hover Tooltip */}
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 glass rounded-xl text-[9px] font-mono font-bold text-foreground opacity-0 group-hover/day:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-100 border border-border-standard shadow-md">
-                  <span className="text-accent-amber">{day.contributionCount} EVENTS</span> // {day.formattedDate}
+      <div className="relative z-10 overflow-x-auto scrollbar-hide pt-10 pb-2 w-full">
+        <div 
+          className="grid gap-1 min-w-[760px] md:min-w-full"
+          style={{ gridTemplateColumns: 'repeat(53, minmax(0, 1fr))' }}
+        >
+          {formattedWeeks.map((week: any, weekIndex: number) => (
+            <motion.div 
+              key={weekIndex} 
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                delay: weekIndex * 0.005,
+                duration: 0.3,
+                ease: 'easeOut'
+              }}
+              className="grid gap-1"
+              style={{ gridTemplateRows: 'repeat(7, minmax(0, 1fr))' }}
+            >
+              {week.contributionDays.map((day: any) => (
+                <div
+                  key={day.date}
+                  className="aspect-square w-full rounded-[2px] transition-all relative group/day hover:scale-125 hover:z-50 hover:bg-accent-amber/45 hover:shadow-[0_0_15px_rgba(214,168,106,0.3)] cursor-default"
+                  style={{ 
+                    backgroundColor: day.contributionCount > 0 
+                      ? 'var(--accent-amber)' 
+                      : 'var(--border-standard)',
+                    opacity: day.contributionCount > 0
+                      ? 0.25 + day.intensity * 0.75
+                      : 1
+                  }}
+                >
+                  {/* Hover Tooltip */}
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 glass rounded-xl text-[9px] font-mono font-bold text-foreground opacity-0 group-hover/day:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-100 border border-border-standard shadow-md">
+                    <span className="text-accent-amber">{day.contributionCount} EVENTS</span> // {day.formattedDate}
+                  </div>
+ 
+                  {/* Subtle CSS Pulse for high activity */}
+                  {day.contributionCount > 5 && (
+                    <div className="absolute inset-0 bg-accent-amber/20 rounded-[2px] activity-pulse" />
+                  )}
                 </div>
-
-                {/* Subtle CSS Pulse for high activity */}
-                {day.contributionCount > 5 && (
-                  <div className="absolute inset-0 bg-accent-amber/20 rounded-[2px] activity-pulse" />
-                )}
-              </div>
-            ))}
-          </motion.div>
-        ))}
+              ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {/* Legend */}
       <div className="relative z-10 pt-4 border-t border-border-standard flex items-center justify-between text-[9px] uppercase tracking-[0.3em] text-foreground/20 font-mono">
         <span>Low Activity</span>
         <div className="flex gap-2 items-center">
-          {[0.1, 0.3, 0.6, 0.9].map(op => (
-            <div key={op} className="w-2.5 h-2.5 rounded-[2px]" style={{ backgroundColor: `rgba(214,168,106, ${op})` }} />
+          {[0.25, 0.5, 0.75, 1.0].map(op => (
+            <div 
+              key={op} 
+              className="w-2.5 h-2.5 rounded-[2px]" 
+              style={{ 
+                backgroundColor: 'var(--accent-amber)',
+                opacity: op 
+              }} 
+            />
           ))}
         </div>
         <span>Peak Activity</span>

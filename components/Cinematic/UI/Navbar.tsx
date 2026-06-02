@@ -3,9 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Menu, X, FileText, Home, Briefcase, Code2, History, Github, User, Mail, Search } from 'lucide-react';
+import { Menu, X, FileText, Home, Briefcase, Code2, History, Github, User, Mail, Search, Sun, Moon } from 'lucide-react';
 import { useExperienceStore, Section } from '@/lib/store/experience-store';
 import { useData } from '@/contexts/DataContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const navItems: { label: string; id: Section; icon: any }[] = [
   { label: 'Home', id: 'home', icon: Home },
@@ -20,8 +21,13 @@ const navItems: { label: string; id: Section; icon: any }[] = [
 export const Navbar: React.FC = () => {
   const { activeSection, setActiveSection, setIsCommandPaletteOpen } = useExperienceStore();
   const { settings } = useData();
+  const { theme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,7 +57,7 @@ export const Navbar: React.FC = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-100 w-full transition-all duration-300 border-b ${
       scrolled 
-        ? 'bg-[#F7F2EB]/85 backdrop-blur-md border-border-standard shadow-md' 
+        ? 'bg-background/85 backdrop-blur-md border-border-standard shadow-md' 
         : 'bg-transparent border-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -97,7 +103,7 @@ export const Navbar: React.FC = () => {
           })}
         </nav>
 
-        {/* Actions (Search CTA & Resume) */}
+        {/* Actions (Search CTA & Theme & Resume) */}
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={() => setIsCommandPaletteOpen(true)}
@@ -105,6 +111,14 @@ export const Navbar: React.FC = () => {
             title="Search palette"
           >
             <Search size={14} />
+          </button>
+
+          <button
+            onClick={toggleTheme}
+            className="w-8 h-8 rounded-lg glass hover:bg-surface-secondary flex items-center justify-center text-foreground/45 hover:text-accent-secondary transition-colors cursor-pointer"
+            title="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
           </button>
 
           {settings?.resumeUrl && (
@@ -122,6 +136,14 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Navigation Controls */}
         <div className="flex md:hidden items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className="w-8 h-8 rounded-lg glass hover:bg-surface-secondary flex items-center justify-center text-foreground/45 hover:text-accent-secondary transition-colors cursor-pointer"
+            title="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
+
           <button
             onClick={() => setIsCommandPaletteOpen(true)}
             className="w-8 h-8 rounded-lg glass hover:bg-surface-secondary flex items-center justify-center text-foreground/45 hover:text-accent-secondary transition-colors cursor-pointer"
