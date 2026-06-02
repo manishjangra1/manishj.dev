@@ -10,10 +10,10 @@ import { useTheme } from '@/contexts/ThemeContext';
 
 const navItems: { label: string; id: Section; icon: any }[] = [
   { label: 'Home', id: 'home', icon: Home },
+  { label: 'Skills', id: 'skills', icon: Code2 },
   { label: 'Projects', id: 'projects', icon: Briefcase },
   { label: 'Experience', id: 'experience', icon: History },
   { label: 'GitHub', id: 'github', icon: Github },
-  { label: 'Skills', id: 'skills', icon: Code2 },
   { label: 'About', id: 'about', icon: User },
   { label: 'Contact', id: 'contact', icon: Mail },
 ];

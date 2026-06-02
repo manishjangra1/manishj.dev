@@ -55,7 +55,7 @@ const CinematicEngine: React.FC = () => {
     };
 
     const observer = new IntersectionObserver(handleIntersect, observerOptions);
-    const sections = ['home', 'projects', 'experience', 'github', 'skills', 'about', 'contact'];
+    const sections = ['home', 'skills', 'projects', 'experience', 'github', 'about', 'contact'];
 
     sections.forEach((id) => {
       const el = document.getElementById(id);
@@ -319,6 +319,21 @@ const CinematicEngine: React.FC = () => {
         </section>
 
         {/* ========================================================================= */}
+        {/* SKILLS SECTION */}
+        {/* ========================================================================= */}
+        <section id="skills" className="w-full space-y-8 scroll-mt-24">
+          <div className="flex flex-col gap-1 border-l-2 border-accent-amber pl-4">
+            <span className="text-[9px] uppercase tracking-[0.5em] text-accent-amber font-mono font-bold">
+              Skills Overview
+            </span>
+            <h2 className="text-3xl font-extrabold tracking-tight text-foreground uppercase">
+              Technical Skills
+            </h2>
+          </div>
+          <SkillsGrid />
+        </section>
+
+        {/* ========================================================================= */}
         {/* PROJECTS SECTION */}
         {/* ========================================================================= */}
         <section id="projects" className="w-full space-y-8 scroll-mt-24">
@@ -361,21 +376,6 @@ const CinematicEngine: React.FC = () => {
             </h2>
           </div>
           <GitHubSection />
-        </section>
-
-        {/* ========================================================================= */}
-        {/* SKILLS SECTION */}
-        {/* ========================================================================= */}
-        <section id="skills" className="w-full space-y-8 scroll-mt-24">
-          <div className="flex flex-col gap-1 border-l-2 border-accent-amber pl-4">
-            <span className="text-[9px] uppercase tracking-[0.5em] text-accent-amber font-mono font-bold">
-              Skills Overview
-            </span>
-            <h2 className="text-3xl font-extrabold tracking-tight text-foreground uppercase">
-              Technical Skills
-            </h2>
-          </div>
-          <SkillsGrid />
         </section>
 
         {/* ========================================================================= */}

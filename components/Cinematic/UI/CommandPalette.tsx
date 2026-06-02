@@ -24,9 +24,9 @@ const CommandPalette: React.FC = () => {
 
   const staticActions = useMemo(() => [
     { icon: Home, label: 'Go to Home', id: 'home', type: 'navigation' },
+    { icon: Code2, label: 'Technical Skills', id: 'skills', type: 'navigation' },
     { icon: Briefcase, label: 'View Projects', id: 'projects', type: 'navigation' },
     { icon: History, label: 'Experience History', id: 'experience', type: 'navigation' },
-    { icon: Code2, label: 'Technical Skills', id: 'skills', type: 'navigation' },
     { icon: User, label: 'Read Story', id: 'about', type: 'navigation' },
     { icon: Mail, label: 'Get in Touch', id: 'contact', type: 'navigation' },
   ], []);
