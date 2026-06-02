@@ -65,24 +65,27 @@ export const LiquidGlassCursor: React.FC = () => {
       const target = e.target as HTMLElement;
       if (!target) return;
 
-      // Identify text elements (avoid selecting parent layouts like cards or sections)
-      const textEl = target.closest('p, h1, h2, h3, h4, h5, h6, li, code, span, a');
+      // Check if target is inside a link, button, or general interactive element first
+      const linkOrButton = target.closest('a, button, [role="button"], input, select, textarea, .clickable');
+      
+      // Identify text elements (avoid selecting parent layouts like sections)
+      const textEl = target.closest('p, h1, h2, h3, h4, h5, h6, li, code, span');
       const isTargetText = textEl && textEl.textContent?.trim();
 
-      // Identify general interactive elements
-      const interactiveEl = target.closest('button, input, select, textarea, [role="button"], .bento-card, .clickable');
-      
-      // Prioritize text zoom, ignoring direct clicks on bento layout divs or buttons
-      if (isTargetText && !target.classList.contains('bento-card') && target.tagName !== 'BUTTON' && target.tagName !== 'SECTION') {
+      // Check for cards separately
+      const cardEl = target.closest('.bento-card');
+
+      if (linkOrButton) {
+        // It's a link or button (even if it contains text inside), so avoid magnifying
+        setIsHovered(true);
+        setHoverType('button');
+      } else if (isTargetText && !target.classList.contains('bento-card') && target.tagName !== 'SECTION') {
+        // It's static reading text, so trigger magnification!
         setIsHovered(true);
         setHoverType('text');
-      } else if (interactiveEl) {
+      } else if (cardEl) {
         setIsHovered(true);
-        if (interactiveEl.classList.contains('bento-card')) {
-          setHoverType('card');
-        } else {
-          setHoverType('button');
-        }
+        setHoverType('card');
       } else {
         setIsHovered(false);
         setHoverType('default');
@@ -137,10 +140,21 @@ export const LiquidGlassCursor: React.FC = () => {
               }}
               className="fixed top-0 left-0 w-1.5 h-1.5 bg-accent-amber rounded-full pointer-events-none z-99999 -translate-x-1/2 -translate-y-1/2"
               animate={{
-                scale: isHovered ? 0 : 1,
-                opacity: isHovered ? 0 : 1,
+                // Hide only during text magnification. Keep visible and highlighted on buttons and links!
+                scale: isHovered 
+                  ? hoverType === 'text' 
+                    ? 0 
+                    : hoverType === 'button'
+                      ? 1.5 
+                      : 1 
+                  : 1,
+                opacity: isHovered 
+                  ? hoverType === 'text' 
+                    ? 0 
+                    : 1 
+                  : 1,
               }}
-              transition={{ duration: 0.15 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
             />
 
             {/* Liquid Glass Ring */}
@@ -150,10 +164,10 @@ export const LiquidGlassCursor: React.FC = () => {
                 y: glassYSpring,
                 backdropFilter: isHovered && hoverType === 'text' 
                   ? 'url(#lens-zoom)' 
-                  : 'blur(2px)',
+                  : 'none',
                 WebkitBackdropFilter: isHovered && hoverType === 'text' 
                   ? 'url(#lens-zoom)' 
-                  : 'blur(2px)',
+                  : 'none',
               }}
               className="fixed top-0 left-0 pointer-events-none z-99998 -translate-x-1/2 -translate-y-1/2 border bg-white/1 shadow-[inset_0_0_12px_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.4)] transition-[backdrop-filter,webkit-backdrop-filter] duration-300 ease-out"
               animate={{
@@ -176,24 +190,28 @@ export const LiquidGlassCursor: React.FC = () => {
                 
                 borderRadius: '9999px',
                 
-                // Colors & borders
+                // Colors & borders (using theme amber gold #E4B363 in all states)
                 borderColor: isHovered 
                   ? hoverType === 'text'
-                    ? 'rgba(228, 179, 99, 0.45)' // Gold magnifying border for text
-                    : 'rgba(255, 255, 255, 0.15)' // Standard white border for buttons/cards
-                  : 'rgba(255, 255, 255, 0.08)',
+                    ? 'rgba(228, 179, 99, 0.65)' // Bold theme gold for text magnifier
+                    : hoverType === 'button'
+                      ? 'rgba(228, 179, 99, 0.55)' // Medium theme gold for buttons
+                      : 'rgba(228, 179, 99, 0.4)' // Subtle theme gold for cards
+                  : 'rgba(228, 179, 99, 0.22)', // Faint theme gold when idle
                 
                 backgroundColor: isHovered 
                   ? hoverType === 'text'
                     ? 'rgba(228, 179, 99, 0.02)' 
-                    : 'rgba(255, 255, 255, 0.02)'
-                  : 'rgba(255, 255, 255, 0.01)',
+                    : 'rgba(228, 179, 99, 0.03)'
+                  : 'rgba(228, 179, 99, 0.01)',
 
                 boxShadow: isHovered 
                   ? hoverType === 'text'
                     ? 'inset 0 0 20px rgba(228, 179, 99, 0.12), 0 12px 40px rgba(0, 0, 0, 0.5)'
-                    : 'inset 0 0 12px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.3)'
-                  : 'inset 0 0 10px rgba(255, 255, 255, 0.04), 0 8px 32px rgba(0, 0, 0, 0.4)',
+                    : hoverType === 'button'
+                      ? 'inset 0 0 12px rgba(228, 179, 99, 0.08), 0 0 15px rgba(228, 179, 99, 0.12)'
+                      : 'inset 0 0 10px rgba(228, 179, 99, 0.06), 0 8px 24px rgba(0, 0, 0, 0.35)'
+                  : 'inset 0 0 8px rgba(228, 179, 99, 0.04), 0 8px 32px rgba(0, 0, 0, 0.4)',
               }}
               transition={{
                 type: 'spring',
