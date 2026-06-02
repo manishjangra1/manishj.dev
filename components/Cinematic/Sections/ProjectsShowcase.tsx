@@ -93,7 +93,7 @@ export const ProjectsShowcase: React.FC = () => {
                       />
                     )}
                     {/* Live Node status overlay */}
-                    <div className="!absolute top-3 left-3 w-fit px-2 py-1 glass border-border-standard rounded-md flex items-center gap-1.5 backdrop-blur-md z-2">
+                    <div className="absolute! top-3 left-3 w-fit px-2 py-1 glass border-border-standard rounded-md flex items-center gap-1.5 backdrop-blur-md z-2">
                       <span className={`w-1.5 h-1.5 rounded-full ${project.isCurrentlyWorking ? 'bg-emerald-500 animate-pulse' : 'bg-accent-amber'}`} />
                       <span className="text-[7.5px] font-mono font-bold tracking-widest text-foreground/70 uppercase whitespace-nowrap">
                         {project.isCurrentlyWorking ? 'Active' : 'Completed'}
