@@ -29,15 +29,18 @@ export const ProjectsShowcase: React.FC = () => {
 
   const handleToggle = () => {
     if (isExpanded) {
-      const element = document.getElementById('projects');
-      if (element) {
-        const offset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - offset;
-        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      const defaultCount = isLargeScreen ? 5 : 3;
+      const lastCard = document.getElementById(`project-card-${defaultCount - 1}`);
+      if (lastCard) {
+        const lastCardBottom = lastCard.getBoundingClientRect().bottom + window.pageYOffset;
+        // Align viewport so the "Show More" button (48px height + 40px gap + 24px padding = 112px) is positioned at the bottom of the screen
+        const targetScrollY = lastCardBottom + 112 - window.innerHeight;
+        window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
       }
+      setIsExpanded(false);
+    } else {
+      setIsExpanded(true);
     }
-    setIsExpanded(!isExpanded);
   };
 
   const defaultCount = isLargeScreen ? 5 : 3;
@@ -57,6 +60,7 @@ export const ProjectsShowcase: React.FC = () => {
             
             return (
               <motion.div
+                id={`project-card-${index}`}
                 key={project._id}
                 layout
                 initial={{ opacity: 0, y: 15 }}
