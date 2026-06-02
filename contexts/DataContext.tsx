@@ -144,10 +144,9 @@ export const DataProvider: React.FC<{
   }, []);
 
   useEffect(() => {
-    if (!initialData) {
-      fetchData();
-    }
-  }, [fetchData, initialData]);
+    // Always sync once on mount so production does not keep stale build-time settings.
+    fetchData();
+  }, [fetchData]);
 
   return (
     <DataContext.Provider
