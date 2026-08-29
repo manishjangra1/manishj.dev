@@ -19,7 +19,7 @@ export function CapabilityGroup({
   return (
     <div
       className={cn(
-        'bg-[var(--color-card)] border border-[var(--color-border)] p-6 sm:p-8 rounded-none',
+        'bg-[var(--color-card)] border border-[var(--color-border)] p-5 sm:p-8 rounded-none',
         'hover:border-[var(--color-border-strong)] hover:shadow-sm transition-all duration-150',
         'flex flex-col justify-between h-full group',
         className

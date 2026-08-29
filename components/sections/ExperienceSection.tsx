@@ -27,7 +27,7 @@ export function ExperienceSection({
       id="experience"
       aria-labelledby="experience-title"
       className={cn(
-        'scroll-mt-[80px] py-10 sm:py-12 md:py-14 lg:py-16',
+        'scroll-mt-[80px] pt-4 sm:pt-8 md:pt-12 lg:pt-16 pb-10 sm:pb-12 md:pb-14 lg:pb-16',
         className
       )}
     >

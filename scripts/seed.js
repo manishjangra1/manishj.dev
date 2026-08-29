@@ -101,10 +101,26 @@ const SkillSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const BlogPostSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    slug: { type: String, required: true, unique: true, lowercase: true },
+    content: { type: String, required: true },
+    excerpt: { type: String, required: true },
+    coverImage: { type: String },
+    published: { type: Boolean, default: true },
+    publishedAt: { type: Date },
+    tags: { type: [String], default: [] },
+    featured: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
+
 const Project = mongoose.models.Project || mongoose.model('Project', ProjectSchema);
 const Experience = mongoose.models.Experience || mongoose.model('Experience', ExperienceSchema);
 const Settings = mongoose.models.Settings || mongoose.model('Settings', SettingsSchema);
 const Skill = mongoose.models.Skill || mongoose.model('Skill', SkillSchema);
+const BlogPost = mongoose.models.BlogPost || mongoose.model('BlogPost', BlogPostSchema);
 
 const seedProjects = [
   {
@@ -343,6 +359,39 @@ const seedSkills = [
   { name: 'UI/UX Design / Figma', category: 'Platform', proficiency: 82, order: 8 },
 ];
 
+const seedBlogs = [
+  {
+    title: 'Engineering Real-Time Location Relays & Ledger Splits in On-Demand Marketplaces',
+    slug: 'real-time-location-relays-and-split-payments-servyq',
+    excerpt: 'How we architected high-frequency GPS journey tracking with Expo background tasks, NestJS WebSocket gateways, and automated split payout ledgers in Servyq.',
+    publishedAt: new Date('2025-02-15'),
+    published: true,
+    tags: ['Architecture', 'React Native', 'NestJS', 'WebSockets', 'PostgreSQL'],
+    featured: true,
+    content: `When building Servyq — an on-demand service marketplace connecting domestic seekers with service providers — we faced two core architectural challenges: keeping battery-efficient live GPS telemetry synchronized across mobile devices, and executing safe, verifiable split payments upon job completion.`,
+  },
+  {
+    title: 'Designing Offline-First Sync & Social Accountability Loops in Mobile Habit Engines',
+    slug: 'offline-first-sync-and-habit-loops-dayzo',
+    excerpt: 'Architectural patterns for optimistic offline action queues, peer streak verification, and low-latency feed generation in Dayzo.',
+    publishedAt: new Date('2025-01-20'),
+    published: true,
+    tags: ['React Native', 'Expo', 'Mobile UI', 'Redis', 'Offline-First'],
+    featured: false,
+    content: `When building Dayzo, our goal was to fix the critical failure mode of habit tracking apps: solitary abandonment. By pairing routine building with lightweight peer verification and instant co-op streaks, we turned daily discipline into a social loop.`,
+  },
+  {
+    title: 'Architecting a 100/100 Lighthouse Monochrome Portfolio & Headless CMS',
+    slug: 'architecting-monochrome-portfolio-and-cms',
+    excerpt: 'Engineering an editorial, typography-first developer portfolio with ISR, keyboard-first navigation, and strict design token separation.',
+    publishedAt: new Date('2024-12-10'),
+    published: true,
+    tags: ['Next.js', 'TypeScript', 'Performance', 'Design Systems', 'MongoDB'],
+    featured: false,
+    content: `When building manishj.dev, the objective was uncompromising: create an editorial, brutalist monochrome developer portfolio with 100/100 Lighthouse scores, complete keyboard accessibility (⌘K), and a headless management layer.`,
+  },
+];
+
 async function seed() {
   const uri = process.env.MONGODB_URI;
   if (!uri) {
@@ -353,11 +402,12 @@ async function seed() {
   console.log('Connecting to MongoDB...');
   await mongoose.connect(uri);
 
-  console.log('Clearing old projects, experiences, settings, and skills...');
+  console.log('Clearing old projects, experiences, settings, skills, and blogs...');
   await Project.deleteMany({});
   await Experience.deleteMany({});
   await Settings.deleteMany({});
   await Skill.deleteMany({});
+  await BlogPost.deleteMany({});
 
   console.log('Inserting seed projects...');
   await Project.insertMany(seedProjects);
@@ -370,6 +420,9 @@ async function seed() {
 
   console.log('Inserting seed skills...');
   await Skill.insertMany(seedSkills);
+
+  console.log('Inserting seed blog posts...');
+  await BlogPost.insertMany(seedBlogs);
 
   console.log('Seeding complete successfully!');
   await mongoose.disconnect();

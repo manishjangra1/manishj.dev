@@ -118,8 +118,8 @@ export function toHeroProps(settingsDoc?: SettingsDbDoc | null): HeroSectionProp
       label:
         settingsDoc.heroButton1Text && settingsDoc.heroButton1Text !== 'Get in touch'
           ? settingsDoc.heroButton1Text
-          : 'View my work',
-      href: '#work',
+          : 'View all projects',
+      href: '/work',
     },
     secondary: {
       label:

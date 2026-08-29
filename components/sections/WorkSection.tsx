@@ -21,7 +21,7 @@ export function WorkSection({
     kicker: 'SELECTED WORK',
     title: "Products I've designed and shipped",
     actionLabel: 'View all projects',
-    actionHref: 'https://github.com/manishjangra1?tab=repositories',
+    actionHref: '/work',
   },
   projects = PROJECT_ROWS,
   className,
@@ -31,7 +31,7 @@ export function WorkSection({
       id="work"
       aria-labelledby="work-title"
       className={cn(
-        'scroll-mt-[80px] py-10 sm:py-12 md:py-14 lg:py-16',
+        'hidden md:block scroll-mt-[80px] py-10 sm:py-12 md:py-14 lg:py-16',
         className
       )}
     >

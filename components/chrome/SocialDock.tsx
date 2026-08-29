@@ -93,7 +93,7 @@ export function SocialDock({
     <aside
       aria-label="Direct connections and profiles"
       className={cn(
-        'fixed right-0 top-1/2 -translate-y-1/2 z-40 select-none',
+        'hidden md:block fixed right-0 top-1/2 -translate-y-1/2 z-40 select-none',
         className
       )}
     >

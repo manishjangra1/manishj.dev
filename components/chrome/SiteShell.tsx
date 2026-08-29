@@ -8,8 +8,10 @@ import { LiveRegion } from '@/components/primitives/LiveRegion';
 import { Navbar } from '@/components/chrome/Navbar';
 import { Footer } from '@/components/chrome/Footer';
 import { SkillsTicker } from '@/components/chrome/SkillsTicker';
+import { ProjectsTicker } from '@/components/chrome/ProjectsTicker';
 import { SocialDock, type SocialDockProps } from '@/components/chrome/SocialDock';
 import type { CommandItem } from '@/components/chrome/CommandMenu';
+import type { FeaturedProjectData } from '@/lib/constants/copy';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { NavCurrentState } from '@/components/chrome/NavList';
@@ -25,6 +27,7 @@ export interface SiteShellProps {
   hashCurrent?: 'none' | 'work' | 'experience' | 'about';
   commandItems?: CommandItem[];
   socialDock?: SocialDockProps;
+  showcaseProjects?: FeaturedProjectData[];
 }
 
 export function SiteShell({
@@ -33,6 +36,7 @@ export function SiteShell({
   hashCurrent,
   commandItems,
   socialDock,
+  showcaseProjects,
 }: SiteShellProps) {
   const pathname = usePathname();
   const spyCurrent = useScrollSpy();
@@ -149,12 +153,14 @@ export function SiteShell({
       <Navbar
         current={activeCurrent}
         onOpenCommand={handleOpenCommand}
+        socialDock={socialDock}
       />
       <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         {children}
       </main>
       <SocialDock {...socialDock} />
       <Footer />
+      <ProjectsTicker projects={showcaseProjects} />
       <SkillsTicker />
       {commandOpen && (
         <CommandMenu

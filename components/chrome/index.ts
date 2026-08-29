@@ -9,4 +9,5 @@ export { ThemeToggle, type ThemeToggleProps } from './ThemeToggle';
 export { MobileMenu, type MobileMenuProps } from './MobileMenu';
 export { Footer, type FooterProps, type FooterLink } from './Footer';
 export { SkillsTicker, type SkillsTickerProps } from './SkillsTicker';
+export { ProjectsTicker, type ProjectsTickerProps } from './ProjectsTicker';
 export { PixelPlaneCursor } from './PixelPlaneCursor';

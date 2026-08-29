@@ -91,7 +91,7 @@ export const HERO_COPY = {
   name: 'Manish Jangra',
   lede: 'I build full-stack products — scalable clients, APIs, and the admin systems that run them.',
   availability: 'Available for freelance work and exciting opportunities',
-  primaryAction: { label: 'View my work', href: '#work' },
+  primaryAction: { label: 'View all projects', href: '/work' },
   secondaryAction: { label: 'Download resume', href: '/resume' },
   tertiaryAction: { label: 'GitHub', href: 'https://github.com/manishjangra1' },
   metrics: HERO_METRICS,

@@ -1,38 +1,32 @@
-import 'server-only';
-import connectDB from '@/lib/db';
-import BlogPost, { IBlogPost } from '@/lib/models/BlogPost';
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env.local' });
 
-export interface PublicBlogPostItem {
-  title: string;
-  slug: string;
-  excerpt: string;
-  coverImage?: string;
-  publishedAt: string;
-  tags: string[];
-  readTime: string;
-  featured?: boolean;
-}
+const BlogPostSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    slug: { type: String, required: true, unique: true, lowercase: true },
+    content: { type: String, required: true },
+    excerpt: { type: String, required: true },
+    coverImage: { type: String },
+    published: { type: Boolean, default: true },
+    publishedAt: { type: Date },
+    tags: { type: [String], default: [] },
+    featured: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+);
 
-export interface PublicBlogPostDetail extends PublicBlogPostItem {
-  content: string;
-  prevPost?: { title: string; slug: string };
-  nextPost?: { title: string; slug: string };
-}
+const BlogPost = mongoose.models.BlogPost || mongoose.model('BlogPost', BlogPostSchema);
 
-function calculateReadTime(content: string): string {
-  const words = (content || '').trim().split(/\s+/).length;
-  const minutes = Math.max(1, Math.ceil(words / 200));
-  return `${minutes} min read`;
-}
-
-const FALLBACK_BLOG_POSTS: PublicBlogPostDetail[] = [
+const realBlogs = [
   {
     title: 'Engineering Real-Time Location Relays & Ledger Splits in On-Demand Marketplaces',
     slug: 'real-time-location-relays-and-split-payments-servyq',
     excerpt: 'How we architected high-frequency GPS journey tracking with Expo background tasks, NestJS WebSocket gateways, and automated split payout ledgers in Servyq.',
-    publishedAt: '2025-02-15',
+    publishedAt: new Date('2025-02-15'),
+    published: true,
     tags: ['Architecture', 'React Native', 'NestJS', 'WebSockets', 'PostgreSQL'],
-    readTime: '7 min read',
     featured: true,
     content: `
 When building **Servyq** — an on-demand service marketplace connecting domestic seekers with service providers — we faced two core architectural challenges: keeping battery-efficient live GPS telemetry synchronized across mobile devices, and executing safe, verifiable split payments upon job completion.
@@ -153,9 +147,9 @@ export async function executeSplitPayout(bookingId: string, totalAmount: number,
     title: 'Designing Offline-First Sync & Social Accountability Loops in Mobile Habit Engines',
     slug: 'offline-first-sync-and-habit-loops-dayzo',
     excerpt: 'Architectural patterns for optimistic offline action queues, peer streak verification, and low-latency feed generation in Dayzo.',
-    publishedAt: '2025-01-20',
+    publishedAt: new Date('2025-01-20'),
+    published: true,
     tags: ['React Native', 'Expo', 'Mobile UI', 'Redis', 'Offline-First'],
-    readTime: '5 min read',
     featured: false,
     content: `
 When building **Dayzo**, our goal was to fix the critical failure mode of habit tracking apps: solitary abandonment. By pairing routine building with lightweight peer verification and instant co-op streaks, we turned daily discipline into a social loop.
@@ -225,9 +219,9 @@ To deliver a premium tactile feel, we built interactive habit completion sliders
     title: 'Architecting a 100/100 Lighthouse Monochrome Portfolio & Headless CMS',
     slug: 'architecting-monochrome-portfolio-and-cms',
     excerpt: 'Engineering an editorial, typography-first developer portfolio with ISR, keyboard-first navigation, and strict design token separation.',
-    publishedAt: '2024-12-10',
+    publishedAt: new Date('2024-12-10'),
+    published: true,
     tags: ['Next.js', 'TypeScript', 'Performance', 'Design Systems', 'MongoDB'],
-    readTime: '5 min read',
     featured: false,
     content: `
 Many modern engineering portfolios suffer from bloated client bundles, distracting 3D animations, and poor accessibility scores that obscure real engineering work.
@@ -286,108 +280,27 @@ If database schemas evolve or new fields are added, UI components remain complet
   },
 ];
 
-export async function getPublicBlogList(): Promise<PublicBlogPostItem[]> {
-  try {
-    await connectDB();
-    const posts = await BlogPost.find({ published: { $ne: false } })
-      .sort({ publishedAt: -1, createdAt: -1 })
-      .lean();
-
-    if (posts && posts.length > 0) {
-      return posts.map((p) => ({
-        title: p.title,
-        slug: p.slug,
-        excerpt: p.excerpt || '',
-        coverImage: p.coverImage || '',
-        publishedAt: p.publishedAt ? new Date(p.publishedAt).toISOString() : new Date(p.createdAt).toISOString(),
-        tags: p.tags || [],
-        readTime: calculateReadTime(p.content || ''),
-        featured: p.featured || false,
-      }));
-    }
-  } catch (error) {
-    console.error('getPublicBlogList database error:', error);
+async function seedBlogs() {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    console.error('MONGODB_URI missing in .env.local');
+    process.exit(1);
   }
 
-  return FALLBACK_BLOG_POSTS.map((p) => ({
-    title: p.title,
-    slug: p.slug,
-    excerpt: p.excerpt,
-    coverImage: p.coverImage,
-    publishedAt: p.publishedAt,
-    tags: p.tags,
-    readTime: p.readTime,
-    featured: p.featured,
-  }));
+  await mongoose.connect(uri);
+  console.log('Connected to MongoDB.');
+
+  console.log('Clearing old blog posts...');
+  await BlogPost.deleteMany({});
+
+  console.log('Inserting real engineering blog posts...');
+  await BlogPost.insertMany(realBlogs);
+
+  console.log('Real blogs successfully seeded into MongoDB!');
+  await mongoose.disconnect();
 }
 
-export async function getBlogPostBySlug(slug: string): Promise<PublicBlogPostDetail | null> {
-  const cleanSlug = slug.toLowerCase().trim();
-
-  try {
-    await connectDB();
-    const postDoc = await BlogPost.findOne({
-      slug: cleanSlug,
-      published: { $ne: false },
-    }).lean();
-
-    if (postDoc) {
-      const allPosts = (await BlogPost.find({ published: { $ne: false } })
-        .sort({ publishedAt: -1, createdAt: -1 })
-        .select('title slug')
-        .lean()) as Array<{ title: string; slug: string }>;
-
-      const currentIndex = allPosts.findIndex((p) => p.slug === cleanSlug);
-      const prevPost =
-        currentIndex > 0
-          ? { title: allPosts[currentIndex - 1].title, slug: allPosts[currentIndex - 1].slug }
-          : undefined;
-      const nextPost =
-        currentIndex >= 0 && currentIndex < allPosts.length - 1
-          ? { title: allPosts[currentIndex + 1].title, slug: allPosts[currentIndex + 1].slug }
-          : undefined;
-
-      return {
-        title: postDoc.title,
-        slug: postDoc.slug,
-        excerpt: postDoc.excerpt || '',
-        content: postDoc.content || '',
-        coverImage: postDoc.coverImage || '',
-        publishedAt: postDoc.publishedAt
-          ? new Date(postDoc.publishedAt).toISOString()
-          : new Date(postDoc.createdAt).toISOString(),
-        tags: postDoc.tags || [],
-        readTime: calculateReadTime(postDoc.content || ''),
-        featured: postDoc.featured || false,
-        prevPost,
-        nextPost,
-      };
-    }
-  } catch (error) {
-    console.error(`getBlogPostBySlug error for slug "${slug}":`, error);
-  }
-
-  const fallback = FALLBACK_BLOG_POSTS.find((p) => p.slug === cleanSlug);
-  if (fallback) {
-    return fallback;
-  }
-
-  return null;
-}
-
-export async function getAllBlogSlugs(): Promise<string[]> {
-  try {
-    await connectDB();
-    const posts = (await BlogPost.find({ published: { $ne: false } })
-      .select('slug')
-      .lean()) as Array<{ slug: string }>;
-
-    if (posts && posts.length > 0) {
-      return posts.map((p) => p.slug).filter(Boolean);
-    }
-  } catch (error) {
-    console.error('getAllBlogSlugs error:', error);
-  }
-
-  return FALLBACK_BLOG_POSTS.map((p) => p.slug);
-}
+seedBlogs().catch((err) => {
+  console.error('Seed blogs error:', err);
+  process.exit(1);
+});

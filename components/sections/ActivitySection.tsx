@@ -88,7 +88,7 @@ export function ActivitySection({
         {!isError && (
           <div
             data-reveal
-            className="mt-8 sm:mt-10 bg-[var(--color-card)] border border-[var(--color-border)] p-6 sm:p-8 rounded-none transition-all duration-200"
+            className="mt-8 sm:mt-10 bg-[var(--color-card)] border border-[var(--color-border)] p-4 sm:p-6 md:p-8 rounded-none transition-all duration-200"
           >
             {/* Card Header: Stat + Heatmap Legend */}
             <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-6 border-b border-[var(--color-border)]">

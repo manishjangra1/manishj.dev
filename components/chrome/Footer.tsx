@@ -48,7 +48,7 @@ export function Footer({
     <footer className="w-full">
       <Container well="page">
         <Hairline tone="default" />
-        <div className="pt-[48px] md:pt-[64px] pb-[max(88px,calc(88px+env(safe-area-inset-bottom,0px)))] md:pb-[96px] flex flex-col md:flex-row md:items-center justify-between gap-[16px]">
+        <div className="pt-[48px] md:pt-[64px] pb-[max(165px,calc(165px+env(safe-area-inset-bottom,0px)))] md:pb-[96px] flex flex-col md:flex-row md:items-center justify-between gap-[16px]">
           {/* Left: Copyright */}
           <p className="font-mono text-[13px] text-[var(--color-text-muted)] select-none tabular-nums">
             © {year} Manish Jangra

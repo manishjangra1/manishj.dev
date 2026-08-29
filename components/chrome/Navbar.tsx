@@ -8,6 +8,7 @@ import { NavList, type NavCurrentState } from '@/components/chrome/NavList';
 import { CommandTrigger } from '@/components/chrome/CommandTrigger';
 import { ThemeToggle } from '@/components/chrome/ThemeToggle';
 import { MobileMenu } from '@/components/chrome/MobileMenu';
+import { SocialDockProps } from '@/components/chrome/SocialDock';
 import { cn } from '@/lib/utils';
 
 export interface NavbarProps {
@@ -18,6 +19,7 @@ export interface NavbarProps {
   onToggleTheme?: () => void;
   menuOpen?: boolean;
   onToggleMenu?: () => void;
+  socialDock?: SocialDockProps;
 }
 
 export function Navbar({
@@ -28,6 +30,7 @@ export function Navbar({
   onToggleTheme,
   menuOpen: controlledMenuOpen,
   onToggleMenu,
+  socialDock,
 }: NavbarProps) {
   const [internalScrolled, setInternalScrolled] = useState(false);
   const [internalMenuOpen, setInternalMenuOpen] = useState(false);
@@ -110,6 +113,7 @@ export function Navbar({
         open={menuOpen}
         onClose={handleCloseMenu}
         current={current}
+        {...socialDock}
       />
     </>
   );
