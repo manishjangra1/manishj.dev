@@ -81,8 +81,8 @@ export interface CaseStudyData {
 
 export const HERO_METRICS: HeroMetric[] = [
   { value: '3+', label: 'Years experience' },
-  { value: '15+', label: 'Projects shipped' },
-  { value: '30K+', label: 'Users impacted' },
+  { value: '3+', label: 'Projects built' },
+  { value: '759+', label: 'GitHub contributions' },
   { value: '10+', label: 'Tech & tools' },
 ];
 

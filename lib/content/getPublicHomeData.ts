@@ -25,6 +25,7 @@ import {
   STATIC_CONTRIBUTION_WEEKS,
   STATIC_REPOS,
   CONTACT_INFO,
+  type HeroMetric,
 } from '@/lib/constants/copy';
 import type { HeroSectionProps } from '@/components/sections/HeroSection';
 import type { WorkSectionProps } from '@/components/sections/WorkSection';
@@ -103,9 +104,38 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
     console.error('getPublicHomeData database error, falling back to static constants:', error);
   }
 
-  // 1. Hero Props
+  // 1. Hero Props — compute real metrics from DB data
+  const computedMetrics: HeroMetric[] = (() => {
+    // Years experience: from earliest startDate to now
+    let yearsExp = 3; // fallback
+    if (rawExperience.length > 0) {
+      const earliestStart = rawExperience.reduce((earliest, exp) => {
+        const d = new Date(exp.startDate).getTime();
+        return d < earliest ? d : earliest;
+      }, Date.now());
+      yearsExp = Math.floor((Date.now() - earliestStart) / (1000 * 60 * 60 * 24 * 365.25));
+    }
+
+    // Projects built: count of published projects
+    const projectCount = rawProjects.length || 3;
+
+    // GitHub contributions (replaces "Users impacted")
+    const contributions = githubActivity?.count ?? 759;
+
+    // Tech & tools: unique skills count
+    const skillCount = rawSkills.length || 10;
+
+    return [
+      { value: `${yearsExp}+`, label: 'Years experience' },
+      { value: `${projectCount}+`, label: 'Projects built' },
+      { value: `${contributions >= 1000 ? `${(contributions / 1000).toFixed(1).replace(/\.0$/, '')}K` : contributions}+`, label: 'GitHub contributions' },
+      { value: `${skillCount}+`, label: 'Tech & tools' },
+    ];
+  })();
+
   const hero = {
     ...toHeroProps(rawSettings),
+    metrics: computedMetrics,
     showcaseProjects:
       rawProjects.length >= 3
         ? rawProjects.slice(0, 3).map(toFeaturedProjectProps)
