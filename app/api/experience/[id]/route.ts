@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import connectDB from '@/lib/db';
 import Experience from '@/lib/models/Experience';
 import { requireAuth } from '@/lib/auth';
@@ -12,7 +13,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Experience not found' }, { status: 404 });
     }
     return NextResponse.json(experience);
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error fetching experience by id:', error);
     return NextResponse.json({ error: 'Failed to fetch experience' }, { status: 500 });
   }
 }
@@ -30,9 +32,12 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Experience not found' }, { status: 404 });
     }
 
+    revalidatePath('/');
+
     return NextResponse.json(experience);
-  } catch (error: any) {
-    if (error.message === 'Unauthorized') {
+  } catch (error: unknown) {
+    const err = error as Error;
+    if (err.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     return NextResponse.json({ error: 'Failed to update experience' }, { status: 500 });
@@ -51,12 +56,14 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       return NextResponse.json({ error: 'Experience not found' }, { status: 404 });
     }
 
+    revalidatePath('/');
+
     return NextResponse.json({ message: 'Experience deleted successfully' });
-  } catch (error: any) {
-    if (error.message === 'Unauthorized') {
+  } catch (error: unknown) {
+    const err = error as Error;
+    if (err.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     return NextResponse.json({ error: 'Failed to delete experience' }, { status: 500 });
   }
 }
-

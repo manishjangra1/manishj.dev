@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession, signOut } from 'next-auth/react';
+import { SessionProvider, useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { usePathname } from 'next/navigation';
 import { DataProvider } from '@/contexts/DataContext';
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
@@ -23,10 +23,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   }, [status, router]);
 
-  // Close mobile menu when route changes
-  useEffect(() => {
+  // Close mobile menu when pathname changes
+  const prevPathnameRef = useState(pathname)[0];
+  if (prevPathnameRef !== pathname && isMobileMenuOpen) {
     setIsMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   if (status === 'loading') {
     return (
@@ -74,7 +75,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </h1>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 rounded-lg transition-colors"
+          className="p-2 rounded-none transition-colors"
           style={{
             color: colors.textPrimary,
             backgroundColor: isMobileMenuOpen ? colors.cardBorder : 'transparent',
@@ -130,7 +131,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all border"
+                      className="flex items-center gap-3 px-4 py-3 rounded-none transition-all border"
                       style={{
                         backgroundColor: isActive ? colors.cardBorder : 'transparent',
                         borderColor: isActive ? colors.gradientFrom : 'transparent',
@@ -158,7 +159,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <div className="p-4 pt-0">
                 <button
                   onClick={() => signOut({ callbackUrl: '/login' })}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all border"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-none transition-all border"
                   style={{
                     backgroundColor: 'transparent',
                     borderColor: colors.cardBorder,
@@ -212,7 +213,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all border"
+                className="flex items-center gap-3 px-4 py-3 rounded-none transition-all border"
                 style={{
                   backgroundColor: isActive ? colors.cardBorder : 'transparent',
                   borderColor: isActive ? colors.gradientFrom : 'transparent',
@@ -240,7 +241,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="absolute bottom-4 left-4 right-4">
           <button
             onClick={() => signOut({ callbackUrl: '/login' })}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all border"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-none transition-all border"
             style={{
               backgroundColor: 'transparent',
               borderColor: colors.cardBorder,
@@ -278,4 +279,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </div>
   );
 }
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <SessionProvider>
+      <AdminLayoutContent>{children}</AdminLayoutContent>
+    </SessionProvider>
+  );
+}
+
 

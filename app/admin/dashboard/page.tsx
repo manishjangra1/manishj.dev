@@ -64,7 +64,7 @@ export default function DashboardPage() {
             <Link
               key={card.label}
               href={card.href}
-              className="rounded-2xl p-6 border transition-all group"
+              className="rounded-none p-6 border transition-all group"
               style={{
                 backgroundColor: colors.cardBg,
                 borderColor: colors.cardBorder,
@@ -78,7 +78,7 @@ export default function DashboardPage() {
             >
               <div className="flex items-center justify-between mb-4">
                 <div 
-                  className="p-3.5 rounded-xl"
+                  className="p-3.5 rounded-none"
                   style={{
                     background: `linear-gradient(to right, ${colors.gradientFrom}, ${colors.gradientTo})`,
                   }}

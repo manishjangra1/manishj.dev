@@ -1,13 +1,13 @@
 'use client';
 
-import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from '@/contexts/ThemeContext';
-import { DataProvider } from '@/contexts/DataContext';
+import { PixelPlaneCursor } from '@/components/chrome/PixelPlaneCursor';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
-      <SessionProvider>{children}</SessionProvider>
+      {children}
+      <PixelPlaneCursor />
     </ThemeProvider>
   );
 }

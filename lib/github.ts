@@ -1,3 +1,5 @@
+export * from './github/index';
+
 export interface GitHubData {
   user: {
     name: string;
@@ -35,7 +37,7 @@ export interface GitHubData {
       };
     };
   };
-  events: Array<any>;
+  events: Array<Record<string, unknown>>;
 }
 
 export async function fetchGitHubData(): Promise<GitHubData> {
@@ -47,10 +49,19 @@ export async function fetchGitHubData(): Promise<GitHubData> {
   return response.json();
 }
 
-export function getLanguageStats(repos: any[]) {
+interface RepoWithLanguages {
+  languages: {
+    edges: Array<{
+      size: number;
+      node: { name: string; color: string };
+    }>;
+  };
+}
+
+export function getLanguageStats(repos: RepoWithLanguages[]) {
   const stats: Record<string, { size: number; color: string }> = {};
-  repos.forEach(repo => {
-    repo.languages.edges.forEach((edge: any) => {
+  repos.forEach((repo) => {
+    repo.languages.edges.forEach((edge) => {
       const { name, color } = edge.node;
       if (!stats[name]) {
         stats[name] = { size: 0, color };

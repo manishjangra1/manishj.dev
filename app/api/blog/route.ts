@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const published = searchParams.get('published');
 
-    let query: any = {};
+    const query: Record<string, boolean> = {};
     if (published === 'true') {
       query.published = true;
     }

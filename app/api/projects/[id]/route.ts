@@ -4,6 +4,7 @@ import connectDB from '@/lib/db';
 import Project from '@/lib/models/Project';
 import { requireAuth } from '@/lib/auth';
 import { StorageFactory } from '@/lib/storage/StorageFactory';
+import { slugify } from '@/lib/utils/slug';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -14,7 +15,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
     return NextResponse.json(project);
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error fetching project by id:', error);
     return NextResponse.json({ error: 'Failed to fetch project' }, { status: 500 });
   }
 }
@@ -34,17 +36,16 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 
+    const previousSlug = project.slug;
+
     // Check if image is being changed and delete old image
     if (body.image !== undefined && body.image !== project.image) {
       const oldImageUrl = project.image;
-      
-      // Only delete if it's a stored file
       if (oldImageUrl && (oldImageUrl.startsWith('/storage/') || oldImageUrl.includes('blob.vercel-storage.com'))) {
         try {
           const storageService = StorageFactory.getStorageService();
           await storageService.delete(oldImageUrl);
         } catch (error) {
-          // Log error but don't fail the update
           console.error('Error deleting old project image:', error);
         }
       }
@@ -52,32 +53,38 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     // Update all fields explicitly
     if (body.title !== undefined) project.title = body.title;
+    if (body.slug !== undefined) project.slug = slugify(body.slug);
+    if (body.kicker !== undefined) project.kicker = body.kicker;
+    if (body.year !== undefined) project.year = body.year;
+    if (body.role !== undefined) project.role = body.role;
+    if (body.imageAlt !== undefined) project.imageAlt = body.imageAlt;
     if (body.description !== undefined) project.description = body.description;
     if (body.image !== undefined) project.image = body.image;
     if (body.technologies !== undefined) project.technologies = body.technologies;
     if (body.liveUrl !== undefined) project.liveUrl = body.liveUrl;
     if (body.githubUrl !== undefined) project.githubUrl = body.githubUrl;
-    // Explicitly handle content field - allow empty strings to be saved
+    if (body.caseStudy !== undefined) project.caseStudy = body.caseStudy;
+    
     if ('content' in body) {
       project.content = body.content ?? '';
       project.markModified('content');
     }
-    // Explicitly handle boolean fields to ensure false values are saved
     if (body.featured !== undefined) project.featured = Boolean(body.featured);
     if (body.isCurrentlyWorking !== undefined) project.isCurrentlyWorking = Boolean(body.isCurrentlyWorking);
+    if (body.published !== undefined) project.published = Boolean(body.published);
     if (body.order !== undefined) project.order = body.order;
 
-    // Save the updated project
     await project.save();
 
-    // Revalidate the projects page, home page, and the specific project page
-    revalidatePath('/projects');
+    // Revalidate the public cache
     revalidatePath('/');
-    revalidatePath(`/projects/${id}`);
+    if (previousSlug) revalidatePath(`/work/${previousSlug}`);
+    if (project.slug) revalidatePath(`/work/${project.slug}`);
 
     return NextResponse.json(project.toObject());
-  } catch (error: any) {
-    if (error.message === 'Unauthorized') {
+  } catch (error: unknown) {
+    const err = error as Error;
+    if (err.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Error updating project:', error);
@@ -97,31 +104,27 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 
-    // Delete the project image if it's a stored file
     if (project.image && (project.image.startsWith('/storage/') || project.image.includes('blob.vercel-storage.com'))) {
       try {
         const storageService = StorageFactory.getStorageService();
         await storageService.delete(project.image);
       } catch (error) {
-        // Log error but don't fail the deletion
         console.error('Error deleting project image:', error);
       }
     }
 
-    // Delete the project
+    const slug = project.slug;
     await Project.findByIdAndDelete(id);
 
-    // Revalidate the projects page, home page, and the specific project page
-    revalidatePath('/projects');
     revalidatePath('/');
-    revalidatePath(`/projects/${id}`);
+    if (slug) revalidatePath(`/work/${slug}`);
 
     return NextResponse.json({ message: 'Project deleted successfully' });
-  } catch (error: any) {
-    if (error.message === 'Unauthorized') {
+  } catch (error: unknown) {
+    const err = error as Error;
+    if (err.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     return NextResponse.json({ error: 'Failed to delete project' }, { status: 500 });
   }
 }
-

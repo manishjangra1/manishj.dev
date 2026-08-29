@@ -103,7 +103,7 @@ export default function ExperienceFormPage() {
       <div className="flex items-center gap-4 mb-8">
         <Link
           href="/admin/experience"
-          className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+          className="p-2 hover:bg-slate-800 rounded-none transition-colors"
         >
           <ArrowLeft className="w-5 h-5 text-white" />
         </Link>
@@ -112,7 +112,7 @@ export default function ExperienceFormPage() {
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-lg p-6 border border-slate-700 space-y-6 max-w-3xl">
+      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-none p-6 border border-slate-700 space-y-6 max-w-3xl">
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Company</label>
@@ -121,7 +121,7 @@ export default function ExperienceFormPage() {
               value={formData.company}
               onChange={(e) => setFormData({ ...formData, company: e.target.value })}
               required
-              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
           <div>
@@ -131,7 +131,7 @@ export default function ExperienceFormPage() {
               value={formData.role}
               onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               required
-              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
         </div>
@@ -144,7 +144,7 @@ export default function ExperienceFormPage() {
               value={formData.startDate}
               onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
               required
-              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
           <div>
@@ -154,7 +154,7 @@ export default function ExperienceFormPage() {
               value={formData.endDate}
               onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
               disabled={formData.current}
-              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
             />
           </div>
         </div>
@@ -175,7 +175,7 @@ export default function ExperienceFormPage() {
             type="text"
             value={formData.location}
             onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -185,7 +185,7 @@ export default function ExperienceFormPage() {
             type="url"
             value={formData.logo}
             onChange={(e) => setFormData({ ...formData, logo: e.target.value })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -198,19 +198,19 @@ export default function ExperienceFormPage() {
               onChange={(e) => setDescInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addDescription())}
               placeholder="Add description point"
-              className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             <button
               type="button"
               onClick={addDescription}
-              className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white hover:bg-slate-600 transition-colors"
+              className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white hover:bg-slate-600 transition-colors"
             >
               <Plus className="w-5 h-5" />
             </button>
           </div>
           <div className="space-y-2">
             {formData.description.map((desc, i) => (
-              <div key={i} className="flex items-center gap-2 px-4 py-2 bg-slate-700 rounded-lg">
+              <div key={i} className="flex items-center gap-2 px-4 py-2 bg-slate-700 rounded-none">
                 <span className="flex-1 text-white text-sm">{desc}</span>
                 <button
                   type="button"
@@ -230,14 +230,14 @@ export default function ExperienceFormPage() {
             type="number"
             value={formData.order}
             onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           <Save className="w-5 h-5" />
           {loading ? 'Saving...' : 'Save Experience'}

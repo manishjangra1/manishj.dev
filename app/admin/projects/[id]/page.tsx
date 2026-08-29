@@ -194,7 +194,7 @@ export default function ProjectFormPage() {
       <div className="flex items-center gap-4 mb-8">
         <Link
           href="/admin/projects"
-          className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+          className="p-2 hover:bg-slate-800 rounded-none transition-colors"
         >
           <ArrowLeft className="w-5 h-5 text-white" />
         </Link>
@@ -203,7 +203,7 @@ export default function ProjectFormPage() {
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-lg p-6 border border-slate-700 space-y-6">
+      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-none p-6 border border-slate-700 space-y-6">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">Title</label>
           <input
@@ -211,7 +211,7 @@ export default function ProjectFormPage() {
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             required
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -222,7 +222,7 @@ export default function ProjectFormPage() {
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             required
             rows={5}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
           />
         </div>
 
@@ -238,7 +238,7 @@ export default function ProjectFormPage() {
                   onChange={handleImageChange}
                   className="hidden"
                 />
-                <div className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
+                <div className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
                   <ImageIcon className="w-4 h-4" />
                   {imageFile ? imageFile.name : 'Choose Image File'}
                 </div>
@@ -248,7 +248,7 @@ export default function ProjectFormPage() {
                   type="button"
                   onClick={handleUploadImage}
                   disabled={uploadingImage}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <Upload className="w-4 h-4" />
                   {uploadingImage ? 'Uploading...' : 'Upload'}
@@ -261,7 +261,7 @@ export default function ProjectFormPage() {
 
             {/* Current Image Display */}
             {formData.image && (
-              <div className="p-4 bg-slate-700 border border-slate-600 rounded-lg">
+              <div className="p-4 bg-slate-700 border border-slate-600 rounded-none">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <ImageIcon className="w-5 h-5 text-purple-400" />
@@ -277,13 +277,13 @@ export default function ProjectFormPage() {
                   <button
                     type="button"
                     onClick={handleDeleteImage}
-                    className="p-2 text-red-400 hover:text-red-300 hover:bg-slate-600 rounded-lg transition-colors"
+                    className="p-2 text-red-400 hover:text-red-300 hover:bg-slate-600 rounded-none transition-colors"
                     title="Delete Image"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
-                <div className="relative w-full h-48 rounded-lg overflow-hidden border border-slate-600">
+                <div className="relative w-full h-48 rounded-none overflow-hidden border border-slate-600">
                   <img
                     src={formData.image}
                     alt="Project preview"
@@ -303,7 +303,7 @@ export default function ProjectFormPage() {
                   type="url"
                   value={formData.image && !formData.image.startsWith('/storage/') && !formData.image.includes('blob.vercel-storage.com') ? formData.image : ''}
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="https://example.com/image.jpg"
                 />
               </div>
@@ -320,12 +320,12 @@ export default function ProjectFormPage() {
               onChange={(e) => setTechInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechnology())}
               placeholder="Add technology"
-              className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             <button
               type="button"
               onClick={addTechnology}
-              className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white hover:bg-slate-600 transition-colors"
+              className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white hover:bg-slate-600 transition-colors"
             >
               Add
             </button>
@@ -334,7 +334,7 @@ export default function ProjectFormPage() {
             {formData.technologies.map((tech) => (
               <span
                 key={tech}
-                className="px-3 py-1 bg-slate-700 rounded-lg text-white text-sm flex items-center gap-2"
+                className="px-3 py-1 bg-slate-700 rounded-none text-white text-sm flex items-center gap-2"
               >
                 {tech}
                 <button
@@ -360,7 +360,7 @@ export default function ProjectFormPage() {
             value={formData.content}
             onChange={(e) => setFormData({ ...formData, content: e.target.value })}
             rows={20}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none font-mono text-sm"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none font-mono text-sm"
             placeholder="# Project Overview&#10;&#10;Write your project documentation here using Markdown...&#10;&#10;## Features&#10;&#10;- Feature 1&#10;- Feature 2&#10;&#10;## Technologies Used&#10;&#10;...&#10;"
           />
         </div>
@@ -372,7 +372,7 @@ export default function ProjectFormPage() {
               type="url"
               value={formData.liveUrl}
               onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
-              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
           <div>
@@ -381,7 +381,7 @@ export default function ProjectFormPage() {
               type="url"
               value={formData.githubUrl}
               onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
-              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
         </div>
@@ -411,7 +411,7 @@ export default function ProjectFormPage() {
               type="number"
               value={formData.order}
               onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-              className="w-24 px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-24 px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
         </div>
@@ -419,7 +419,7 @@ export default function ProjectFormPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           <Save className="w-5 h-5" />
           {loading ? 'Saving...' : 'Save Project'}

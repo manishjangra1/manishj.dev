@@ -1,6 +1,6 @@
 'use client';
 
-import { Component, ReactNode } from 'react';
+import React, { Component, ReactNode, ErrorInfo } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -21,7 +21,7 @@ export class ErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: any) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Error caught by boundary:', error, errorInfo);
   }
 
@@ -29,18 +29,13 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         this.props.fallback || (
-          <div className="min-h-screen flex items-center justify-center bg-background">
-            <div className="text-center flex flex-col items-center gap-6">
-              <div className="w-16 h-16 rounded-full border border-red-500/30 flex items-center justify-center bg-red-500/5">
-                <span className="text-red-500 text-2xl font-bold">!</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-text-primary uppercase tracking-tighter mb-2">Application Error</h1>
-                <p className="text-text-muted text-xs font-mono uppercase tracking-widest">An unexpected error occurred</p>
-              </div>
+          <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)] text-[var(--color-text)]">
+            <div className="text-center flex flex-col items-center gap-6 max-w-md p-8">
+              <h1 className="text-xl font-medium">Application Error</h1>
+              <p className="text-sm text-[var(--color-text-secondary)]">An unexpected error occurred.</p>
               <button
                 onClick={() => window.location.reload()}
-                className="glass px-8 py-3 rounded-xl text-[10px] uppercase tracking-widest text-text-secondary hover:text-text-primary transition-all cursor-pointer"
+                className="px-6 py-2 rounded-[var(--radius-md)] bg-[var(--color-surface)] border border-[var(--color-border)] text-sm hover:bg-[var(--color-surface-hover)] cursor-pointer"
               >
                 Reload Page
               </button>
@@ -53,4 +48,3 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
-

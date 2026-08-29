@@ -49,7 +49,7 @@ export default function BlogPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-white">Blog Posts</h1>
         <Link
           href="/admin/blog/new"
-          className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center"
+          className="px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center"
         >
           <Plus className="w-5 h-5" />
           New Post
@@ -60,16 +60,16 @@ export default function BlogPage() {
         {posts.map((post) => (
           <div
             key={post._id?.toString()}
-            className="bg-slate-800 rounded-lg p-6 border border-slate-700"
+            className="bg-slate-800 rounded-none p-6 border border-slate-700"
           >
             <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-3 mb-2">
                   <h3 className="text-xl font-semibold text-white break-words">{post.title}</h3>
                   {post.published ? (
-                    <span className="px-2 py-1 text-xs bg-green-600 text-white rounded whitespace-nowrap">Published</span>
+                    <span className="px-2 py-1 text-xs bg-green-600 text-white rounded-none whitespace-nowrap">Published</span>
                   ) : (
-                    <span className="px-2 py-1 text-xs bg-slate-600 text-white rounded whitespace-nowrap">Draft</span>
+                    <span className="px-2 py-1 text-xs bg-slate-600 text-white rounded-none whitespace-nowrap">Draft</span>
                   )}
                 </div>
                 <p className="text-slate-400 text-sm mb-2 line-clamp-2">{post.excerpt}</p>
@@ -83,13 +83,13 @@ export default function BlogPage() {
               <div className="flex gap-2 flex-shrink-0">
                 <Link
                   href={`/admin/blog/${post._id}`}
-                  className="p-2 bg-slate-700 text-white rounded hover:bg-slate-600 transition-colors"
+                  className="p-2 bg-slate-700 text-white rounded-none hover:bg-slate-600 transition-colors"
                 >
                   <Edit className="w-4 h-4" />
                 </Link>
                 <button
                   onClick={() => handleDelete(post._id!.toString())}
-                  className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                  className="p-2 bg-red-600 text-white rounded-none hover:bg-red-700 transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

@@ -371,14 +371,14 @@ export default function SettingsPage() {
     <div>
       <h1 className="text-3xl font-bold text-white mb-8">Settings</h1>
 
-      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-lg p-6 border border-slate-700 space-y-6 max-w-3xl">
+      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-none p-6 border border-slate-700 space-y-6 max-w-3xl">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">Site Title</label>
           <input
             type="text"
             value={formData.siteTitle}
             onChange={(e) => setFormData({ ...formData, siteTitle: e.target.value })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -388,7 +388,7 @@ export default function SettingsPage() {
             type="text"
             value={formData.siteDescription}
             onChange={(e) => setFormData({ ...formData, siteDescription: e.target.value })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -398,7 +398,7 @@ export default function SettingsPage() {
             type="text"
             value={formData.heroText}
             onChange={(e) => setFormData({ ...formData, heroText: e.target.value })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -408,7 +408,7 @@ export default function SettingsPage() {
             type="text"
             value={formData.heroButton1Text}
             onChange={(e) => setFormData({ ...formData, heroButton1Text: e.target.value })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="Learn More"
           />
         </div>
@@ -419,7 +419,7 @@ export default function SettingsPage() {
             type="text"
             value={formData.heroButton2Text}
             onChange={(e) => setFormData({ ...formData, heroButton2Text: e.target.value })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="View Projects"
           />
         </div>
@@ -433,7 +433,7 @@ export default function SettingsPage() {
                 value={formData.aboutText}
                 onChange={(e) => setFormData({ ...formData, aboutText: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
               />
             </div>
             <div>
@@ -442,7 +442,7 @@ export default function SettingsPage() {
                 value={formData.aboutText2}
                 onChange={(e) => setFormData({ ...formData, aboutText2: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
               />
             </div>
             <div>
@@ -451,7 +451,7 @@ export default function SettingsPage() {
                 type="text"
                 value={formData.aboutIcon}
                 onChange={(e) => setFormData({ ...formData, aboutIcon: e.target.value })}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="👨‍💻"
               />
             </div>
@@ -468,13 +468,13 @@ export default function SettingsPage() {
                       addTechStack();
                     }
                   }}
-                  className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="Add technology (e.g., React, Next.js)"
                 />
                 <button
                   type="button"
                   onClick={addTechStack}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors flex items-center gap-2"
                 >
                   <Plus className="w-4 h-4" />
                   Add
@@ -485,7 +485,7 @@ export default function SettingsPage() {
                   {formData.aboutTechStack.map((tech) => (
                     <span
                       key={tech}
-                      className="inline-flex items-center gap-2 px-3 py-1 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm"
+                      className="inline-flex items-center gap-2 px-3 py-1 bg-slate-700 border border-slate-600 rounded-none text-white text-sm"
                     >
                       {tech}
                       <button
@@ -516,7 +516,7 @@ export default function SettingsPage() {
                       onChange={handleAboutImageChange}
                       className="hidden"
                     />
-                    <div className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
+                    <div className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
                       <ImageIcon className="w-4 h-4" />
                       {aboutImageFile ? aboutImageFile.name : 'Choose Image File'}
                     </div>
@@ -526,7 +526,7 @@ export default function SettingsPage() {
                       type="button"
                       onClick={handleUploadAboutImage}
                       disabled={uploadingImage}
-                      className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                      className="px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                     >
                       <Upload className="w-4 h-4" />
                       {uploadingImage ? 'Uploading...' : 'Upload'}
@@ -539,7 +539,7 @@ export default function SettingsPage() {
 
                 {/* Current Image Display */}
                 {formData.aboutImage && (
-                  <div className="p-4 bg-slate-700 border border-slate-600 rounded-lg">
+                  <div className="p-4 bg-slate-700 border border-slate-600 rounded-none">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <ImageIcon className="w-5 h-5 text-purple-400" />
@@ -555,13 +555,13 @@ export default function SettingsPage() {
                       <button
                         type="button"
                         onClick={handleDeleteAboutImage}
-                        className="p-2 text-red-400 hover:text-red-300 hover:bg-slate-600 rounded-lg transition-colors"
+                        className="p-2 text-red-400 hover:text-red-300 hover:bg-slate-600 rounded-none transition-colors"
                         title="Delete Image"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
-                    <div className="relative w-full h-32 rounded-lg overflow-hidden border border-slate-600">
+                    <div className="relative w-full h-32 rounded-none overflow-hidden border border-slate-600">
                       <img
                         src={formData.aboutImage}
                         alt="About section preview"
@@ -573,7 +573,7 @@ export default function SettingsPage() {
 
                 {/* Show/Hide Toggle */}
                 {formData.aboutImage && (
-                  <div className="flex items-center justify-between p-3 bg-slate-700 border border-slate-600 rounded-lg">
+                  <div className="flex items-center justify-between p-3 bg-slate-700 border border-slate-600 rounded-none">
                     <div className="flex items-center gap-2">
                       {formData.showAboutImage ? (
                         <Eye className="w-5 h-5 text-green-400" />
@@ -596,7 +596,7 @@ export default function SettingsPage() {
                           body: JSON.stringify(updated),
                         });
                       }}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      className={`px-4 py-2 rounded-none text-sm font-medium transition-colors ${
                         formData.showAboutImage
                           ? 'bg-green-600 hover:bg-green-700 text-white'
                           : 'bg-slate-600 hover:bg-slate-500 text-slate-300'
@@ -620,7 +620,7 @@ export default function SettingsPage() {
                 type="text"
                 value={formData.contactHeading}
                 onChange={(e) => setFormData({ ...formData, contactHeading: e.target.value })}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="Let's Connect"
               />
             </div>
@@ -630,7 +630,7 @@ export default function SettingsPage() {
                 value={formData.contactDescription}
                 onChange={(e) => setFormData({ ...formData, contactDescription: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
                 placeholder="I'm always open to discussing new projects..."
               />
             </div>
@@ -653,7 +653,7 @@ export default function SettingsPage() {
                     onChange={handleFileChange}
                     className="hidden"
                   />
-                  <div className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
+                  <div className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
                     <Upload className="w-4 h-4" />
                     {resumeFile ? resumeFile.name : 'Choose PDF File'}
                   </div>
@@ -663,7 +663,7 @@ export default function SettingsPage() {
                     type="button"
                     onClick={handleUploadResume}
                     disabled={uploading}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    className="px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                   >
                     <Upload className="w-4 h-4" />
                     {uploading ? 'Uploading...' : 'Upload'}
@@ -677,7 +677,7 @@ export default function SettingsPage() {
 
             {/* Current Resume Display */}
             {formData.resumeUrl && (
-              <div className="p-4 bg-slate-700 border border-slate-600 rounded-lg">
+              <div className="p-4 bg-slate-700 border border-slate-600 rounded-none">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <FileText className="w-5 h-5 text-purple-400" />
@@ -693,7 +693,7 @@ export default function SettingsPage() {
                   <button
                     type="button"
                     onClick={handleDeleteResume}
-                    className="p-2 text-red-400 hover:text-red-300 hover:bg-slate-600 rounded-lg transition-colors"
+                    className="p-2 text-red-400 hover:text-red-300 hover:bg-slate-600 rounded-none transition-colors"
                     title="Delete Resume"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -712,7 +712,7 @@ export default function SettingsPage() {
                   type="url"
                   value={formData.resumeUrl && !formData.resumeUrl.startsWith('/storage/') && !formData.resumeUrl.includes('blob.vercel-storage.com') ? formData.resumeUrl : ''}
                   onChange={(e) => setFormData({ ...formData, resumeUrl: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="https://drive.google.com/file/d/... or any external URL"
                 />
                 <p className="mt-2 text-sm text-slate-400">
@@ -737,7 +737,7 @@ export default function SettingsPage() {
                     socialLinks: { ...formData.socialLinks, github: e.target.value },
                   })
                 }
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
             <div>
@@ -751,7 +751,7 @@ export default function SettingsPage() {
                     socialLinks: { ...formData.socialLinks, linkedin: e.target.value },
                   })
                 }
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
             <div>
@@ -765,7 +765,7 @@ export default function SettingsPage() {
                     socialLinks: { ...formData.socialLinks, twitter: e.target.value },
                   })
                 }
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
             <div>
@@ -779,7 +779,7 @@ export default function SettingsPage() {
                     socialLinks: { ...formData.socialLinks, email: e.target.value },
                   })
                 }
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
             <div>
@@ -793,7 +793,7 @@ export default function SettingsPage() {
                     socialLinks: { ...formData.socialLinks, portfolio: e.target.value },
                   })
                 }
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
             <div>
@@ -807,7 +807,7 @@ export default function SettingsPage() {
                     socialLinks: { ...formData.socialLinks, whatsapp: e.target.value },
                   })
                 }
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="919999999999"
               />
             </div>
@@ -817,7 +817,7 @@ export default function SettingsPage() {
         <button
           type="submit"
           disabled={saving}
-          className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           <Save className="w-5 h-5" />
           {saving ? 'Saving...' : 'Save Settings'}

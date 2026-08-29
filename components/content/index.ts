@@ -1,0 +1,23 @@
+export { Plate, type PlateProps } from './Plate';
+export { SectionHeader, type SectionHeaderProps } from './SectionHeader';
+export { MetaLine, type MetaLineProps } from './MetaLine';
+export { YearRail, type YearRailProps } from './YearRail';
+export { FeaturedProject, type FeaturedProjectProps } from './FeaturedProject';
+export { ProjectRow, type ProjectRowProps } from './ProjectRow';
+export { ProjectCard, type ProjectCardProps } from './ProjectCard';
+export { ExperienceRow, type ExperienceRowProps } from './ExperienceRow';
+export { ExperienceTimeline, type ExperienceTimelineProps } from './ExperienceTimeline';
+export { CapabilityGroup, type CapabilityGroupProps } from './CapabilityGroup';
+export { ActivityStat, type ActivityStatProps } from './ActivityStat';
+export { ContributionGraph, type ContributionGraphProps } from './ContributionGraph';
+export { RepoRow, type RepoRowProps } from './RepoRow';
+export { Portrait, type PortraitProps } from './Portrait';
+export { CopyButton, type CopyButtonProps } from './CopyButton';
+export { ContactForm, type ContactFormProps, type ContactFormValues, type ContactFormStatus } from './ContactForm';
+export { ContactDetails, type ContactDetailsProps } from './ContactDetails';
+export { CaseStudyRecap, type CaseStudyRecapProps } from './CaseStudyRecap';
+export { CaseStudyBody, type CaseStudyBodyProps, type CaseStudySectionData } from './CaseStudyBody';
+export { CaseStudyPager, type CaseStudyPagerProps } from './CaseStudyPager';
+export { HeroMetrics, type HeroMetricsProps } from './HeroMetrics';
+export { HeroCarousel, type HeroCarouselProps } from './HeroCarousel';
+

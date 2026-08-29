@@ -1,10 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // React Three Fiber components are loaded via dynamic imports with ssr: false
-  // No additional webpack/turbopack configuration needed
+  trailingSlash: false,
   images: {
-    qualities: [10, 75],
+    qualities: [75, 90],
     remotePatterns: [
       {
         protocol: 'https',
@@ -24,7 +23,59 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'github.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/blog',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/blog/:slug*',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/projects',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+        ],
+      },
+    ];
   },
 };
 

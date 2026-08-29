@@ -19,10 +19,12 @@ const ExperienceSchema: Schema = new Schema(
     company: {
       type: String,
       required: [true, 'Company is required'],
+      trim: true,
     },
     role: {
       type: String,
       required: [true, 'Role is required'],
+      trim: true,
     },
     startDate: {
       type: Date,
@@ -41,9 +43,11 @@ const ExperienceSchema: Schema = new Schema(
     },
     location: {
       type: String,
+      trim: true,
     },
     logo: {
       type: String,
+      trim: true,
     },
     order: {
       type: Number,
@@ -55,7 +59,7 @@ const ExperienceSchema: Schema = new Schema(
   }
 );
 
-const Experience: Model<IExperience> = mongoose.models.Experience || mongoose.model<IExperience>('Experience', ExperienceSchema);
+const Experience: Model<IExperience> =
+  mongoose.models.Experience || mongoose.model<IExperience>('Experience', ExperienceSchema);
 
 export default Experience;
-

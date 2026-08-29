@@ -49,7 +49,7 @@ export default function ExperiencePage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-white">Experience</h1>
         <Link
           href="/admin/experience/new"
-          className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center"
+          className="px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center"
         >
           <Plus className="w-5 h-5" />
           Add Experience
@@ -60,7 +60,7 @@ export default function ExperiencePage() {
         {experiences.map((exp) => (
           <div
             key={exp._id?.toString()}
-            className="bg-slate-800 rounded-lg p-6 border border-slate-700"
+            className="bg-slate-800 rounded-none p-6 border border-slate-700"
           >
             <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
               <div className="flex-1">
@@ -78,13 +78,13 @@ export default function ExperiencePage() {
               <div className="flex gap-2">
                 <Link
                   href={`/admin/experience/${exp._id}`}
-                  className="p-2 bg-slate-700 text-white rounded hover:bg-slate-600 transition-colors"
+                  className="p-2 bg-slate-700 text-white rounded-none hover:bg-slate-600 transition-colors"
                 >
                   <Edit className="w-4 h-4" />
                 </Link>
                 <button
                   onClick={() => handleDelete(exp._id!.toString())}
-                  className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                  className="p-2 bg-red-600 text-white rounded-none hover:bg-red-700 transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

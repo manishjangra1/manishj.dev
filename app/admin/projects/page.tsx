@@ -48,7 +48,7 @@ export default function ProjectsPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-white">Projects</h1>
         <Link
           href="/admin/projects/new"
-          className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center"
+          className="px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center"
         >
           <Plus className="w-5 h-5" />
           Add Project
@@ -59,10 +59,10 @@ export default function ProjectsPage() {
         {projects.map((project) => (
           <div
             key={project._id?.toString()}
-            className="bg-slate-800 rounded-lg p-6 border border-slate-700 relative"
+            className="bg-slate-800 rounded-none p-6 border border-slate-700 relative"
           >
             {project.isCurrentlyWorking && (
-              <div className="absolute top-3 right-3 px-2 py-1 bg-purple-600 rounded-full flex items-center gap-1.5 text-xs font-semibold text-white">
+              <div className="absolute top-3 right-3 px-2 py-1 bg-purple-600 rounded-none flex items-center gap-1.5 text-xs font-semibold text-white">
                 <Sparkles className="w-3 h-3" />
                 Working On
               </div>
@@ -70,7 +70,7 @@ export default function ProjectsPage() {
             <div className="flex items-center gap-2 mb-2">
               <h3 className="text-xl font-semibold text-white">{project.title}</h3>
               {project.isCurrentlyWorking && (
-                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+                <div className="w-2 h-2 bg-purple-500 rounded-none animate-pulse" />
               )}
             </div>
             <p className="text-slate-400 text-sm mb-4 line-clamp-2">{project.description}</p>
@@ -78,7 +78,7 @@ export default function ProjectsPage() {
               {project.technologies?.slice(0, 3).map((tech) => (
                 <span
                   key={tech}
-                  className="px-2 py-1 text-xs bg-slate-700 rounded text-slate-300"
+                  className="px-2 py-1 text-xs bg-slate-700 rounded-none text-slate-300"
                 >
                   {tech}
                 </span>
@@ -87,14 +87,14 @@ export default function ProjectsPage() {
             <div className="flex gap-2">
               <Link
                 href={`/admin/projects/${project._id}`}
-                className="flex-1 px-3 py-2 bg-slate-700 text-white rounded hover:bg-slate-600 transition-colors flex items-center justify-center gap-2 text-sm"
+                className="flex-1 px-3 py-2 bg-slate-700 text-white rounded-none hover:bg-slate-600 transition-colors flex items-center justify-center gap-2 text-sm"
               >
                 <Edit className="w-4 h-4" />
                 Edit
               </Link>
               <button
                 onClick={() => handleDelete(project._id!.toString())}
-                className="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                className="px-3 py-2 bg-red-600 text-white rounded-none hover:bg-red-700 transition-colors"
               >
                 <Trash2 className="w-4 h-4" />
               </button>

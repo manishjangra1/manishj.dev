@@ -71,7 +71,7 @@ export default function SkillFormPage() {
       <div className="flex items-center gap-4 mb-8">
         <Link
           href="/admin/skills"
-          className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+          className="p-2 hover:bg-slate-800 rounded-none transition-colors"
         >
           <ArrowLeft className="w-5 h-5 text-white" />
         </Link>
@@ -80,7 +80,7 @@ export default function SkillFormPage() {
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-lg p-6 border border-slate-700 space-y-6 max-w-2xl">
+      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-none p-6 border border-slate-700 space-y-6 max-w-2xl">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">Name</label>
           <input
@@ -88,7 +88,7 @@ export default function SkillFormPage() {
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -97,7 +97,7 @@ export default function SkillFormPage() {
           <select
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           >
             <option value="frontend">Frontend</option>
             <option value="backend">Backend</option>
@@ -112,7 +112,7 @@ export default function SkillFormPage() {
             type="url"
             value={formData.icon}
             onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -136,14 +136,14 @@ export default function SkillFormPage() {
             type="number"
             value={formData.order}
             onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           <Save className="w-5 h-5" />
           {loading ? 'Saving...' : 'Save Skill'}

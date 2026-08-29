@@ -186,7 +186,7 @@ export default function BlogFormPage() {
       <div className="flex items-center gap-4 mb-8">
         <Link
           href="/admin/blog"
-          className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+          className="p-2 hover:bg-slate-800 rounded-none transition-colors"
         >
           <ArrowLeft className="w-5 h-5 text-white" />
         </Link>
@@ -195,7 +195,7 @@ export default function BlogFormPage() {
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-lg p-6 border border-slate-700 space-y-6">
+      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-none p-6 border border-slate-700 space-y-6">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">Title</label>
           <input
@@ -203,7 +203,7 @@ export default function BlogFormPage() {
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             required
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -214,7 +214,7 @@ export default function BlogFormPage() {
             value={formData.slug}
             onChange={(e) => setFormData({ ...formData, slug: slugify(e.target.value) })}
             required
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
@@ -225,7 +225,7 @@ export default function BlogFormPage() {
             onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
             required
             rows={3}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
           />
         </div>
 
@@ -236,7 +236,7 @@ export default function BlogFormPage() {
             onChange={(e) => setFormData({ ...formData, content: e.target.value })}
             required
             rows={15}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none font-mono text-sm"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none font-mono text-sm"
           />
         </div>
 
@@ -252,7 +252,7 @@ export default function BlogFormPage() {
                   onChange={handleImageChange}
                   className="hidden"
                 />
-                <div className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
+                <div className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
                   <ImageIcon className="w-4 h-4" />
                   {imageFile ? imageFile.name : 'Choose Image File'}
                 </div>
@@ -262,7 +262,7 @@ export default function BlogFormPage() {
                   type="button"
                   onClick={handleUploadImage}
                   disabled={uploadingImage}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <Upload className="w-4 h-4" />
                   {uploadingImage ? 'Uploading...' : 'Upload'}
@@ -275,7 +275,7 @@ export default function BlogFormPage() {
 
             {/* Current Image Display */}
             {formData.coverImage && (
-              <div className="p-4 bg-slate-700 border border-slate-600 rounded-lg">
+              <div className="p-4 bg-slate-700 border border-slate-600 rounded-none">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <ImageIcon className="w-5 h-5 text-purple-400" />
@@ -291,13 +291,13 @@ export default function BlogFormPage() {
                   <button
                     type="button"
                     onClick={handleDeleteImage}
-                    className="p-2 text-red-400 hover:text-red-300 hover:bg-slate-600 rounded-lg transition-colors"
+                    className="p-2 text-red-400 hover:text-red-300 hover:bg-slate-600 rounded-none transition-colors"
                     title="Delete Image"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
-                <div className="relative w-full h-48 rounded-lg overflow-hidden border border-slate-600">
+                <div className="relative w-full h-48 rounded-none overflow-hidden border border-slate-600">
                   <img
                     src={formData.coverImage}
                     alt="Cover preview"
@@ -317,7 +317,7 @@ export default function BlogFormPage() {
                   type="url"
                   value={formData.coverImage && !formData.coverImage.startsWith('/storage/') && !formData.coverImage.includes('blob.vercel-storage.com') ? formData.coverImage : ''}
                   onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                  className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="https://example.com/image.jpg"
                 />
               </div>
@@ -334,12 +334,12 @@ export default function BlogFormPage() {
               onChange={(e) => setTagInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
               placeholder="Add tag"
-              className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             <button
               type="button"
               onClick={addTag}
-              className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white hover:bg-slate-600 transition-colors"
+              className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white hover:bg-slate-600 transition-colors"
             >
               Add
             </button>
@@ -348,7 +348,7 @@ export default function BlogFormPage() {
             {formData.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 bg-slate-700 rounded-lg text-white text-sm flex items-center gap-2"
+                className="px-3 py-1 bg-slate-700 rounded-none text-white text-sm flex items-center gap-2"
               >
                 {tag}
                 <button
@@ -387,7 +387,7 @@ export default function BlogFormPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           <Save className="w-5 h-5" />
           {loading ? 'Saving...' : 'Save Post'}

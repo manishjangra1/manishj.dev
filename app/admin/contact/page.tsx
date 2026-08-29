@@ -72,7 +72,7 @@ export default function ContactPage() {
         <div className="flex gap-2 w-full sm:w-auto">
           <button
             onClick={() => setFilter('all')}
-            className={`flex-1 sm:flex-none px-4 py-2 rounded-lg transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-2 rounded-none transition-colors ${
               filter === 'all'
                 ? 'bg-purple-600 text-white'
                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -82,7 +82,7 @@ export default function ContactPage() {
           </button>
           <button
             onClick={() => setFilter('unread')}
-            className={`flex-1 sm:flex-none px-4 py-2 rounded-lg transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-2 rounded-none transition-colors ${
               filter === 'unread'
                 ? 'bg-purple-600 text-white'
                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -92,7 +92,7 @@ export default function ContactPage() {
           </button>
           <button
             onClick={() => setFilter('read')}
-            className={`flex-1 sm:flex-none px-4 py-2 rounded-lg transition-colors ${
+            className={`flex-1 sm:flex-none px-4 py-2 rounded-none transition-colors ${
               filter === 'read'
                 ? 'bg-purple-600 text-white'
                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
@@ -107,7 +107,7 @@ export default function ContactPage() {
         {filteredMessages.map((message) => (
           <div
             key={message._id?.toString()}
-            className={`bg-slate-800 rounded-lg p-6 border ${
+            className={`bg-slate-800 rounded-none p-6 border ${
               message.read ? 'border-slate-700' : 'border-purple-500'
             }`}
           >
@@ -116,7 +116,7 @@ export default function ContactPage() {
                 <div className="flex flex-wrap items-center gap-3 mb-2">
                   <h3 className="text-lg font-semibold text-white break-words">{message.name}</h3>
                   {!message.read && (
-                    <span className="px-2 py-1 text-xs bg-purple-600 text-white rounded whitespace-nowrap">New</span>
+                    <span className="px-2 py-1 text-xs bg-purple-600 text-white rounded-none whitespace-nowrap">New</span>
                   )}
                 </div>
                 <p className="text-slate-400 text-sm break-all">{message.email}</p>
@@ -128,7 +128,7 @@ export default function ContactPage() {
                 {!message.read && (
                   <button
                     onClick={() => handleMarkAsRead(message._id!.toString())}
-                    className="p-2 bg-slate-700 text-white rounded hover:bg-slate-600 transition-colors"
+                    className="p-2 bg-slate-700 text-white rounded-none hover:bg-slate-600 transition-colors"
                     title="Mark as read"
                   >
                     <Check className="w-4 h-4" />
@@ -136,7 +136,7 @@ export default function ContactPage() {
                 )}
                 <button
                   onClick={() => handleDelete(message._id!.toString())}
-                  className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                  className="p-2 bg-red-600 text-white rounded-none hover:bg-red-700 transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
