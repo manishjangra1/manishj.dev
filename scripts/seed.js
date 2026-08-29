@@ -90,9 +90,21 @@ const SettingsSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const SkillSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    category: { type: String, required: true },
+    icon: { type: String },
+    proficiency: { type: Number, default: 85 },
+    order: { type: Number, default: 0 },
+  },
+  { timestamps: true }
+);
+
 const Project = mongoose.models.Project || mongoose.model('Project', ProjectSchema);
 const Experience = mongoose.models.Experience || mongoose.model('Experience', ExperienceSchema);
 const Settings = mongoose.models.Settings || mongoose.model('Settings', SettingsSchema);
+const Skill = mongoose.models.Skill || mongoose.model('Skill', SkillSchema);
 
 const seedProjects = [
   {
@@ -299,6 +311,38 @@ const seedSettings = {
   },
 };
 
+const seedSkills = [
+  { name: 'React Native', category: 'Clients', proficiency: 92, order: 1 },
+  { name: 'Expo', category: 'Clients', proficiency: 90, order: 2 },
+  { name: 'Next.js', category: 'Clients', proficiency: 94, order: 3 },
+  { name: 'React', category: 'Clients', proficiency: 95, order: 4 },
+  { name: 'TypeScript', category: 'Clients', proficiency: 92, order: 5 },
+  { name: 'Tailwind CSS', category: 'Clients', proficiency: 90, order: 6 },
+  { name: 'JavaScript', category: 'Clients', proficiency: 95, order: 7 },
+  { name: 'HTML5 & CSS3', category: 'Clients', proficiency: 95, order: 8 },
+  { name: 'Framer Motion', category: 'Clients', proficiency: 85, order: 9 },
+  { name: 'Three.js', category: 'Clients', proficiency: 75, order: 10 },
+  { name: 'NestJS', category: 'Servers', proficiency: 92, order: 1 },
+  { name: 'Node.js', category: 'Servers', proficiency: 94, order: 2 },
+  { name: 'Express.js', category: 'Servers', proficiency: 90, order: 3 },
+  { name: 'REST APIs', category: 'Servers', proficiency: 95, order: 4 },
+  { name: 'GraphQL', category: 'Servers', proficiency: 85, order: 5 },
+  { name: 'Microservices', category: 'Servers', proficiency: 88, order: 6 },
+  { name: 'PostgreSQL', category: 'Servers', proficiency: 90, order: 7 },
+  { name: 'MongoDB', category: 'Servers', proficiency: 90, order: 8 },
+  { name: 'Redis', category: 'Servers', proficiency: 85, order: 9 },
+  { name: 'Prisma ORM', category: 'Servers', proficiency: 90, order: 10 },
+  { name: 'Python', category: 'Servers', proficiency: 82, order: 11 },
+  { name: 'Docker', category: 'Platform', proficiency: 85, order: 1 },
+  { name: 'Git & GitHub', category: 'Platform', proficiency: 95, order: 2 },
+  { name: 'AWS Cloud', category: 'Platform', proficiency: 80, order: 3 },
+  { name: 'Socket.io', category: 'Platform', proficiency: 88, order: 4 },
+  { name: 'CI/CD Pipelines', category: 'Platform', proficiency: 82, order: 5 },
+  { name: 'Postman', category: 'Platform', proficiency: 90, order: 6 },
+  { name: 'Jest / Testing', category: 'Platform', proficiency: 85, order: 7 },
+  { name: 'UI/UX Design / Figma', category: 'Platform', proficiency: 82, order: 8 },
+];
+
 async function seed() {
   const uri = process.env.MONGODB_URI;
   if (!uri) {
@@ -309,10 +353,11 @@ async function seed() {
   console.log('Connecting to MongoDB...');
   await mongoose.connect(uri);
 
-  console.log('Clearing old projects, experiences, and settings...');
+  console.log('Clearing old projects, experiences, settings, and skills...');
   await Project.deleteMany({});
   await Experience.deleteMany({});
   await Settings.deleteMany({});
+  await Skill.deleteMany({});
 
   console.log('Inserting seed projects...');
   await Project.insertMany(seedProjects);
@@ -322,6 +367,9 @@ async function seed() {
 
   console.log('Inserting seed settings...');
   await Settings.create(seedSettings);
+
+  console.log('Inserting seed skills...');
+  await Skill.insertMany(seedSkills);
 
   console.log('Seeding complete successfully!');
   await mongoose.disconnect();

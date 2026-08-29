@@ -36,6 +36,8 @@ export function PixelPlaneCursor() {
 
   const planeRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<Particle[]>([]);
+  const particleIdCounterRef = useRef(0);
+  const hasInitRef = useRef(false);
   const [, setParticleTick] = useState(0);
   const lastParticleTime = useRef(0);
 
@@ -47,11 +49,14 @@ export function PixelPlaneCursor() {
     setMounted(true);
 
     const handleMouseMove = (e: MouseEvent) => {
-      posRef.current.targetX = e.clientX;
-      posRef.current.targetY = e.clientY;
-      if (!visible) {
-        posRef.current.currentX = e.clientX;
-        posRef.current.currentY = e.clientY;
+      const { clientX, clientY } = e;
+      posRef.current.targetX = clientX;
+      posRef.current.targetY = clientY;
+
+      if (!hasInitRef.current) {
+        hasInitRef.current = true;
+        posRef.current.currentX = clientX;
+        posRef.current.currentY = clientY;
         setVisible(true);
       }
     };
@@ -69,7 +74,6 @@ export function PixelPlaneCursor() {
     document.addEventListener('mouseenter', handleMouseEnter);
 
     let animationFrameId: number;
-    let particleIdCounter = 0;
 
     const animate = (timestamp: number) => {
       const pos = posRef.current;
@@ -77,54 +81,54 @@ export function PixelPlaneCursor() {
       const dy = pos.targetY - pos.currentY;
       const distance = Math.hypot(dx, dy);
 
-      // Smooth, deliberate pursuit flight physics (gentle follow speed)
-      const lerpSpeed = 0.055;
+      // Smooth pursuit flight physics (aerodynamic follow speed)
+      const lerpSpeed = 0.075;
       pos.currentX += dx * lerpSpeed;
       pos.currentY += dy * lerpSpeed;
 
       // Calculate directional flight angle when moving
-      if (distance > 1.2) {
+      if (distance > 1.0) {
         const targetAngle = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
-        pos.angle = lerpAngle(pos.angle, targetAngle, 0.08);
+        pos.angle = lerpAngle(pos.angle, targetAngle, 0.1);
       } else {
         // Subtle floating idle motion
-        pos.idleTimer += 0.035;
+        pos.idleTimer += 0.04;
       }
 
       // Update plane DOM transform directly for max 120fps performance
       if (planeRef.current) {
-        const idleOffsetY = distance <= 1.5 ? Math.sin(pos.idleTimer) * 2.5 : 0;
-        const idleBank = distance <= 1.5 ? Math.cos(pos.idleTimer * 0.7) * 5 : 0;
+        const idleOffsetY = distance <= 2.0 ? Math.sin(pos.idleTimer) * 3 : 0;
+        const idleBank = distance <= 2.0 ? Math.cos(pos.idleTimer * 0.8) * 6 : 0;
         const finalAngle = pos.angle + idleBank;
 
         planeRef.current.style.transform = `translate3d(${pos.currentX}px, ${pos.currentY + idleOffsetY}px, 0) translate(-50%, -50%) rotate(${finalAngle}deg)`;
       }
 
       // Spawn dense pixel exhaust smoke particles behind the engine
-      if (distance > 1.8 && timestamp - lastParticleTime.current > 20) {
+      if (distance > 1.5 && timestamp - lastParticleTime.current > 18) {
         lastParticleTime.current = timestamp;
         const rad = ((pos.angle - 90) * Math.PI) / 180;
         const perpRad = rad + Math.PI / 2;
 
         // Spawn twin contrail streams behind wings/engines
-        [-3, 3].forEach((lateralOffset) => {
-          const exhaustX = pos.currentX - Math.cos(rad) * 12 + Math.cos(perpRad) * lateralOffset;
-          const exhaustY = pos.currentY - Math.sin(rad) * 12 + Math.sin(perpRad) * lateralOffset;
+        [-4, 4].forEach((lateralOffset) => {
+          const exhaustX = pos.currentX - Math.cos(rad) * 14 + Math.cos(perpRad) * lateralOffset;
+          const exhaustY = pos.currentY - Math.sin(rad) * 14 + Math.sin(perpRad) * lateralOffset;
 
           particlesRef.current.push({
-            id: ++particleIdCounter,
+            id: ++particleIdCounterRef.current,
             x: exhaustX + (Math.random() - 0.5) * 2,
             y: exhaustY + (Math.random() - 0.5) * 2,
-            opacity: 0.9,
+            opacity: 0.95,
             size: Math.random() > 0.4 ? 4 : 3,
-            vx: -Math.cos(rad) * 0.4 + (Math.random() - 0.5) * 0.3,
-            vy: -Math.sin(rad) * 0.4 + (Math.random() - 0.5) * 0.3,
+            vx: -Math.cos(rad) * 0.5 + (Math.random() - 0.5) * 0.3,
+            vy: -Math.sin(rad) * 0.5 + (Math.random() - 0.5) * 0.3,
           });
         });
 
         // Cap maximum active particles for high density without lag
-        if (particlesRef.current.length > 40) {
-          particlesRef.current.splice(0, particlesRef.current.length - 40);
+        if (particlesRef.current.length > 50) {
+          particlesRef.current.splice(0, particlesRef.current.length - 50);
         }
       }
 
@@ -133,7 +137,7 @@ export function PixelPlaneCursor() {
         particlesRef.current.forEach((p) => {
           p.x += p.vx;
           p.y += p.vy;
-          p.opacity -= 0.016; // Slower fade for dense visible trail
+          p.opacity -= 0.014; // Dense visible smoke trail
         });
         particlesRef.current = particlesRef.current.filter((p) => p.opacity > 0);
         setParticleTick(timestamp);
@@ -150,9 +154,9 @@ export function PixelPlaneCursor() {
       document.removeEventListener('mouseenter', handleMouseEnter);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [prefersReducedMotion, visible]);
+  }, [prefersReducedMotion]);
 
-  if (!mounted || prefersReducedMotion) return null;
+  if (!mounted || prefersReducedMotion || !visible) return null;
 
   return (
     <div
@@ -178,49 +182,41 @@ export function PixelPlaneCursor() {
       {/* Pixelated Aeroplane Body */}
       <div
         ref={planeRef}
-        className={`absolute top-0 left-0 text-[var(--color-text)] transition-opacity duration-300 ${
-          visible ? 'opacity-90' : 'opacity-0'
-        }`}
-        style={{ willChange: 'transform' }}
+        className="absolute top-0 left-0 will-change-transform drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+        style={{
+          transform: 'translate3d(-100px, -100px, 0)',
+        }}
       >
         <svg
-          viewBox="0 0 24 24"
           width="24"
           height="24"
+          viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]"
+          className="overflow-visible"
         >
-          {/* Nose Tip */}
-          <rect x="11" y="2" width="2" height="2" fill="currentColor" />
+          {/* Main Fuselage / Nose */}
+          <rect x="11" y="2" width="2" height="14" fill="var(--color-text)" />
+          <rect x="10" y="4" width="4" height="10" fill="var(--color-text)" />
+          <rect x="9" y="7" width="6" height="5" fill="var(--color-text)" />
 
-          {/* Forward Fuselage */}
-          <rect x="10" y="4" width="4" height="3" fill="currentColor" />
+          {/* Wings */}
+          <rect x="3" y="10" width="18" height="2" fill="var(--color-text)" />
+          <rect x="5" y="9" width="14" height="1" fill="var(--color-text)" />
+          <rect x="1" y="11" width="22" height="1" fill="var(--color-text-secondary)" />
 
-          {/* Cockpit Glass Pixel */}
-          <rect x="11" y="5" width="2" height="2" fill="var(--color-bg)" />
+          {/* Cockpit Canopy Glass */}
+          <rect x="11" y="5" width="2" height="3" fill="var(--color-bg)" />
+          <rect x="10" y="6" width="4" height="2" fill="var(--color-bg)" />
 
-          {/* Main Fuselage Body */}
-          <rect x="10" y="7" width="4" height="8" fill="currentColor" />
+          {/* Tail Wings & Rudder */}
+          <rect x="7" y="15" width="10" height="1.5" fill="var(--color-text)" />
+          <rect x="11" y="14" width="2" height="3" fill="var(--color-text)" />
+          <rect x="10" y="17" width="4" height="1" fill="var(--color-text-secondary)" />
 
-          {/* Main Wings (Sharp Pixel Step Grid) */}
-          <rect x="2" y="9" width="20" height="2" fill="currentColor" />
-          <rect x="4" y="11" width="16" height="2" fill="currentColor" />
-          <rect x="7" y="13" width="10" height="1" fill="currentColor" />
-
-          {/* Wingtip Beacon Details */}
-          <rect x="2" y="9" width="2" height="2" fill="var(--color-text-muted)" />
-          <rect x="20" y="9" width="2" height="2" fill="var(--color-text-muted)" />
-
-          {/* Tail Wings (Stabilizers) */}
-          <rect x="5" y="17" width="14" height="2" fill="currentColor" />
-          <rect x="8" y="19" width="8" height="1" fill="currentColor" />
-
-          {/* Tail Fin */}
-          <rect x="11" y="15" width="2" height="4" fill="currentColor" />
-
-          {/* Engine Exhaust Nozzle */}
-          <rect x="10" y="20" width="4" height="1" fill="var(--color-text-muted)" />
+          {/* Engine Exhaust Ports */}
+          <rect x="8" y="12" width="2" height="2" fill="var(--color-text-muted)" />
+          <rect x="14" y="12" width="2" height="2" fill="var(--color-text-muted)" />
         </svg>
       </div>
     </div>

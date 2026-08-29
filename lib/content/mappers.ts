@@ -38,6 +38,7 @@ export interface ProjectDbDoc {
     approach?: string[];
     highlights?: string[];
     outcome?: string[];
+    sections?: Array<{ title?: string; content?: string | string[] }>;
     figure?: {
       src: string;
       alt: string;
@@ -67,6 +68,8 @@ export interface SettingsDbDoc {
   showAboutImage?: boolean;
   contactHeading?: string;
   contactDescription?: string;
+  githubUsername?: string;
+  avatarUrl?: string;
   resumeUrl?: string;
   socialLinks?: {
     github?: string;
@@ -188,11 +191,14 @@ export function toExperienceRowProps(expDoc: ExperienceDbDoc): ExperienceRowData
     expDoc.current
   );
 
+  let bullets: string[] = [];
   let summary = '';
   if (Array.isArray(expDoc.description) && expDoc.description.length > 0) {
-    summary = expDoc.description.slice(0, 2).join(' ');
+    bullets = expDoc.description.filter((b) => typeof b === 'string' && b.trim().length > 0);
+    summary = bullets[0] || '';
   } else if (typeof expDoc.description === 'string') {
     summary = expDoc.description;
+    bullets = [expDoc.description];
   }
 
   return {
@@ -202,24 +208,50 @@ export function toExperienceRowProps(expDoc: ExperienceDbDoc): ExperienceRowData
     company: expDoc.company,
     location: expDoc.location || 'Chandigarh, India',
     summary: summary || 'Building and shipping production systems.',
+    bullets: bullets.length > 0 ? bullets : undefined,
     current: Boolean(expDoc.current),
   };
 }
 
 /**
- * Transforms Settings DB capabilities to CapabilityGroupData[].
+ * Transforms Settings DB capabilities or Skill DB documents to CapabilityGroupData[].
  */
-export function toCapabilityGroupProps(settingsDoc?: SettingsDbDoc | null): CapabilityGroupData[] {
+export function toCapabilityGroupProps(
+  settingsDoc?: SettingsDbDoc | null,
+  skillsDocs?: Array<{ name: string; category: string; order?: number }>
+): CapabilityGroupData[] {
   if (
     settingsDoc?.capabilities &&
     Array.isArray(settingsDoc.capabilities) &&
-    settingsDoc.capabilities.length >= 3
+    settingsDoc.capabilities.length > 0
   ) {
     return settingsDoc.capabilities.map((c) => ({
       label: c.label,
       items: Array.isArray(c.items) ? c.items : [],
     }));
   }
+
+  // If settings capabilities are empty but skills collection has entries, group by category
+  if (skillsDocs && Array.isArray(skillsDocs) && skillsDocs.length > 0) {
+    const categoryMap: Record<string, string[]> = {};
+    skillsDocs.forEach((s) => {
+      const cat = (s.category || 'Other').toUpperCase();
+      if (!categoryMap[cat]) categoryMap[cat] = [];
+      if (!categoryMap[cat].includes(s.name)) {
+        categoryMap[cat].push(s.name);
+      }
+    });
+
+    const groups = Object.entries(categoryMap).map(([label, items]) => ({
+      label,
+      items,
+    }));
+
+    if (groups.length > 0) {
+      return groups;
+    }
+  }
+
   return [
     {
       label: 'Clients',
@@ -246,16 +278,22 @@ export function toAboutProps(settingsDoc?: SettingsDbDoc | null): AboutSectionPr
 
   const finalParagraphs = paragraphs.length > 0 ? paragraphs : ABOUT_PARAGRAPHS;
 
-  const portrait =
-    settingsDoc?.aboutImage && settingsDoc.showAboutImage !== false
-      ? {
-          src: settingsDoc.aboutImage,
-          alt: settingsDoc.heroName || 'Manish Jangra',
-        }
-      : {
-          src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=640&auto=format&fit=crop',
-          alt: 'Manish Jangra',
-        };
+  const githubUser = settingsDoc?.githubUsername || 'manishjangra1';
+  const githubAvatar =
+    settingsDoc?.avatarUrl ||
+    (githubUser === 'manishjangra1'
+      ? 'https://avatars.githubusercontent.com/u/129877551?v=4'
+      : `https://github.com/${githubUser}.png`);
+
+  const portraitSrc =
+    settingsDoc?.aboutImage && settingsDoc.aboutImage.trim() !== '' && settingsDoc.showAboutImage !== false
+      ? settingsDoc.aboutImage
+      : githubAvatar;
+
+  const portrait = {
+    src: portraitSrc,
+    alt: settingsDoc?.heroName || 'Manish Jangra',
+  };
 
   return {
     header: {
@@ -295,48 +333,64 @@ export function toCaseStudyData(
   const sections: CaseStudyData['sections'] = [];
 
   if (caseStudy) {
-    if (caseStudy.problem && caseStudy.problem.length > 0) {
-      sections.push({
-        heading: 'Problem',
-        paragraphs: caseStudy.problem,
-      });
-    }
-    if (caseStudy.role && caseStudy.role.length > 0) {
-      sections.push({
-        heading: 'Role and Constraints',
-        paragraphs: caseStudy.role,
-      });
-    }
-    if (caseStudy.approach && caseStudy.approach.length > 0) {
-      const isDuplicateFigure =
-        caseStudy.figure?.src &&
-        (caseStudy.figure.src === projectDoc.image ||
-          (projectDoc.image && typeof projectDoc.image === 'string' && caseStudy.figure.src.includes(projectDoc.image)));
+    if (caseStudy.sections && caseStudy.sections.length > 0) {
+      caseStudy.sections.forEach((s: { title?: string; content?: string | string[] }, idx: number) => {
+        if (!s.title && !s.content) return;
+        const paragraphs = Array.isArray(s.content)
+          ? s.content
+          : typeof s.content === 'string'
+          ? s.content.split('\n\n').map((p: string) => p.trim()).filter(Boolean)
+          : [];
 
-      sections.push({
-        heading: 'Approach & Architecture',
-        paragraphs: caseStudy.approach,
-        figure:
-          caseStudy.figure?.src && !isDuplicateFigure
-            ? {
-                src: caseStudy.figure.src,
-                alt: caseStudy.figure.alt || 'Architecture diagram',
-                caption: caseStudy.figure.caption,
-              }
-            : undefined,
+        sections.push({
+          heading: s.title || `Section 0${idx + 1}`,
+          paragraphs: paragraphs.length > 0 ? paragraphs : [String(s.content || '')],
+        });
       });
-    }
-    if (caseStudy.highlights && caseStudy.highlights.length > 0) {
-      sections.push({
-        heading: 'Highlights',
-        paragraphs: caseStudy.highlights,
-      });
-    }
-    if (caseStudy.outcome && caseStudy.outcome.length > 0) {
-      sections.push({
-        heading: 'Outcome & Status',
-        paragraphs: caseStudy.outcome,
-      });
+    } else {
+      if (caseStudy.problem && caseStudy.problem.length > 0) {
+        sections.push({
+          heading: 'Problem',
+          paragraphs: caseStudy.problem,
+        });
+      }
+      if (caseStudy.role && caseStudy.role.length > 0) {
+        sections.push({
+          heading: 'Role and Constraints',
+          paragraphs: caseStudy.role,
+        });
+      }
+      if (caseStudy.approach && caseStudy.approach.length > 0) {
+        const isDuplicateFigure =
+          caseStudy.figure?.src &&
+          (caseStudy.figure.src === projectDoc.image ||
+            (projectDoc.image && typeof projectDoc.image === 'string' && caseStudy.figure.src.includes(projectDoc.image)));
+
+        sections.push({
+          heading: 'Approach & Architecture',
+          paragraphs: caseStudy.approach,
+          figure:
+            caseStudy.figure?.src && !isDuplicateFigure
+              ? {
+                  src: caseStudy.figure.src,
+                  alt: caseStudy.figure.alt || 'Architecture diagram',
+                  caption: caseStudy.figure.caption,
+                }
+              : undefined,
+        });
+      }
+      if (caseStudy.highlights && caseStudy.highlights.length > 0) {
+        sections.push({
+          heading: 'Highlights',
+          paragraphs: caseStudy.highlights,
+        });
+      }
+      if (caseStudy.outcome && caseStudy.outcome.length > 0) {
+        sections.push({
+          heading: 'Outcome & Status',
+          paragraphs: caseStudy.outcome,
+        });
+      }
     }
   }
 

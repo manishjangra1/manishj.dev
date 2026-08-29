@@ -26,6 +26,8 @@ export interface ISettings extends Document {
   contactHeading?: string;
   contactDescription?: string;
   resumeUrl?: string;
+  githubUsername?: string;
+  avatarUrl?: string;
   socialLinks: {
     github?: string;
     linkedin?: string;
@@ -140,6 +142,14 @@ const SettingsSchema: Schema = new Schema(
     resumeUrl: {
       type: String,
       default: '',
+    },
+    githubUsername: {
+      type: String,
+      default: 'manishjangra1',
+    },
+    avatarUrl: {
+      type: String,
+      default: 'https://github.com/manishjangra1.png',
     },
     socialLinks: {
       github: { type: String, default: 'https://github.com/manishjangra1' },

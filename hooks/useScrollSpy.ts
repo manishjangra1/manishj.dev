@@ -2,18 +2,17 @@
 
 import { useEffect, useState, useRef } from 'react';
 
-export type NavSectionId = 'work' | 'experience' | 'about' | 'contact' | 'none';
+export type NavSectionId = 'work' | 'experience' | 'about' | 'none';
 
 interface UseScrollSpyOptions {
-  sectionIds?: ('work' | 'experience' | 'about' | 'contact')[];
+  sectionIds?: ('work' | 'experience' | 'about')[];
   offset?: number;
 }
 
-const DEFAULT_SECTIONS: ('work' | 'experience' | 'about' | 'contact')[] = [
+const DEFAULT_SECTIONS: ('work' | 'experience' | 'about')[] = [
   'work',
   'experience',
   'about',
-  'contact',
 ];
 
 export function useScrollSpy({

@@ -27,7 +27,7 @@ export function AboutSection({
   },
   paragraphs = ABOUT_PARAGRAPHS,
   portrait = {
-    src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=640&auto=format&fit=crop',
+    src: 'https://avatars.githubusercontent.com/u/129877551?v=4',
     alt: 'Manish Jangra',
   },
   className,

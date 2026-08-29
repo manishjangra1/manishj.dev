@@ -10,6 +10,7 @@ import {
   ArrowUpRight,
   ArrowLeft,
   ArrowRight,
+  ChevronDown,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -24,7 +25,8 @@ export type IconName =
   | 'check'
   | 'arrow-up-right'
   | 'arrow-left'
-  | 'arrow-right';
+  | 'arrow-right'
+  | 'chevron-down';
 
 export interface IconProps {
   name: IconName;
@@ -44,6 +46,7 @@ const iconMap: Record<IconName, LucideIcon> = {
   'arrow-up-right': ArrowUpRight,
   'arrow-left': ArrowLeft,
   'arrow-right': ArrowRight,
+  'chevron-down': ChevronDown,
 };
 
 const sizeMap = {

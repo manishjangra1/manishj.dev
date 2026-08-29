@@ -73,11 +73,19 @@ export function CapabilitiesSection({
           )}
         </div>
 
-        {/* 3-Column Capability Cards Grid */}
-        <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        {/* Dynamic Capability Cards Grid */}
+        <div
+          className={cn(
+            'mt-8 sm:mt-10 grid gap-6 sm:gap-8',
+            groups.length === 1 && 'grid-cols-1 max-w-xl mx-auto',
+            groups.length === 2 && 'grid-cols-1 md:grid-cols-2',
+            groups.length === 4 && 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+            (groups.length === 3 || groups.length > 4) && 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+          )}
+        >
           {groups.map((group, idx) => (
             <div
-              key={group.label}
+              key={`${group.label}-${idx}`}
               data-reveal
               data-stagger={idx + 1}
               className="h-full"

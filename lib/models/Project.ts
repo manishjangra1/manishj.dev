@@ -1,11 +1,17 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+export interface IProjectSection {
+  title: string;
+  content: string;
+}
+
 export interface ICaseStudy {
   problem?: string[];
   role?: string[];
   approach?: string[];
   highlights?: string[];
   outcome?: string[];
+  sections?: IProjectSection[];
   figure?: {
     src: string;
     alt: string;
@@ -35,6 +41,14 @@ export interface IProject extends Document {
   updatedAt: Date;
 }
 
+const ProjectSectionSchema: Schema = new Schema(
+  {
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+  },
+  { _id: false }
+);
+
 const CaseStudySchema: Schema = new Schema(
   {
     problem: { type: [String], default: [] },
@@ -42,6 +56,7 @@ const CaseStudySchema: Schema = new Schema(
     approach: { type: [String], default: [] },
     highlights: { type: [String], default: [] },
     outcome: { type: [String], default: [] },
+    sections: { type: [ProjectSectionSchema], default: [] },
     figure: {
       src: { type: String },
       alt: { type: String },

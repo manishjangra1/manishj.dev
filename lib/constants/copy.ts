@@ -35,6 +35,7 @@ export interface ExperienceRowData {
   company: string;
   location?: string;
   summary: string;
+  bullets?: string[];
   current: boolean;
   tags?: string[];
 }
@@ -191,7 +192,11 @@ export const EXPERIENCE_ROWS: ExperienceRowData[] = [
     role: 'Full Stack Software Engineer',
     company: 'Ludifit Solutions',
     location: 'Chandigarh, India',
-    summary: 'Leading end-to-end development of scalable web and mobile platforms. Focus on performance, clean architecture, and exceptional user experience.',
+    summary: 'Leading end-to-end development of scalable web and mobile platforms.',
+    bullets: [
+      'Leading end-to-end development of scalable web and mobile platforms.',
+      'Focus on performance, clean architecture, and exceptional user experience.',
+    ],
     current: true,
     tags: ['Next.js', 'Node.js', 'PostgreSQL', 'AWS'],
   },
@@ -201,7 +206,11 @@ export const EXPERIENCE_ROWS: ExperienceRowData[] = [
     role: 'Software Engineer',
     company: 'Finmark Solutions',
     location: 'Chandigarh, India',
-    summary: 'Built financial products and internal tools used by thousands of users. Worked on APIs, dashboards, and real-time features.',
+    summary: 'Built financial products and internal tools used by thousands of users.',
+    bullets: [
+      'Built financial products and internal tools used by thousands of users.',
+      'Worked on APIs, dashboards, and real-time features.',
+    ],
     current: false,
     tags: ['React', 'Express', 'MongoDB', 'Docker'],
   },
@@ -211,7 +220,11 @@ export const EXPERIENCE_ROWS: ExperienceRowData[] = [
     role: 'Frontend Engineer',
     company: 'Dayzo Studio',
     location: 'Chandigarh, India',
-    summary: 'Developed responsive interfaces and design systems for web applications. Improved load times and accessibility across the platform.',
+    summary: 'Developed responsive interfaces and design systems for web applications.',
+    bullets: [
+      'Developed responsive interfaces and design systems for web applications.',
+      'Improved load times and accessibility across the platform.',
+    ],
     current: false,
     tags: ['React', 'TypeScript', 'Tailwind CSS'],
   },

@@ -12,6 +12,7 @@ export interface PlateProps {
   href?: string;
   alt?: string;
   src?: string;
+  priority?: boolean;
   children?: React.ReactNode;
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
@@ -24,6 +25,7 @@ export function Plate({
   href,
   alt = '',
   src,
+  priority = false,
   children,
   radius = 'none',
   className,
@@ -68,6 +70,9 @@ export function Plate({
             src={src}
             alt={alt}
             fill
+            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
+            unoptimized={src.startsWith('http')}
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1280px"
             onLoad={() => setIsLoaded(true)}
             className={cn(

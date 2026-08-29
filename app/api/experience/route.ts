@@ -7,7 +7,9 @@ import { requireAuth } from '@/lib/auth';
 export async function GET() {
   try {
     await connectDB();
-    const experiences = await Experience.find().sort({ order: 1, startDate: -1 }).lean();
+    const experiences = await Experience.find()
+      .sort({ current: -1, order: 1, startDate: -1 })
+      .lean();
     return NextResponse.json(experiences);
   } catch (error: unknown) {
     console.error('Error fetching experiences:', error);

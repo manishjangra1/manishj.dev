@@ -3,6 +3,7 @@ import connectDB from '@/lib/db';
 import Settings from '@/lib/models/Settings';
 import Project from '@/lib/models/Project';
 import Experience from '@/lib/models/Experience';
+import Skill from '@/lib/models/Skill';
 import { fetchGitHubActivity, type GitHubActivityData } from '@/lib/github';
 import {
   toHeroProps,
@@ -43,6 +44,13 @@ export interface PublicHomeData {
   about: AboutSectionProps;
   contact: ContactSectionProps;
   commandItems: CommandItem[];
+  socialDock?: {
+    email?: string;
+    linkedin?: string;
+    github?: string;
+    whatsapp?: string;
+    resumeUrl?: string;
+  };
   jsonLd: Record<string, unknown>;
 }
 
@@ -52,18 +60,22 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
   let rawSettings: SettingsDbDoc | null = null;
   let rawProjects: ProjectDbDoc[] = [];
   let rawExperience: ExperienceDbDoc[] = [];
+  let rawSkills: Array<{ name: string; category: string; order?: number }> = [];
   let githubActivity: GitHubActivityData | null = null;
 
   try {
     await connectDB();
 
-    const [settingsRes, projectsRes, experienceRes, githubRes] = await Promise.allSettled([
+    const [settingsRes, projectsRes, experienceRes, skillsRes, githubRes] = await Promise.allSettled([
       Settings.findOne().lean(),
       Project.find({ published: { $ne: false } })
         .sort({ order: 1, createdAt: -1 })
         .lean(),
       Experience.find()
-        .sort({ order: 1, startDate: -1 })
+        .sort({ current: -1, order: 1, startDate: -1 })
+        .lean(),
+      Skill.find()
+        .sort({ order: 1, createdAt: 1 })
         .lean(),
       fetchGitHubActivity(),
     ]);
@@ -78,6 +90,10 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
 
     if (experienceRes.status === 'fulfilled' && Array.isArray(experienceRes.value)) {
       rawExperience = JSON.parse(JSON.stringify(experienceRes.value)) as ExperienceDbDoc[];
+    }
+
+    if (skillsRes.status === 'fulfilled' && Array.isArray(skillsRes.value)) {
+      rawSkills = JSON.parse(JSON.stringify(skillsRes.value));
     }
 
     if (githubRes.status === 'fulfilled') {
@@ -115,8 +131,6 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
     header: {
       kicker: 'EXPERIENCE',
       title: 'Where the work happened',
-      actionLabel: 'View full timeline',
-      actionHref: '/resume',
     },
     roles:
       rawExperience.length > 0
@@ -134,7 +148,7 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
       actionHref:
         rawSettings?.socialLinks?.github || CONTACT_INFO.github,
     },
-    groups: toCapabilityGroupProps(rawSettings),
+    groups: toCapabilityGroupProps(rawSettings, rawSkills),
   };
 
   // 5. Activity Props
@@ -253,6 +267,13 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
     about,
     contact,
     commandItems,
+    socialDock: {
+      email: rawSettings?.socialLinks?.email || CONTACT_INFO.email,
+      linkedin: rawSettings?.socialLinks?.linkedin || CONTACT_INFO.linkedin,
+      github: rawSettings?.socialLinks?.github || CONTACT_INFO.github,
+      whatsapp: rawSettings?.socialLinks?.whatsapp || CONTACT_INFO.whatsapp,
+      resumeUrl: rawSettings?.resumeUrl || '/resume',
+    },
     jsonLd,
   };
 }

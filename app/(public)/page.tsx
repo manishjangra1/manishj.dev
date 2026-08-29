@@ -6,7 +6,6 @@ import {
   CapabilitiesSection,
   ActivitySection,
   AboutSection,
-  ContactSection,
 } from '@/components/sections';
 import { getPublicHomeData } from '@/lib/content';
 
@@ -40,9 +39,6 @@ export default async function HomePage() {
 
       {/* 6. About — Human */}
       <AboutSection {...data.about} />
-
-      {/* 7. Contact — Conversion */}
-      <ContactSection {...data.contact} />
     </>
   );
 }

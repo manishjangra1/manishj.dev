@@ -41,21 +41,21 @@ export function HeroSection({
       )}
     >
       <Container well="wide">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-10 items-center">
-          {/* Left Column: Bio, Actions, Availability & Metrics (5 cols on desktop) */}
-          <div className="lg:col-span-5 flex flex-col items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-12 items-center">
+          {/* Left Column: Bio, Actions, Availability & Metrics (6 cols on desktop) */}
+          <div className="lg:col-span-6 flex flex-col items-start">
             <Kicker>{kicker}</Kicker>
 
-            <h1 className="mt-[12px] text-[40px] sm:text-[52px] md:text-[60px] lg:text-[68px] font-bold leading-[1.05] tracking-[-0.035em] text-[var(--color-text)] text-balance">
+            <h1 className="mt-[12px] text-[36px] sm:text-[48px] md:text-[54px] lg:text-[60px] font-bold leading-[1.05] tracking-[-0.035em] text-[var(--color-text)] text-balance">
               {name}
             </h1>
 
-            <p className="mt-[20px] max-w-[30em] text-[16px] sm:text-[17px] leading-[1.5] text-[var(--color-text-secondary)] text-pretty">
+            <p className="mt-[18px] max-w-[28em] text-[15px] sm:text-[16px] leading-[1.5] text-[var(--color-text-secondary)] text-pretty">
               {lede}
             </p>
 
             {/* Action Buttons */}
-            <div className="mt-[28px] flex flex-wrap items-center gap-3.5 w-full sm:w-auto">
+            <div className="mt-[26px] flex flex-wrap items-center gap-3.5 w-full sm:w-auto">
               <Button
                 href={primary.href}
                 variant="primary"
@@ -85,7 +85,7 @@ export function HeroSection({
 
             {/* Availability Indicator (Monochrome, understated, edgy) */}
             {availability && (
-              <div className="mt-[24px] flex items-center gap-2.5 select-none">
+              <div className="mt-[22px] flex items-center gap-2.5 select-none">
                 <span className="w-1.5 h-1.5 bg-[var(--color-text-muted)] shrink-0" />
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--color-text-muted)]">
                   {availability}
@@ -94,13 +94,13 @@ export function HeroSection({
             )}
 
             {/* Key Metrics Bar */}
-            <div className="mt-[32px] w-full">
+            <div className="mt-[28px] w-full">
               <HeroMetrics metrics={metrics} />
             </div>
           </div>
 
-          {/* Right Column: 3D Project Showcase Carousel (7 cols on desktop) */}
-          <div className="lg:col-span-7 w-full flex justify-center items-center overflow-visible">
+          {/* Right Column: 3D Project Showcase Carousel (6 cols on desktop) */}
+          <div className="lg:col-span-6 w-full flex justify-center items-center overflow-visible">
             <HeroCarousel projects={showcaseProjects} />
           </div>
         </div>

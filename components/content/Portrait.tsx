@@ -20,8 +20,9 @@ export function Portrait({ src, alt, className }: PortraitProps) {
         aspect="1:1"
         src={src}
         alt={alt}
+        priority={true}
         grayscaleHover={true}
-        radius="lg"
+        radius="none"
       />
     </div>
   );

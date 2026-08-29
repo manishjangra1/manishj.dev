@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Save, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 export default function SkillFormPage() {
   const router = useRouter();
@@ -13,12 +14,13 @@ export default function SkillFormPage() {
 
   const [formData, setFormData] = useState({
     name: '',
-    category: 'frontend' as 'frontend' | 'backend' | 'tools' | 'other',
+    category: 'frontend',
     icon: '',
-    proficiency: 50,
+    proficiency: 85,
     order: 0,
   });
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (isEdit) {
@@ -27,24 +29,29 @@ export default function SkillFormPage() {
   }, [id]);
 
   const fetchSkill = async () => {
+    setLoading(true);
     try {
       const res = await fetch(`/api/skills/${id}`);
       const data = await res.json();
-      setFormData({
-        name: data.name || '',
-        category: data.category || 'frontend',
-        icon: data.icon || '',
-        proficiency: data.proficiency || 50,
-        order: data.order || 0,
-      });
+      if (data) {
+        setFormData({
+          name: data.name || '',
+          category: data.category || 'frontend',
+          icon: data.icon || '',
+          proficiency: data.proficiency || 85,
+          order: data.order || 0,
+        });
+      }
     } catch (error) {
       console.error('Error fetching skill:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
 
     try {
       const url = isEdit ? `/api/skills/${id}` : '/api/skills';
@@ -58,98 +65,123 @@ export default function SkillFormPage() {
 
       if (res.ok) {
         router.push('/admin/skills');
+      } else {
+        const errorData = await res.json().catch(() => ({ error: 'Failed to save skill' }));
+        alert(errorData.error || 'Failed to save skill');
       }
     } catch (error) {
       console.error('Error saving skill:', error);
+      alert('An error occurred while saving.');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
-  return (
-    <div>
-      <div className="flex items-center gap-4 mb-8">
-        <Link
-          href="/admin/skills"
-          className="p-2 hover:bg-slate-800 rounded-none transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5 text-white" />
-        </Link>
-        <h1 className="text-3xl font-bold text-white">
-          {isEdit ? 'Edit Skill' : 'New Skill'}
-        </h1>
+  if (loading) {
+    return (
+      <div className="py-20 flex items-center justify-center font-mono text-sm text-[var(--color-text-muted)]">
+        Loading skill...
       </div>
+    );
+  }
 
-      <form onSubmit={handleSubmit} className="bg-slate-800 rounded-none p-6 border border-slate-700 space-y-6 max-w-2xl">
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-8 max-w-2xl">
+      {/* Header Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[var(--color-border)]">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">Name</label>
-          <input
-            type="text"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            required
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">Category</label>
-          <select
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+          <Link
+            href="/admin/skills"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-[var(--color-text-muted)] hover:text-[var(--color-text)] mb-2"
           >
-            <option value="frontend">Frontend</option>
-            <option value="backend">Backend</option>
-            <option value="tools">Tools</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">Icon URL (optional)</label>
-          <input
-            type="url"
-            value={formData.icon}
-            onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            Proficiency: {formData.proficiency}%
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={formData.proficiency}
-            onChange={(e) => setFormData({ ...formData, proficiency: parseInt(e.target.value) })}
-            className="w-full"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">Order</label>
-          <input
-            type="number"
-            value={formData.order}
-            onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-none text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back to skills</span>
+          </Link>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--color-text)]">
+            {isEdit ? `Edit: ${formData.name || 'Skill'}` : 'New Skill'}
+          </h1>
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+            Configure skill classification, proficiency score, and sorting order.
+          </p>
         </div>
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full px-4 py-2 bg-purple-600 text-white rounded-none hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          disabled={saving}
+          className={cn(
+            'inline-flex items-center gap-2 px-5 py-2.5 rounded-none text-xs font-semibold uppercase tracking-wider',
+            'bg-[var(--color-text)] text-[var(--color-bg)] hover:opacity-90 transition-all duration-150',
+            'disabled:opacity-50'
+          )}
         >
-          <Save className="w-5 h-5" />
-          {loading ? 'Saving...' : 'Save Skill'}
+          <Save className="w-3.5 h-3.5" />
+          <span>{saving ? 'Saving...' : 'Save Skill'}</span>
         </button>
-      </form>
-    </div>
+      </div>
+
+      <div className="bg-[var(--color-card)] border border-[var(--color-border)] p-6 sm:p-8 rounded-none flex flex-col gap-5">
+        <div>
+          <label className="block text-xs font-mono uppercase tracking-wider text-[var(--color-text-muted)] mb-2">
+            Skill Name *
+          </label>
+          <input
+            type="text"
+            required
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            placeholder="TypeScript, PostgreSQL, etc."
+            className="w-full px-3.5 py-2 bg-[var(--color-surface)] border border-[var(--color-border)] text-sm rounded-none outline-none"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-mono uppercase tracking-wider text-[var(--color-text-muted)] mb-2">
+              Category Classification *
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              placeholder="e.g. Clients, Servers, Platform, Tools"
+              className="w-full px-3.5 py-2 bg-[var(--color-surface)] border border-[var(--color-border)] text-sm rounded-none outline-none font-mono"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-mono uppercase tracking-wider text-[var(--color-text-muted)] mb-2">
+              Display Order
+            </label>
+            <input
+              type="number"
+              value={formData.order}
+              onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value, 10) || 0 })}
+              className="w-full px-3.5 py-2 bg-[var(--color-surface)] border border-[var(--color-border)] text-sm rounded-none outline-none font-mono"
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-xs font-mono uppercase tracking-wider text-[var(--color-text-muted)]">
+              Proficiency Level
+            </label>
+            <span className="font-mono text-xs font-bold text-[var(--color-text)]">
+              {formData.proficiency}%
+            </span>
+          </div>
+          <input
+            type="range"
+            min="10"
+            max="100"
+            step="5"
+            value={formData.proficiency}
+            onChange={(e) => setFormData({ ...formData, proficiency: parseInt(e.target.value, 10) })}
+            className="w-full accent-[var(--color-text)] cursor-pointer"
+          />
+        </div>
+      </div>
+    </form>
   );
 }
-

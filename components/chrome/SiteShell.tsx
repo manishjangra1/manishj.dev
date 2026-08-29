@@ -8,6 +8,7 @@ import { LiveRegion } from '@/components/primitives/LiveRegion';
 import { Navbar } from '@/components/chrome/Navbar';
 import { Footer } from '@/components/chrome/Footer';
 import { SkillsTicker } from '@/components/chrome/SkillsTicker';
+import { SocialDock, type SocialDockProps } from '@/components/chrome/SocialDock';
 import type { CommandItem } from '@/components/chrome/CommandMenu';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
@@ -21,8 +22,9 @@ const CommandMenu = dynamic(
 export interface SiteShellProps {
   children: React.ReactNode;
   current?: NavCurrentState;
-  hashCurrent?: 'none' | 'work' | 'experience' | 'about' | 'contact';
+  hashCurrent?: 'none' | 'work' | 'experience' | 'about';
   commandItems?: CommandItem[];
+  socialDock?: SocialDockProps;
 }
 
 export function SiteShell({
@@ -30,6 +32,7 @@ export function SiteShell({
   current: explicitCurrent,
   hashCurrent,
   commandItems,
+  socialDock,
 }: SiteShellProps) {
   const pathname = usePathname();
   const spyCurrent = useScrollSpy();
@@ -150,6 +153,7 @@ export function SiteShell({
       <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         {children}
       </main>
+      <SocialDock {...socialDock} />
       <Footer />
       <SkillsTicker />
       {commandOpen && (

@@ -22,7 +22,6 @@ const DEFAULT_FOOTER_LINKS: FooterLink[] = [
   { label: 'Work', href: '#work' },
   { label: 'Experience', href: '#experience' },
   { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
   { label: 'Résumé', href: '/resume' },
   { label: 'GitHub', href: 'https://github.com/manishjangra1', external: true },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/manishjangra1', external: true },

@@ -7,6 +7,10 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { commandItems } = await getPublicHomeData();
-  return <SiteShell commandItems={commandItems}>{children}</SiteShell>;
+  const { commandItems, socialDock } = await getPublicHomeData();
+  return (
+    <SiteShell commandItems={commandItems} socialDock={socialDock}>
+      {children}
+    </SiteShell>
+  );
 }

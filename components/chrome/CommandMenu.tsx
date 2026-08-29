@@ -41,6 +41,7 @@ const DEFAULT_COMMAND_ITEMS: CommandItem[] = [
   { id: 'capabilities', label: 'Capabilities', hint: 'Section', action: 'hash', target: 'capabilities' },
   { id: 'activity', label: 'Activity', hint: 'Section', action: 'hash', target: 'activity' },
   { id: 'about', label: 'About', hint: 'Section', action: 'hash', target: 'about' },
+  { id: 'blog', label: 'Blog & Articles', hint: 'Page', action: 'route', target: '/blog' },
   { id: 'contact', label: 'Contact', hint: 'Section', action: 'hash', target: 'contact' },
   { id: 'servyq', label: 'Servyq', hint: 'Project', action: 'route', target: '/work/servyq' },
   { id: 'dayzo', label: 'Dayzo', hint: 'Project', action: 'route', target: '/work/dayzo' },

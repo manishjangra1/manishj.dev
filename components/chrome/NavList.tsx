@@ -5,8 +5,8 @@ import { cn } from '@/lib/utils';
 import { scrollToId } from '@/lib/utils/scroll';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
-export type NavItemKey = 'work' | 'experience' | 'about' | 'github' | 'contact';
-export type NavCurrentState = 'none' | NavItemKey | 'work-page';
+export type NavItemKey = 'work' | 'experience' | 'about' | 'blog' | 'github';
+export type NavCurrentState = 'none' | NavItemKey | 'work-page' | 'blog-page';
 
 export interface NavListProps {
   layout: 'inline' | 'stack';
@@ -19,8 +19,8 @@ const NAV_ITEMS: { id: NavItemKey; label: string; href?: string; external?: bool
   { id: 'work', label: 'Work' },
   { id: 'experience', label: 'Experience' },
   { id: 'about', label: 'About' },
+  { id: 'blog', label: 'Blog', href: '/blog' },
   { id: 'github', label: 'GitHub', href: 'https://github.com/manishjangra1', external: true },
-  { id: 'contact', label: 'Contact' },
 ];
 
 export function NavList({
