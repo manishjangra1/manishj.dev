@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   HeroSection,
-  WorkSection,
   ExperienceSection,
   CapabilitiesSection,
   ActivitySection,
@@ -22,13 +21,10 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(data.jsonLd) }}
       />
 
-      {/* 1. Hero — Identity */}
+      {/* 1. Hero — Identity & Showcase */}
       <HeroSection {...data.hero} />
 
-      {/* 2. Work — Proof */}
-      <WorkSection {...data.work} />
-
-      {/* 3. Experience — Trust */}
+      {/* 2. Experience — Trust */}
       <ExperienceSection {...data.experience} />
 
       {/* 4. Capabilities — Tools */}

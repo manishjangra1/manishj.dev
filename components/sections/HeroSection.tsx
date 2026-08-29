@@ -41,7 +41,7 @@ export function HeroSection({
       )}
     >
       <Container well="wide">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-8 lg:gap-x-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-8 lg:gap-x-8 xl:gap-x-10 items-center">
           {/* Left Column: Bio, Actions, Availability & Metrics (6 cols on desktop, full width on mobile) */}
           <div className="w-full lg:col-span-6 flex flex-col items-start">
             <Kicker>{kicker}</Kicker>

@@ -20,12 +20,14 @@ import {
 import { buildPersonJsonLd } from '@/lib/seo';
 import {
   FEATURED_PROJECT,
+  SHOWCASE_PROJECTS,
   PROJECT_ROWS,
   EXPERIENCE_ROWS,
   STATIC_CONTRIBUTION_WEEKS,
   STATIC_REPOS,
   CONTACT_INFO,
   type HeroMetric,
+  type FeaturedProjectData,
 } from '@/lib/constants/copy';
 import type { HeroSectionProps } from '@/components/sections/HeroSection';
 import type { WorkSectionProps } from '@/components/sections/WorkSection';
@@ -45,6 +47,7 @@ export interface PublicHomeData {
   about: AboutSectionProps;
   contact: ContactSectionProps;
   commandItems: CommandItem[];
+  allProjects: FeaturedProjectData[];
   socialDock?: {
     email?: string;
     linkedin?: string;
@@ -133,13 +136,23 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
     ];
   })();
 
+  // 1. Featured projects for Hero Carousel (ONLY featured: true projects)
+  const featuredProjectsDocs = rawProjects.filter((p) => p.featured === true);
+  const showcaseProjectsList =
+    featuredProjectsDocs.length > 0
+      ? featuredProjectsDocs.map(toFeaturedProjectProps)
+      : SHOWCASE_PROJECTS.filter((p) => p.kicker.toLowerCase().includes('featured') || p.slug === 'servyq' || p.slug === 'keyboard-olympics');
+
+  // 2. All projects for Left-Side Vertical Rail (all published projects)
+  const allProjectsList =
+    rawProjects.length > 0
+      ? rawProjects.map(toFeaturedProjectProps)
+      : SHOWCASE_PROJECTS;
+
   const hero = {
     ...toHeroProps(rawSettings),
     metrics: computedMetrics,
-    showcaseProjects:
-      rawProjects.length >= 3
-        ? rawProjects.slice(0, 3).map(toFeaturedProjectProps)
-        : undefined,
+    showcaseProjects: showcaseProjectsList,
   };
 
   // 2. Work Props (render 3-column project cards)
@@ -297,6 +310,7 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
     about,
     contact,
     commandItems,
+    allProjects: allProjectsList,
     socialDock: {
       email: rawSettings?.socialLinks?.email || CONTACT_INFO.email,
       linkedin: rawSettings?.socialLinks?.linkedin || CONTACT_INFO.linkedin,

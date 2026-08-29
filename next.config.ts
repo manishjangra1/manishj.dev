@@ -3,6 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   trailingSlash: false,
   images: {
+    unoptimized: process.env.NODE_ENV === 'development',
     qualities: [75, 90],
     remotePatterns: [
       {
@@ -19,7 +20,13 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '*.public.blob.vercel-storage.com',
+        hostname: '**.public.blob.vercel-storage.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'public.blob.vercel-storage.com',
         port: '',
         pathname: '/**',
       },

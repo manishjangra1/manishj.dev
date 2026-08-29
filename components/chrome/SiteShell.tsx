@@ -9,6 +9,7 @@ import { Navbar } from '@/components/chrome/Navbar';
 import { Footer } from '@/components/chrome/Footer';
 import { SkillsTicker } from '@/components/chrome/SkillsTicker';
 import { ProjectsTicker } from '@/components/chrome/ProjectsTicker';
+import { ProjectsVerticalTicker } from '@/components/chrome/ProjectsVerticalTicker';
 import { SocialDock, type SocialDockProps } from '@/components/chrome/SocialDock';
 import type { CommandItem } from '@/components/chrome/CommandMenu';
 import type { FeaturedProjectData } from '@/lib/constants/copy';
@@ -28,6 +29,7 @@ export interface SiteShellProps {
   commandItems?: CommandItem[];
   socialDock?: SocialDockProps;
   showcaseProjects?: FeaturedProjectData[];
+  allProjects?: FeaturedProjectData[];
 }
 
 export function SiteShell({
@@ -37,6 +39,7 @@ export function SiteShell({
   commandItems,
   socialDock,
   showcaseProjects,
+  allProjects,
 }: SiteShellProps) {
   const pathname = usePathname();
   const spyCurrent = useScrollSpy();
@@ -84,18 +87,15 @@ export function SiteShell({
   }, []);
 
   // Section Scroll Reveal Observer (Phase 6 M14, M15)
-  // Operates on [data-reveal] elements on the public site
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>('[data-reveal]');
     if (elements.length === 0) return;
 
-    // If reduced motion is requested, immediately reveal all elements without transitions
     if (prefersReducedMotion) {
       elements.forEach((el) => el.classList.add('is-revealed'));
       return;
     }
 
-    // Check if elements are already in the viewport on initial paint (avoids empty flash)
     elements.forEach((el) => {
       const rect = el.getBoundingClientRect();
       if (rect.top < window.innerHeight && rect.bottom > 0) {
@@ -134,9 +134,6 @@ export function SiteShell({
     };
   }, [pathname, prefersReducedMotion]);
 
-  // If explicitCurrent is set, use that.
-  // Else if on /work/[slug] route, set 'work-page' (aria-current="page").
-  // Otherwise use the active scroll spy section.
   const isWorkRoute = pathname?.startsWith('/work/');
   const activeCurrent: NavCurrentState =
     explicitCurrent !== undefined
@@ -148,7 +145,7 @@ export function SiteShell({
       : spyCurrent;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] selection:bg-[var(--color-selection-bg)] selection:text-[var(--color-selection-text)]">
+    <div className="min-h-screen flex flex-col pl-0 lg:pl-[230px] xl:pl-[260px] pr-0 md:pr-[48px] lg:pr-[64px] xl:pr-[72px] pb-[116px] sm:pb-[128px] lg:pb-[42px] bg-[var(--color-bg)] text-[var(--color-text)] selection:bg-[var(--color-selection-bg)] selection:text-[var(--color-selection-text)]">
       <SkipLink />
       <Navbar
         current={activeCurrent}
@@ -159,8 +156,9 @@ export function SiteShell({
         {children}
       </main>
       <SocialDock {...socialDock} />
+      <ProjectsVerticalTicker projects={allProjects || showcaseProjects} />
       <Footer />
-      <ProjectsTicker projects={showcaseProjects} />
+      <ProjectsTicker projects={allProjects || showcaseProjects} />
       <SkillsTicker />
       {commandOpen && (
         <CommandMenu
