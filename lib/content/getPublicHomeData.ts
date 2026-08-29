@@ -109,27 +109,28 @@ export async function getPublicHomeData(): Promise<PublicHomeData> {
 
   // 1. Hero Props — compute real metrics from DB data
   const computedMetrics: HeroMetric[] = (() => {
-    // Years experience: from earliest startDate to now
-    let yearsExp = 3; // fallback
+    // Years building: from earliest startDate to now
+    let yearsBuilding = 5; // fallback
     if (rawExperience.length > 0) {
       const earliestStart = rawExperience.reduce((earliest, exp) => {
         const d = new Date(exp.startDate).getTime();
         return d < earliest ? d : earliest;
       }, Date.now());
-      yearsExp = Math.floor((Date.now() - earliestStart) / (1000 * 60 * 60 * 24 * 365.25));
+      const calculated = Math.floor((Date.now() - earliestStart) / (1000 * 60 * 60 * 24 * 365.25));
+      yearsBuilding = Math.max(5, calculated);
     }
 
     // Projects built: count of published projects
-    const projectCount = rawProjects.length || 3;
+    const projectCount = Math.max(10, rawProjects.length || 10);
 
-    // GitHub contributions (replaces "Users impacted")
+    // GitHub contributions
     const contributions = githubActivity?.count ?? 759;
 
     // Tech & tools: unique skills count
-    const skillCount = rawSkills.length || 10;
+    const skillCount = Math.max(29, rawSkills.length || 29);
 
     return [
-      { value: `${yearsExp}+`, label: 'Years experience' },
+      { value: `${yearsBuilding}+`, label: 'Years building' },
       { value: `${projectCount}+`, label: 'Projects built' },
       { value: `${contributions >= 1000 ? `${(contributions / 1000).toFixed(1).replace(/\.0$/, '')}K` : contributions}+`, label: 'GitHub contributions' },
       { value: `${skillCount}+`, label: 'Tech & tools' },

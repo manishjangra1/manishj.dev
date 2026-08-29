@@ -42,7 +42,7 @@ export function ProjectsVerticalTicker({
 
       {/* Vertical Scrolling Marquee Area */}
       <div
-        className="flex-1 overflow-hidden p-2.5 relative group/scroll [mask-image:linear-gradient(to_bottom,transparent_0%,black_3%,black_97%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_3%,black_97%,transparent_100%)]"
+        className="flex-1 overflow-hidden px-2 py-1.5 relative group/scroll [mask-image:linear-gradient(to_bottom,transparent_0%,black_3%,black_97%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_3%,black_97%,transparent_100%)]"
         tabIndex={0}
         role="region"
         aria-label="Scrollable projects list"
@@ -52,34 +52,32 @@ export function ProjectsVerticalTicker({
             <Link
               key={`${project.slug}-${idx}`}
               href={`/work/${project.slug}`}
-              className="group/card block p-2 bg-[var(--color-surface)]/40 hover:bg-[var(--color-surface-hover)] border border-[var(--color-border-subtle)] hover:border-[var(--color-border-strong)] transition-all duration-150"
+              className="group/card flex items-stretch bg-[var(--color-surface)]/40 hover:bg-[var(--color-surface-hover)] border border-[var(--color-border-subtle)] hover:border-[var(--color-border-strong)] transition-all duration-150 overflow-hidden pr-2.5"
             >
-              <div className="flex gap-2.5 items-center">
-                {/* Horizontal Image Thumbnail */}
-                <div className="relative w-[52px] h-[36px] xl:w-[58px] xl:h-[40px] shrink-0 bg-[var(--color-card)] border border-[var(--color-border)] overflow-hidden">
-                  <Image
-                    src={project.imageSrc || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=300&auto=format&fit=crop'}
-                    alt={project.imageAlt || project.title}
-                    fill
-                    sizes="60px"
-                    className="object-cover group-hover/card:scale-105 transition-transform duration-200"
-                  />
-                </div>
+              {/* Horizontal Image Thumbnail - Flush on left with zero padding & larger dimensions */}
+              <div className="relative w-[70px] xl:w-[80px] shrink-0 bg-[var(--color-card)] border-r border-[var(--color-border)] overflow-hidden min-h-[52px] xl:min-h-[58px]">
+                <Image
+                  src={project.imageSrc || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=300&auto=format&fit=crop'}
+                  alt={project.imageAlt || project.title}
+                  fill
+                  sizes="90px"
+                  className="object-cover group-hover/card:scale-105 transition-transform duration-200"
+                />
+              </div>
 
-                {/* Name & Category / Kicker horizontally aligned */}
-                <div className="flex-1 min-w-0 flex flex-col justify-center">
-                  <span className="font-mono text-[8px] xl:text-[9px] uppercase tracking-wider text-[var(--color-text-muted)] truncate block">
-                    {project.kicker || 'PROJECT'}
+              {/* Name & Category / Kicker horizontally aligned */}
+              <div className="flex-1 min-w-0 flex flex-col justify-center py-1.5 pl-2.5">
+                <span className="font-mono text-[8px] xl:text-[8.5px] uppercase tracking-wider text-[var(--color-text-muted)] truncate block">
+                  {project.kicker || 'PROJECT'}
+                </span>
+                <h4 className="text-[12px] xl:text-[13px] font-bold text-[var(--color-text)] tracking-tight truncate group-hover/card:underline underline-offset-2 mt-0.5">
+                  {project.title}
+                </h4>
+                {project.meta && project.meta.length > 0 && (
+                  <span className="font-mono text-[8px] text-[var(--color-text-secondary)] truncate block mt-0.5 opacity-80">
+                    {project.meta.slice(0, 2).join(' • ')}
                   </span>
-                  <h4 className="text-[12px] xl:text-[13px] font-bold text-[var(--color-text)] tracking-tight truncate group-hover/card:underline underline-offset-2">
-                    {project.title}
-                  </h4>
-                  {project.meta && project.meta.length > 0 && (
-                    <span className="font-mono text-[8px] text-[var(--color-text-secondary)] truncate block mt-0.5 opacity-80">
-                      {project.meta.slice(0, 2).join(' • ')}
-                    </span>
-                  )}
-                </div>
+                )}
               </div>
             </Link>
           ))}
