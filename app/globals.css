@@ -109,6 +109,12 @@
   --color-error-bg: #FEF2F2;
   --color-success: #14532D;
 
+  /* Pure Full Black & White Lion Tokens - Light Mode */
+  --color-lion-fill: #000000;
+  --color-lion-accent: #18181B;
+  --color-lion-inverted: #FFFFFF;
+
+
   /* GitHub Contribution Level Tokens - Light Mode */
   --color-contrib-0: #F4F4F5;
   --color-contrib-0-border: #E4E4E7;
@@ -255,6 +261,12 @@ html.dark,
   --color-error: #FECACA;
   --color-error-bg: rgba(127, 29, 29, 0.20);
   --color-success: #BBF7D0;
+
+  /* Pure Full Black & White Lion Tokens - Dark Mode */
+  --color-lion-fill: #FFFFFF;
+  --color-lion-accent: #E4E4E7;
+  --color-lion-inverted: #000000;
+
 
   /* GitHub Contribution Level Tokens - Dark Mode */
   --color-contrib-0: #18181B;

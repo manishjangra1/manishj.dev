@@ -1,13 +1,13 @@
 'use client';
 
 import { ThemeProvider } from '@/contexts/ThemeContext';
-import { PixelPlaneCursor } from '@/components/chrome/PixelPlaneCursor';
+import { PixelLionCursor } from '@/components/chrome/PixelLionCursor';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       {children}
-      <PixelPlaneCursor />
+      <PixelLionCursor />
     </ThemeProvider>
   );
 }

@@ -11,4 +11,5 @@ export { Footer, type FooterProps, type FooterLink } from './Footer';
 export { SkillsTicker, type SkillsTickerProps } from './SkillsTicker';
 export { ProjectsTicker, type ProjectsTickerProps } from './ProjectsTicker';
 export { ProjectsVerticalTicker, type ProjectsVerticalTickerProps } from './ProjectsVerticalTicker';
+export { PixelLionCursor } from './PixelLionCursor';
 export { PixelPlaneCursor } from './PixelPlaneCursor';
